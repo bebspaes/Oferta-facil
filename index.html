@@ -888,8 +888,8 @@ $('#btnSalvar').onclick = async () => {
   if(!c.nome){ toast('Informe o nome do cliente.'); return; }
   if(c.mci && c.mci.length !== 9){ toast('O MCI deve ter 9 dígitos.'); return; }
   if(!numeroWhats(c.telefone)){ if(!confirm('Celular ausente ou inválido. Salvar mesmo assim?')) return; }
-  const {ex, novo} = gravarCliente(c);
-  toast(novo ? 'Cliente salvo no app (não vai para a agenda).' : 'Cliente já existia: dados atualizados.');
+  const {ex, novo, mesmoTel} = gravarCliente(c);
+  toast(!novo ? `Este cliente já estava cadastrado (${tituloCase(ex.nome)}): dados atualizados, sem duplicar.` : mesmoTel ? `Salvo. Atenção: o celular é o mesmo de ${tituloCase(mesmoTel.nome)} (outro MCI).` : 'Cliente salvo no app (não vai para a agenda).', 5000);
   await salvarDB(); limparNovo(); renderLista(); aba('clientes'); abrirDet(ex.id);
 };
 let seqId = 0;
@@ -897,12 +897,15 @@ const novoId = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toStr
 /* cria ou atualiza (mesmo MCI ou mesmo celular = mesmo cliente) */
 function gravarCliente(c){
   const tel = numeroWhats(c.telefone);
-  let ex = (c.mci && DB.clientes.find(x => x.mci === c.mci)) || (tel && DB.clientes.find(x => numeroWhats(x.telefone) === tel)) || null;
+  // mesmo MCI = mesmo cliente. Mesmo celular só conta como o mesmo cliente se um dos dois não tiver MCI
+  // (celular compartilhado, ex.: casal, com MCIs diferentes = clientes diferentes)
+  let ex = (c.mci && DB.clientes.find(x => x.mci === c.mci)) || (tel && DB.clientes.find(x => numeroWhats(x.telefone) === tel && (!c.mci || !x.mci))) || null;
   const novo = !ex;
+  const mesmoTel = novo && tel ? DB.clientes.find(x => numeroWhats(x.telefone) === tel) : null;
   if(ex){ const g = c.grupos; delete c.grupos; Object.keys(c).forEach(k => { if(c[k]) ex[k] = c[k]; }); if(g && g.length) ex.grupos = [...new Set([...(ex.grupos || []), ...g])]; }
   else { ex = {id:novoId(), ...c, status:'pendente', prod:{}, obs:'', criadoEm:hoje(), atualizadoEm:hoje(), ultimoContato:null, hist:[]}; DB.clientes.push(ex); }
   ex.prod = ex.prod || {}; (ex.grupos || []).forEach(g => { if(!ex.prod[g]) ex.prod[g] = {e:'aberto', em:hoje()}; }); toque(ex);
-  return {ex, novo};
+  return {ex, novo, mesmoTel};
 }
 
 /* =================== cadastro em lote =================== */
@@ -954,7 +957,7 @@ async function processarLote(files){
   if(loteRodando){ toast('Aguarde o lote atual terminar.'); return; }
   loteRodando = true; mostrar('#loteBox', true); $('#loteBox').scrollIntoView({behavior:'smooth', block:'start'});
   const st = $('#loteStatus'), det = $('#loteDet'), barra = $('#loteBarra');
-  $('#loteResumo').innerHTML = ''; let novos = 0, atual_ = 0, falhas = 0; const novosIds = [];
+  $('#loteResumo').innerHTML = ''; let novos = 0, atual_ = 0, falhas = 0; const novosIds = [], repetidos = [], celComp = [];
   let wl = null; try { wl = navigator.wakeLock ? await navigator.wakeLock.request('screen') : null; } catch(e){}
   try {
     st.textContent = 'Preparando o leitor de texto…';
@@ -966,7 +969,7 @@ async function processarLote(files){
         c = await canvasDeArquivo(files[i]);
         const d = await lerCampos(w, c);
         const dados = {nome:d.nome, agencia:d.agencia, conta:d.conta, nomeAgencia:d.nomeAgencia, mci:d.mci, telefone:d.telefone, grupos:DB.config.grupos.includes(DB.config.prodPadrao) ? [DB.config.prodPadrao] : []};
-        if(dados.nome && numeroWhats(dados.telefone) && (!dados.mci || dados.mci.length === 9)){ const g = gravarCliente(dados); g.novo ? (novos++, novosIds.push(g.ex.id)) : atual_++; }
+        if(dados.nome && numeroWhats(dados.telefone) && (!dados.mci || dados.mci.length === 9)){ const g = gravarCliente(dados); g.novo ? (novos++, novosIds.push(g.ex.id)) : (atual_++, repetidos.push(tituloCase(g.ex.nome))); if(g.mesmoTel) celComp.push(tituloCase(g.ex.nome) + ' e ' + tituloCase(g.mesmoTel.nome)); }
         else { revisar.push({id:novoId(), dados, thumb:miniatura(c), foto:i + 1}); falhas++; }
       } catch(err){ revisar.push({id:novoId(), dados:{}, thumb:c ? miniatura(c) : '', foto:i + 1}); falhas++; }
       if(c){ c.width = 1; c.height = 1; }
@@ -979,7 +982,9 @@ async function processarLote(files){
   await salvarDB(); renderLista(); loteRodando = false;
   st.textContent = `✅ Lote concluído: ${files.length} foto(s).`; det.textContent = '';
   const nf = fila().length;
-  $('#loteResumo').innerHTML = `<div class="ok" style="margin-top:8px">${novos} cliente(s) novo(s) na fila${atual_ ? ` · ${atual_} já existia(m) e foi(ram) atualizado(s)` : ''}${falhas ? ` · <b>${falhas} para revisar</b> (abaixo)` : ''}.</div>`
+  $('#loteResumo').innerHTML = `<div class="ok" style="margin-top:8px">${novos} cliente(s) novo(s) na fila${falhas ? ` · <b>${falhas} para revisar</b> (abaixo)` : ''}.</div>`
+    + (atual_ ? `<div class="warn" style="margin-top:8px">🔁 ${atual_} repetido(s), já estava(m) cadastrado(s) e <b>não foi(ram) duplicado(s)</b>: ${esc(repetidos.join(', '))}.</div>` : '')
+    + (celComp.length ? `<div class="warn" style="margin-top:8px">📱 Mesmo celular em clientes diferentes: ${esc(celComp.join('; '))}. Confira antes de enviar.</div>` : '')
     + (nf ? `<button class="btn yel" id="btnLoteRodada">▶️ Enviar agora (${nf} na fila)</button>` : '');
   if(nf) $('#btnLoteRodada').onclick = () => { aba('clientes'); fecharDet(); $('#btnRodada').click(); };
   renderRevisar();
@@ -1003,7 +1008,7 @@ function renderRevisar(){
       if(!numeroWhats(d.telefone)){ toast('Celular inválido.'); return; }
       if(d.mci && d.mci.length !== 9){ toast('O MCI deve ter 9 dígitos.'); return; }
       d.grupos = d.grupos && d.grupos.length ? d.grupos : (DB.config.grupos.includes(DB.config.prodPadrao) ? [DB.config.prodPadrao] : []);
-      gravarCliente(d); await salvarDB(); revisar = revisar.filter(x => x !== r); renderRevisar(); renderLista(); toast('Salvo na fila de envio.');
+      const g = gravarCliente(d); await salvarDB(); revisar = revisar.filter(x => x !== r); renderRevisar(); renderLista(); toast(g.novo ? 'Salvo na fila de envio.' : 'Já estava cadastrado: dados atualizados, sem duplicar.');
     };
   });
 }
