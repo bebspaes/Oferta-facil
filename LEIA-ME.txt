@@ -1,0 +1,24 @@
+OFERTA FÁCIL – PWA (app para instalar no celular)
+
+Arquivos desta pasta (todos devem ficar juntos, na raiz do site):
+  index.html               o app (com o leitor de texto embutido)
+  manifest.webmanifest     nome, cores e ícones do app instalado
+  sw.js                    guarda o app no celular para abrir sem internet
+  icon-192.png, icon-512.png, icon-maskable-512.png, apple-touch-icon.png
+
+Precisa de um endereço https. Opção gratuita: GitHub Pages.
+ 1. Crie uma conta em github.com (se não tiver).
+ 2. New repository → nome: oferta-facil → Public → Create.
+ 3. "uploading an existing file" → arraste TODOS os arquivos desta pasta → Commit changes.
+ 4. Settings → Pages → Source: "Deploy from a branch" → Branch: main / (root) → Save.
+ 5. Em 1–2 minutos o app fica em: https://SEU-USUARIO.github.io/oferta-facil/
+
+Instalar no celular:
+ - Android (Chrome): abra o endereço → menu ⋮ → "Instalar app" (ou botão "📲 Instalar no celular" em Ajustes).
+ - iPhone (Safari): Compartilhar → "Adicionar à Tela de Início".
+
+Atualizar: suba o novo index.html no mesmo repositório. Os celulares pegam a versão
+nova na abertura seguinte (com internet). Os dados dos clientes não são afetados.
+
+Privacidade: o site guarda só o código do app. Nenhum dado de cliente vai para o
+GitHub: tudo fica criptografado no próprio celular.
