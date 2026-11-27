@@ -453,8 +453,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <label>Seu nome</label><input id="cNome" autocomplete="off">
     <label>SOP de lotação</label><input id="cSop" autocomplete="off">
     <p class="note" style="margin:4px 0 0">Usado só para divulgar no grupo os negócios fechados.</p>
-    <label class="chk" style="display:flex;gap:8px;align-items:center;margin-top:8px"><input type="checkbox" id="cDivMci" style="width:auto"> Incluir o MCI na divulgação</label>
-    <p class="note" style="margin:4px 0 0">O MCI identifica o cliente: divulgue só em grupo interno do BB.</p>
+    <p class="note" style="margin:4px 0 0">A divulgação sempre inclui o MCI (controle do gestor). Divulgue só em grupo interno do BB.</p>
     <label>Seu e-mail corporativo</label><input id="cEmailProprio" type="email" inputmode="email" autocomplete="off">
     <p class="note" style="margin:4px 0 0">Recebe as listas de MCIs (leva e conferência) e o código de recuperação do PIN.</p>
     <label>Enviar mensagens pelo</label>
@@ -1610,7 +1609,7 @@ function vendasHoje(){ // [{c, g, div}] fechados hoje, só produtos marcados no 
   return out;
 }
 function textoDivulgacao(itens){
-  const mci = DB.config.divMci !== false, por = {};
+  const mci = true, por = {}; // MCI sempre incluído: controle do gestor
   itens.forEach(v => (por[v.g] = por[v.g] || []).push(v.c));
   const linhas = [DB.config.sop || 'SOP'];
   Object.entries(por).forEach(([g, cs]) => { linhas.push(`${dd(cs.length)} ${g}`); if(mci) cs.forEach(c => c.mci && linhas.push(c.mci)); });
@@ -1873,13 +1872,13 @@ function renderGruposCfg(){
 }
 $('#btnAddGrupo').onclick = async () => { if(await criarGrupo($('#cNovoGrupo').value)) $('#cNovoGrupo').value = ''; };
 $('#cNovoGrupo').addEventListener('keydown', e => { if(e.key === 'Enter') $('#btnAddGrupo').click(); });
-function carregarConfig(){ const c = DB.config; $('#cSop').value = c.sop || ''; $('#cDivMci').checked = c.divMci !== false; $('#cNome').value = c.funcionario; $('#cWhats').value = c.whats; $('#cEmailProprio').value = c.emailProprio || ''; renderGruposCfg();
+function carregarConfig(){ const c = DB.config; $('#cSop').value = c.sop || ''; $('#cNome').value = c.funcionario; $('#cWhats').value = c.whats; $('#cEmailProprio').value = c.emailProprio || ''; renderGruposCfg();
   $('#recStatus').innerHTML = meta && meta.wRec ? `🔑 Código de recuperação criado em ${new Date(meta.recEm).toLocaleDateString('pt-BR')}.` : '⚠️ Você ainda não tem código de recuperação. Sem ele, esquecer o PIN apaga os dados.';
   $('#btnNovoCodigo').textContent = meta && meta.wRec ? '🔑 Gerar novo código de recuperação' : '🔑 Gerar código de recuperação';
   $('#cProdPadrao').innerHTML = '<option value="">Nenhum</option>' + c.grupos.map(g => `<option ${g === c.prodPadrao ? 'selected' : ''}>${esc(g)}</option>`).join('');
   $('#cLock').value = String(c.lockMin); }
 $('#btnSalvarCfg').onclick = async () => {
-  Object.assign(DB.config, {sop:$('#cSop').value.trim(), divMci:$('#cDivMci').checked, funcionario:$('#cNome').value.trim(), whats:$('#cWhats').value, emailProprio:$('#cEmailProprio').value.trim(), prodPadrao:$('#cProdPadrao').value, maxEnvios:1, lockMin:+$('#cLock').value});
+  Object.assign(DB.config, {sop:$('#cSop').value.trim(), funcionario:$('#cNome').value.trim(), whats:$('#cWhats').value, emailProprio:$('#cEmailProprio').value.trim(), prodPadrao:$('#cProdPadrao').value, maxEnvios:1, lockMin:+$('#cLock').value});
   await salvarDB(); renderLista(); toast('Ajustes salvos.');
 };
 $('#btnVerAviso').onclick = () => { $('#chkAceite').checked = true; $('#btnAceite').disabled = false; mostrar('#ovAviso', true); };
