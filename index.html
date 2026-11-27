@@ -31,7 +31,11 @@ button,input,select,textarea{font:inherit}
 nav{display:flex;background:#fff;position:sticky;top:var(--navTop,56px);z-index:4;margin:10px 10px 0;border-radius:18px;padding:4px;box-shadow:var(--sh)}
 nav button{flex:1;border:0;background:none;padding:6px 1px 5px;font-size:11px;white-space:nowrap;color:var(--mut);border-radius:14px}nav button i{display:block;font-style:normal;font-size:18px;line-height:1.2}
 nav button.on{background:var(--pri);color:#fff;font-weight:700}
-main{padding:14px;max-width:640px;margin:0 auto;padding-bottom:90px}
+main{padding:14px;max-width:640px;margin:0 auto;padding-bottom:90px;overflow-x:hidden}
+body.arrastando #buscaBar{opacity:0;pointer-events:none}#buscaBar{transition:opacity .15s}
+#buscaBar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom));width:min(620px,calc(100% - 20px));box-sizing:border-box;background:#fff;border-radius:18px;padding:8px;box-shadow:0 -2px 18px rgba(15,23,42,.16);z-index:6}
+#buscaBar #filtroBox{margin-bottom:6px}#buscaBar .filtros{margin:0 0 6px}
+#t-clientes #listaView{padding-bottom:70px}
 .card{background:var(--card);border:0;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--sh)}
 .card.plain{background:none;box-shadow:none;padding:0}
 .card h2{font-size:16px;margin:0 0 8px}
@@ -71,7 +75,7 @@ label.btn{position:relative;cursor:pointer}
 #cv{display:block;max-width:100%;max-height:58vh;width:auto;height:auto;margin:0 auto;touch-action:none;border-radius:8px;border:1px solid var(--line);background:#222}
 #cropBox{scroll-margin-top:150px}
 img.prev{max-width:100%;border-radius:8px;border:1px solid var(--line);margin-top:8px}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#14212b;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;z-index:30;max-width:92vw;box-shadow:0 4px 18px #0004}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:#14212b;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;z-index:30;max-width:92vw;box-shadow:0 4px 18px #0004}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.chips button{border:1px solid var(--line);background:#fff;border-radius:16px;padding:4px 10px;font-size:12.5px}
 details summary{cursor:pointer;color:var(--pri);font-weight:600;font-size:14px}
 .seg{display:flex;gap:5px;margin-top:6px}.seg button{flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 2px;font-size:12px;font-weight:600;color:var(--mut);line-height:1.25}
@@ -251,23 +255,20 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
 <!-- ============ CLIENTES ============ -->
 <section id="t-clientes" class="hidden">
   <div id="listaView">
-    <div class="card hidden" id="cardLeva">
-      <h2>📧 Última leva enviada</h2>
-      <p class="note" id="levaInfo" style="margin:0"></p>
-      <button class="btn yel" id="btnEmailLeva">📧 Enviar lista por e-mail</button>
-    </div>
     <div class="card plain">
       <button class="btn yel" id="btnRodada" style="margin:0 0 10px">▶️ Iniciar rodada de envios</button>
-      <div style="display:flex;gap:6px">
-        <input id="busca" placeholder="🔎 Nome ou final do celular" autocomplete="off" style="flex:1;min-width:0">
-        <button class="btnIcon" id="btnFiltro" aria-label="Filtrar e ordenar">⚙️</button>
-      </div>
+      <div id="buscaBar">
       <div id="filtroBox" class="hidden">
         <div class="filtros">
           <select id="fltStatus"><option value="">Todas as situações</option><option value="pendente">Pendentes</option><option value="enviado">Enviados</option><option value="retornar">Para retornar</option><option value="fechou">Fecharam</option><option value="recusou">Recusaram</option></select>
           <select id="fltGrupo"><option value="">Todos os produtos</option></select>
         </div>
         <div class="filtros"><select id="optOrdem"><option value="recentes">Mais recentes</option><option value="nome">Nome (A–Z)</option><option value="antigos">Sem contato há mais tempo</option></select></div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <input id="busca" placeholder="🔎 Nome ou final do celular" autocomplete="off" style="flex:1;min-width:0">
+        <button class="btnIcon" id="btnFiltro" aria-label="Filtrar e ordenar">⚙️</button>
+      </div>
       </div>
       <p class="note hidden" id="filtroAtivo" style="margin:8px 0 0"></p>
       <div id="lista" style="margin-top:6px"></div>
@@ -324,6 +325,11 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
 
 <!-- ============ PAINEL ============ -->
 <section id="t-painel" class="hidden">
+  <div class="card hidden" id="cardLevaDados">
+    <h2>📧 Última leva enviada</h2>
+    <p class="note" id="levaInfoDados" style="margin:0"></p>
+    <button class="btn yel" id="btnEmailLevaDados">📧 Enviar lista por e-mail</button>
+  </div>
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Resultados</h2>
       <button id="btnGrafico" style="border:1px solid var(--pri);background:#fff;color:var(--pri);border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600">📊 Ver gráfico</button></div>
@@ -343,11 +349,6 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <p class="note" style="margin:8px 0 0">Toque num número para ver a lista desses clientes.</p>
   </div>
   <div class="card"><h2>Por produto</h2><div id="pProd"></div><p class="note" style="margin:6px 0 0">Conversão = fechados ÷ ofertas enviadas no período.</p></div>
-  <div class="card hidden" id="cardLevaDados">
-    <h2>📧 Última leva enviada</h2>
-    <p class="note" id="levaInfoDados" style="margin:0"></p>
-    <button class="btn yel" id="btnEmailLevaDados">📧 Enviar lista por e-mail</button>
-  </div>
   <div class="card">
     <div class="ok">O resumo tem <b>só números</b>: nenhum nome, conta, MCI ou telefone de cliente.</div>
     <div class="row"><button class="btn" id="btnCopiarResumo">📋 Copiar resumo</button><button class="btn sec" id="btnCsv">⬇️ CSV</button></div>
@@ -679,24 +680,61 @@ addEventListener('popstate', e => {
 const ABAS = ['novo','clientes','painel','modelos','config'];
 let abaAtual = 'novo';
 (() => {
-  let x0 = 0, y0 = 0, t0 = 0, ok = false;
+  /* swipe que acompanha o dedo: a tela se move junto e, ao soltar, troca de aba com animação */
   const app = document.getElementById('app');
+  let x0 = 0, y0 = 0, t0 = 0, dx = 0, modo = null, sec = null, ativo = false;
+  const W = () => app.clientWidth || innerWidth;
+  const limpar = el => { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; el.style.willChange = ''; };
+  const vizinha = dir => { const i = ABAS.indexOf(abaAtual) + dir; return i >= 0 && i < ABAS.length ? ABAS[i] : null; };
   app.addEventListener('touchstart', e => {
-    ok = e.touches.length === 1 && !e.target.closest('input,textarea,select,canvas,#cropBox,.noSwipe');
-    if(!ok) return; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
+    ativo = e.touches.length === 1 && !e.target.closest('input,textarea,select,canvas,#cropBox,.chips,.noSwipe') && !document.querySelector('.overlay:not(.hidden)');
+    if(!ativo) return;
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); dx = 0; modo = null;
+    sec = document.getElementById('t-' + abaAtual);
   }, {passive:true});
-  app.addEventListener('touchend', e => {
-    if(!ok) return; ok = false;
-    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
-    if(Date.now() - t0 > 700 || Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.7) return;
-    if(document.querySelector('.overlay:not(.hidden)')) return;
-    const i = ABAS.indexOf(abaAtual) + (dx < 0 ? 1 : -1);
-    if(i < 0 || i >= ABAS.length) return;
-    const t = ABAS[i];
-    aba(t); if(t === 'clientes') fecharDet();
-    const sec = document.getElementById('t-' + t);
-    sec.classList.remove('desl-e','desl-d'); void sec.offsetWidth; sec.classList.add(dx < 0 ? 'desl-e' : 'desl-d');
-  }, {passive:true});
+  app.addEventListener('touchmove', e => {
+    if(!ativo) return;
+    const mx = e.touches[0].clientX - x0, my = e.touches[0].clientY - y0;
+    if(!modo){
+      if(Math.abs(mx) < 10 && Math.abs(my) < 10) return;
+      modo = Math.abs(mx) > Math.abs(my) * 1.2 ? 'h' : 'v';
+      if(modo === 'h'){ x0 += Math.sign(mx) * 10; sec.style.transition = 'none'; sec.style.willChange = 'transform'; document.body.classList.add('arrastando'); }
+    }
+    if(modo !== 'h') return;
+    if(e.cancelable) e.preventDefault();
+    dx = e.touches[0].clientX - x0;
+    if(!vizinha(dx < 0 ? 1 : -1)) dx = dx * 0.25;               // resistência nas pontas
+    sec.style.transform = `translateX(${dx}px)`;
+    sec.style.opacity = String(1 - Math.min(Math.abs(dx) / W(), 1) * 0.5);
+  }, {passive:false});
+  const soltar = () => {
+    if(!ativo) return; ativo = false;
+    if(modo !== 'h') return;
+    const fim = () => document.body.classList.remove('arrastando');
+    const vel = Math.abs(dx) / Math.max(Date.now() - t0, 1);
+    const dir = dx < 0 ? 1 : -1, t = vizinha(dir);
+    const troca = t && (Math.abs(dx) > W() * 0.28 || (vel > 0.45 && Math.abs(dx) > 30));
+    const velho = sec;
+    if(!troca){
+      velho.style.transition = 'transform .22s cubic-bezier(.2,.8,.2,1), opacity .22s';
+      velho.style.transform = 'translateX(0)'; velho.style.opacity = '1';
+      setTimeout(() => { limpar(velho); fim(); }, 240); return;
+    }
+    velho.style.transition = 'transform .14s ease-in, opacity .14s';
+    velho.style.transform = `translateX(${-dir * W()}px)`; velho.style.opacity = '0';
+    setTimeout(() => {
+      limpar(velho);
+      aba(t); if(t === 'clientes') fecharDet();
+      const nova = document.getElementById('t-' + t);
+      nova.style.transition = 'none'; nova.style.transform = `translateX(${dir * W() * 0.35}px)`; nova.style.opacity = '0';
+      void nova.offsetWidth;
+      nova.style.transition = 'transform .26s cubic-bezier(.2,.8,.2,1), opacity .2s';
+      nova.style.transform = 'translateX(0)'; nova.style.opacity = '1';
+      setTimeout(() => { limpar(nova); fim(); }, 280);
+    }, 140);
+  };
+  app.addEventListener('touchend', soltar, {passive:true});
+  app.addEventListener('touchcancel', soltar, {passive:true});
 })();
 function aba(t){
   abaAtual = t;
@@ -1188,10 +1226,10 @@ function fmtTel(t){ const d = String(t || '').replace(/\D/g, '').replace(/^55(?=
 function aguardando(){ return DB.clientes.filter(c => ['contatado','sem_resposta'].includes(c.status) || (c.status === 'respondeu' && (c.grupos || []).some(g => ['aberto','negociando'].includes(etapa(c, g))))).sort((a, b) => new Date(b.ultimoContato || 0) - new Date(a.ultimoContato || 0)); }
 function renderLeva(){
   const l = [...(DB.levas || [])].reverse().find(x => x.itens.length);
-  mostrar('#cardLeva', !!l && !l.emailEm); mostrar('#cardLevaDados', !!l); if(!l) return;
+  mostrar('#cardLevaDados', !!l); if(!l) return;
   const dt = d => new Date(d).toLocaleString('pt-BR', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
   const info = `${l.itens.length} cliente(s) · ${dt(l.inicio)}${l.fim ? ' a ' + dt(l.fim) : ' (em andamento)'}${l.emailEm ? ` · <b>e-mail aberto em ${dt(l.emailEm)}</b>` : ''}`;
-  $('#levaInfo').innerHTML = info; $('#levaInfoDados').innerHTML = info;
+  $('#levaInfoDados').innerHTML = info;
   const enviar = async () => {
     const dest = (DB.config.emailLeva || '').trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(dest)){ toast('Cadastre o e-mail de destino em Ajustes.'); aba('config'); $('#cEmail').focus(); return; }
@@ -1202,7 +1240,7 @@ function renderLeva(){
     l.emailEm = hoje(); await salvarDB(); renderLeva();
     location.href = `mailto:${dest}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
   };
-  ['#btnEmailLeva','#btnEmailLevaDados'].forEach(b => { $(b).textContent = `📧 Enviar lista por e-mail (${l.itens.length})`; $(b).onclick = enviar; });
+  ['#btnEmailLevaDados'].forEach(b => { $(b).textContent = `📧 Enviar lista por e-mail (${l.itens.length})`; $(b).onclick = enviar; });
 }
 async function respostaRapida(c, q){
   const nome = tituloCase(c.nome.split(' ')[0]);
