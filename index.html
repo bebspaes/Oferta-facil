@@ -70,6 +70,10 @@ textarea{min-height:110px;resize:vertical}
 @keyframes deslE{from{transform:translateX(40px);opacity:.3}to{transform:none;opacity:1}}@keyframes deslD{from{transform:translateX(-40px);opacity:.3}to{transform:none;opacity:1}}.desl-e{animation:deslE .22s ease-out}.desl-d{animation:deslD .22s ease-out}
 .recIn{max-width:300px;width:100%;margin-top:18px;text-align:center;font-size:19px;letter-spacing:2px;font-weight:700;text-transform:uppercase;border-radius:14px;border:0;padding:14px}
 .codBox{font-size:22px;font-weight:800;letter-spacing:2px;background:#F3F4F6;border:2px dashed var(--accd);border-radius:14px;padding:14px 8px;margin:10px 0 6px;user-select:all;word-break:break-all}
+.detTopo{display:flex;gap:10px;align-items:flex-start}.detLinha{font-size:14px;color:var(--mut);margin-top:4px;line-height:1.5}.detLinha b{color:var(--ink)}
+.stTag{display:inline-block;margin-top:8px;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:700}
+.resRow{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line)}.resRow:first-child{border-top:0}.resRow b{flex:1;min-width:0}
+.rb{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;font-weight:700;font-size:14px;color:var(--mut)}.rb.ok.on{background:#e7f5ee;border-color:#3aa57a;color:#0f5a3c}.rb.no.on{background:#fdecea;border-color:#e08a7a;color:#8c2a17}
 .pinMsg{min-height:20px;margin:14px 0 0;color:#FCA5A5;font-size:14px;font-weight:600}
 .pinEsq{margin-top:22px;background:none;border:0;color:#94A3B8;font-size:13.5px;text-decoration:underline}
 .fileHid{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
@@ -317,8 +321,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
   <div id="detView" class="hidden">
     <button class="btn sec" id="btnVoltar" style="margin:0 0 12px">← Voltar à lista</button>
     <div class="card">
-      <div id="detDados"></div>
-      <button class="btn sec" id="btnEditar" style="margin-top:10px">✏️ Editar dados</button>
+      <div class="detTopo"><div id="detDados" style="flex:1;min-width:0"></div><button class="btnIcon" id="btnEditar" aria-label="Editar dados">✏️</button></div>
       <div id="detEdit" class="hidden">
         <label>Nome do cliente</label><input id="eNome" autocomplete="off">
         <div class="row"><div><label>Celular (WhatsApp)</label><input id="eTel" inputmode="tel" autocomplete="off"></div><div><label>MCI (9 dígitos)</label><input id="eMci" inputmode="numeric" maxlength="9" autocomplete="off"></div></div>
@@ -327,21 +330,14 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
         <label>Observação interna (não vai na mensagem)</label><input id="eObs" autocomplete="off" maxlength="140">
         <div class="row"><button class="btn" id="btnSalvarEd">💾 Salvar</button><button class="btn sec" id="btnCancelarEd">Cancelar</button></div>
       </div>
-    </div>
-    <div class="card">
       <div id="detAlerta"></div>
-      <h2>Contato</h2>
-      <div class="seg" id="detStatus">
-        <button data-s="pendente" class="c-pendente">⏳ Pendente</button>
-        <button data-s="contatado" class="c-contatado">💬 Contatado</button>
-        <button data-s="respondeu" class="c-respondeu">🙋 Respondeu</button>
-        <button data-s="sem_resposta" class="c-sem_resposta">🔕 Sem resposta</button>
-      </div>
-      <p class="note" style="margin:6px 0 0">Vira “Contatado” sozinho ao enviar e “Sem resposta” após o prazo (sem problema: fica só para estatística). Se ativar lembretes em Ajustes, aparece como 🔁 Retornar antes.</p>
-      <h2 style="margin-top:14px">Produtos ofertados</h2>
-      <div id="detProds"></div>
-      <label>Adicionar ou remover produtos</label>
+      <label style="margin-top:12px">Produto ofertado</label>
       <div class="chips" id="detGrupos"></div>
+    </div>
+    <div class="card hidden" id="cardResultado">
+      <h2>Resultado</h2>
+      <p class="note" style="margin:-4px 0 8px">Marque só se o cliente responder. Toque de novo para desfazer.</p>
+      <div id="detProds"></div>
     </div>
     <div class="card">
       <h2>Enviar mensagem</h2>
@@ -1398,8 +1394,12 @@ function abrirDet(id){
   atual = DB.clientes.find(c => c.id === id); if(!atual) return;
   pushNav({t:'clientes', det:id}, rodada && estavaNaFicha); // na rodada, o próximo cliente substitui o anterior
   mostrar('#listaView', false); mostrar('#detView', true);
-  $('#detDados').innerHTML = `<h2>${esc(tituloCase(atual.nome))}</h2>
-    <div class="note">Agência <b>${esc(atual.agencia || '-')}</b> ${atual.nomeAgencia ? '· ' + esc(atual.nomeAgencia) : ''}<br>Conta <b>${esc(atual.conta || '-')}</b> · MCI <b>${esc(atual.mci || '-')}</b><br>Celular <b>${esc(fmtTel(atual.telefone))}</b>${numeroWhats(atual.telefone) ? '' : ' <span style="color:#a12a14">⚠️ inválido</span>'}${atual.obs ? '<br>Obs.: ' + esc(atual.obs) : ''}</div>`;
+  const stD = situacao(atual), mk = marca(atual);
+  const tag = mk === 'fechou' ? ['✅ Fechou', '#e7f5ee', '#0f5a3c'] : mk === 'recusou' ? ['✖ Recusou', '#fdecea', '#8c2a17'] : stD === 'retornar' ? ['🔁 Retornar', '#fff4e5', '#8a4b0c']
+    : stD === 'pendente' ? ['⏳ Pendente de envio', '#fff4e5', '#8a4b0c'] : ['📤 Enviado em ' + fmtData(atual.ultimoContato), '#EEF2F7', '#334155'];
+  $('#detDados').innerHTML = `<h2 style="margin:0">${esc(tituloCase(atual.nome))}</h2>
+    <div class="detLinha">Ag. <b>${esc(atual.agencia || '-')}</b>${atual.nomeAgencia ? ' ' + esc(atual.nomeAgencia) : ''} · Conta <b>${esc(atual.conta || '-')}</b><br>MCI <b>${esc(atual.mci || '-')}</b> · <b>${esc(fmtTel(atual.telefone))}</b>${numeroWhats(atual.telefone) ? '' : ' <span style="color:#a12a14">⚠️ celular inválido</span>'}${atual.obs ? '<br>Obs.: ' + esc(atual.obs) : ''}</div>
+    <span class="stTag" style="background:${tag[1]};color:${tag[2]}">${tag[0]}</span>`;
   mostrar('#detEdit', false); mostrar('#btnEditar', true); mostrar('#detDados', true);
   $('#selModelo').innerHTML = blocos().map(([p, ms]) => `<optgroup label="${esc(p)}">${ms.map(m => `<option value="${esc(m.id)}">${esc(m.curto || m.titulo)}</option>`).join('')}</optgroup>`).join('');
   const st = situacao(atual), temRF = (atual.grupos || []).includes('Rende Fácil') || !(atual.grupos || []).length;
@@ -1432,23 +1432,20 @@ document.querySelectorAll('#detStatus button').forEach(b => b.onclick = async ()
 function abrirDetSemRolar(){ const y = scrollY; abrirDet(atual.id); scrollTo(0, y); }
 function renderProds(){
   const gs = atual.grupos || [];
-  $('#detProds').innerHTML = gs.length ? gs.map((g, i) => { const p = (atual.prod || {})[g] || {e:'aberto'};
-    return `<div class="prow"><b>${esc(g)}</b>${p.em && p.e !== 'aberto' ? ` <span class="note">· ${fmtData(p.em)}</span>` : ''}
-      <div class="seg">${Object.keys(ETAPA_CURTA).map(e => `<button data-i="${i}" data-e="${e}" class="e-${e} ${p.e === e ? 'on' : ''}">${ETAPA_CURTA[e]}</button>`).join('')}</div>
-      ${p.e === 'recusou' ? `<select data-m="${i}" style="margin-top:6px;padding:8px"><option value="">Motivo da recusa…</option>${MOTIVOS.map(m => `<option ${m === p.motivo ? 'selected' : ''}>${m}</option>`).join('')}</select>` : ''}</div>`; }).join('')
-    : '<p class="note">Nenhum produto marcado. Marque abaixo o que vai ofertar.</p>';
+  mostrar('#cardResultado', atual.status !== 'pendente' && gs.length > 0);
+  $('#detProds').innerHTML = gs.map((g, i) => { const e = ((atual.prod || {})[g] || {}).e;
+    return `<div class="resRow"><b>${esc(g)}</b><button class="rb ok ${e === 'fechado' ? 'on' : ''}" data-i="${i}" data-e="fechado">✅ Fechou</button><button class="rb no ${e === 'recusou' ? 'on' : ''}" data-i="${i}" data-e="recusou">✖ Recusou</button></div>`; }).join('');
   $('#detProds').querySelectorAll('button[data-e]').forEach(b => b.onclick = async () => {
-    const g = gs[+b.dataset.i], e = b.dataset.e; atual.prod = atual.prod || {};
-    const ant = (atual.prod[g] || {}).e; if(ant === e) return;
+    const g = gs[+b.dataset.i]; atual.prod = atual.prod || {};
+    const ant = (atual.prod[g] || {}).e;
+    if(ant === b.dataset.e || ant === 'fechado' || ant === 'recusou'){ // desfaz a marcação anterior
+      const k = DB.eventos.map(x => x.k === ant && x.p === g).lastIndexOf(true); if(k >= 0) DB.eventos.splice(k, 1);
+    }
+    const e = ant === b.dataset.e ? 'aberto' : b.dataset.e;
     atual.prod[g] = {e, em:hoje(), motivo:''};
     if(e !== 'aberto'){ evento(e, {p:g}); marcarRespondeu(atual); }
     toque(atual); await salvarDB(); abrirDetSemRolar();
-    if(e === 'fechado') toast('🎉 ' + g + ': negócio fechado!'); else if(e === 'recusou') toast('Informe o motivo da recusa.');
-  });
-  $('#detProds').querySelectorAll('select[data-m]').forEach(sel => sel.onchange = async () => {
-    const g = gs[+sel.dataset.m]; atual.prod[g].motivo = sel.value;
-    const ev = [...DB.eventos].reverse().find(x => x.k === 'recusou' && x.p === g); if(ev) ev.m = sel.value;
-    await salvarDB(); toast('Motivo registrado.');
+    toast(e === 'fechado' ? '🎉 ' + g + ': negócio fechado!' : e === 'recusou' ? g + ': recusa registrada.' : g + ': marcação desfeita.');
   });
 }
 $('#btnProximo').onclick = () => { if(!rodada){ rodada = true; const l = levaAtual(); if(!l || l.fim) novaLeva(); } irProximo(); };
