@@ -214,11 +214,24 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
   </div>
 </div>
 
+<div id="ovPerfil" class="overlay hidden">
+  <div class="card">
+    <h2>👋 Seus dados</h2>
+    <p class="note" style="margin-top:0">Ficam só no seu celular. Dá para mudar depois em Ajustes.</p>
+    <label>Seu nome (aparece nas mensagens aos clientes)</label><input id="pfNome" autocomplete="off">
+    <label>Seu e-mail corporativo</label><input id="pfEmail" type="email" inputmode="email" autocomplete="off">
+    <p class="note" style="margin:4px 0 0">Recebe as listas de MCIs e o código de recuperação do PIN.</p>
+    <label>SOP de lotação <span style="font-weight:400">(opcional)</span></label><input id="pfSop" autocomplete="off">
+    <p class="note" style="margin:4px 0 0">Usado só para divulgar no grupo os negócios que você fechar.</p>
+    <button class="btn yel" id="btnPfOk">Salvar e continuar</button>
+    <p class="note" id="pfMsg" style="color:#a12a14;font-weight:600"></p>
+  </div>
+</div>
 <div id="ovDiv" class="overlay hidden">
   <div class="card">
     <h2 id="divTitulo">📣 Divulgar no grupo</h2>
     <p class="note" id="divNota" style="margin-top:0"></p>
-    <div id="divSopBox" class="hidden"><label>Sua identificação no grupo</label><input id="divSop" autocomplete="off" placeholder="ex.: SOP 68"><p class="note" style="margin:4px 0 0">Fica salva em Ajustes.</p></div>
+    <div id="divSopBox" class="hidden"><label>Seu SOP de lotação</label><input id="divSop" autocomplete="off"><p class="note" style="margin:4px 0 0">Fica salva em Ajustes.</p></div>
     <div class="bolha" id="divPrev" style="display:block;white-space:pre-wrap;margin:10px 0"></div>
     <p class="note" style="margin:0 0 6px">Enviar pelo WhatsApp onde está o grupo do PSO:</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -242,7 +255,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
       <p class="note" style="margin-top:0">Use só se esquecer o PIN: toque em “Esqueci o PIN” e digite este código.</p>
       <div class="codBox" id="codTexto"></div>
       <label style="text-align:left">Seu e-mail corporativo</label>
-      <input id="codEmail" type="email" inputmode="email" autocomplete="off" placeholder="nome@bb.com.br">
+      <input id="codEmail" type="email" inputmode="email" autocomplete="off">
       <button class="btn yel" id="btnCodEmail">📧 Enviar para meu e-mail</button>
       <button class="btn sec" id="btnCodCopiar">📋 Copiar código</button>
       <div class="alerta" style="text-align:left;margin-top:10px">Este código abre os dados dos clientes, como o PIN. Envie <b>só para o seu e-mail corporativo</b> e não compartilhe. Gerar um novo código em Ajustes invalida este.</div>
@@ -303,13 +316,13 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <div id="parseAvisos"></div>
     <label>Nome do cliente</label><input id="fNome" autocomplete="off">
     <div class="row">
-      <div><label>Nº agência</label><input id="fAg" inputmode="numeric" autocomplete="off" placeholder="0000-0"></div>
-      <div><label>Conta</label><input id="fConta" inputmode="numeric" autocomplete="off" placeholder="00000-0"></div>
+      <div><label>Nº agência</label><input id="fAg" inputmode="numeric" autocomplete="off"></div>
+      <div><label>Conta</label><input id="fConta" inputmode="numeric" autocomplete="off"></div>
     </div>
     <label>Nome da agência</label><input id="fNomeAg" autocomplete="off">
     <div class="row">
       <div><label>MCI (9 dígitos)</label><input id="fMci" inputmode="numeric" maxlength="9" autocomplete="off"></div>
-      <div><label>Celular (WhatsApp)</label><input id="fTel" inputmode="tel" autocomplete="off" placeholder="(00) 00000-0000"></div>
+      <div><label>Celular (WhatsApp)</label><input id="fTel" inputmode="tel" autocomplete="off"></div>
     </div>
     <label>Produtos a ofertar (toque para marcar)</label>
     <div class="chips" id="fGrupos"></div>
@@ -327,7 +340,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
       <div id="filtroAtivo" class="hidden"></div>
       <div id="filtroBox" class="hidden">
         <div class="filtros">
-          <select id="fltStatus"><option value="">Todas as situações</option><option value="ofertados">Ofertados (já enviados)</option><option value="responderam">Responderam</option><option value="pendente">Pendentes</option><option value="enviado">Enviados</option><option value="retornar">Para retornar</option><option value="fechou">Fecharam</option><option value="recusou">Recusaram</option></select>
+          <select id="fltStatus"><option value="">Todas as situações</option><option value="ofertados">Ofertados (já enviados)</option><option value="responderam">Responderam</option><option value="pendente">Pendentes</option><option value="enviado">Enviados</option><option value="fechou">Fecharam</option><option value="recusou">Recusaram</option></select>
           <select id="fltGrupo"><option value="">Todos os produtos</option></select>
         </div>
         <div class="filtros"><select id="optOrdem"><option value="recentes">Mais recentes</option><option value="nome">Nome (A–Z)</option><option value="antigos">Sem contato há mais tempo</option></select></div>
@@ -359,7 +372,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
       <div id="detProds"></div>
     </div>
     <div class="card">
-      <label style="margin-top:0">Produto ofertado</label>
+      <label style="margin-top:0">Produto ofertado <span style="font-weight:400">(um por cliente)</span></label>
       <div class="chips" id="detGrupos"></div>
       <h2 style="margin-top:16px">Histórico</h2>
       <div id="detHist"></div>
@@ -424,7 +437,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <h2 id="edTitulo">Editar mensagem</h2>
     <label>Produto</label><select id="mProd"></select>
     <label>Título</label><input id="mTitulo" maxlength="50">
-    <label>Para quem (opcional)</label><input id="mDesc" maxlength="70" placeholder="ex.: Clientes que já fazem aportes">
+    <label>Para quem (opcional)</label><input id="mDesc" maxlength="70">
     <label>Texto</label><textarea id="mTexto" style="min-height:190px"></textarea>
     <p class="note">Toque para inserir (o app troca pelo dado do cliente na hora do envio):</p>
     <div class="chips" id="chips"></div>
@@ -438,21 +451,16 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
   <div class="card">
     <h2>Seus dados (usados nas mensagens)</h2>
     <label>Seu nome</label><input id="cNome" autocomplete="off">
-    <label>Identificação no grupo do PSO (divulgação de vendas)</label><input id="cSop" autocomplete="off" placeholder="ex.: SOP 68">
+    <label>SOP de lotação</label><input id="cSop" autocomplete="off">
+    <p class="note" style="margin:4px 0 0">Usado só para divulgar no grupo os negócios fechados.</p>
     <label class="chk" style="display:flex;gap:8px;align-items:center;margin-top:8px"><input type="checkbox" id="cDivMci" style="width:auto"> Incluir o MCI na divulgação</label>
     <p class="note" style="margin:4px 0 0">O MCI identifica o cliente: divulgue só em grupo interno do BB.</p>
-    <label>Seu cargo / função</label><input id="cCargo" autocomplete="off" placeholder="ex.: Gerente de Relacionamento">
-    <label>Seu e-mail (recebe o código de recuperação do PIN)</label><input id="cEmailProprio" type="email" inputmode="email" autocomplete="off" placeholder="nome@bb.com.br">
-    <label>E-mail que recebe a lista de cada leva (MCI e nome)</label>
-    <input id="cEmail" type="email" inputmode="email" autocomplete="off" placeholder="nome@bb.com.br">
+    <label>Seu e-mail corporativo</label><input id="cEmailProprio" type="email" inputmode="email" autocomplete="off">
+    <p class="note" style="margin:4px 0 0">Recebe as listas de MCIs (leva e conferência) e o código de recuperação do PIN.</p>
     <label>Enviar mensagens pelo</label>
     <select id="cWhats"><option value="business">WhatsApp Business</option><option value="pessoal">WhatsApp pessoal</option></select>
     <label>Produto já marcado em novos clientes</label>
     <select id="cProdPadrao"></select>
-    <label>Lembrete para quem não respondeu</label>
-    <select id="cMaxEnv"><option value="1">Não enviar lembrete</option><option value="2">Enviar 1 lembrete</option><option value="3">Enviar até 2 lembretes</option></select>
-    <div id="boxRetorno"><label>Enviar o lembrete após</label>
-    <select id="cRetorno"><option value="1">1 dia</option><option value="2">2 dias</option><option value="3">3 dias</option><option value="5">5 dias</option><option value="7">7 dias</option></select></div>
     <label>Pedir o PIN de novo após ficar sem uso por</label>
     <select id="cLock"><option value="2">2 minutos</option><option value="5">5 minutos</option><option value="10">10 minutos</option></select>
     <label>Grupos</label>
@@ -534,18 +542,18 @@ async function novoCodigoRec(){
   return cod;
 }
 const MODELOS_PADRAO = [
-  {id:'m13', titulo:'CDC 13º · Falta só confirmar', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nA *antecipação do seu 13º salário* já está *disponível* para você. 💰\n\nFalta só um passo: confirmar pelo *App BB* para o valor cair na sua conta. Não deixe para depois!\n\nAntes de confirmar, você confere todas as condições, com toda a segurança.\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
-  {id:'m14', titulo:'CDC 13º · Disponível', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSabia que você pode *antecipar o seu 13º salário* com o Banco do Brasil? Você recebe o dinheiro agora e pode usar para quitar contas, fazer as compras de fim de ano ou organizar o orçamento. 🎄\n\nA quitação é feita com o próprio 13º, quando ele for creditado.\n\nQuer aproveitar? É só *responder esta mensagem* que eu mesmo cuido da contratação para você. Depois, basta confirmar pelo *App BB*, com toda a segurança. 😉\n\nPor segurança, nunca pedimos senhas ou códigos por mensagem.'},
-  {id:'m6', titulo:'Rende Fácil + domicílio fiscal', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nPara ativar, são dois passos rápidos:\n1️⃣ Confirme o seu *domicílio fiscal* com o *duplo SIM*.\n2️⃣ Em seguida, confirme a adesão ao *Rende Fácil* com outro *duplo SIM*.\n\nTudo é feito pelo *App BB*, com mais segurança para você. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
-  {id:'m8', titulo:'Rende Fácil (domicílio já em dia)', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nSeu *domicílio fiscal* já está em dia, então falta só um passo: confirmar a adesão ao *Rende Fácil* com o *duplo SIM*.\n\nTudo é feito pelo *App BB*, com mais segurança para você. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
-  {id:'m9', titulo:'Ourocap · Renovação', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nVi que o seu *Ourocap* está chegando ao fim do prazo. Que tal *renovar* e continuar concorrendo aos *sorteios*, enquanto segue guardando dinheiro com disciplina? 🍀\n\nEu cuido da renovação para você, sem complicação. É só responder *QUERO RENOVAR* que eu te passo as opções. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
-  {id:'m10', titulo:'Previdência · 1º aporte extra', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSabia que dá para reforçar a sua *previdência* com um *aporte extra*, mesmo de *valor baixo*, quando quiser? É um valor à parte, além das contribuições que você já faz. Pequenos aportes ao longo do tempo fazem diferença no seu futuro. 📈\n\nSe o seu plano for *PGBL* e você faz a declaração *completa* do IR, os aportes feitos até *31/12* podem ajudar a reduzir o imposto deste ano (até 12% da renda bruta tributável).\n\nPosso fazer o aporte para você agora mesmo: é só responder com o *valor* que deseja aportar. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
-  {id:'m11', titulo:'Previdência · Fim de ano (já faz aportes)', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nVi que você já tem o bom hábito de fazer *aportes extras* na sua *previdência*. Parabéns pela disciplina! 👏\n\nO fim do ano é um ótimo momento para mais um reforço. Se o seu plano for *PGBL* e você faz a declaração *completa* do IR, os aportes até *31/12* podem ajudar a reduzir o imposto deste ano (até 12% da renda bruta tributável).\n\nQuer que eu já prepare o seu próximo aporte? É só responder com o *valor*. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
-  {id:'m12', titulo:'Previdência · Ao longo do ano (já faz aportes)', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nVi que você já tem o bom hábito de fazer *aportes extras* na sua *previdência*. Parabéns pela disciplina! 👏\n\nQue tal manter o ritmo com mais um reforço? Não precisa ser um valor alto: aportes regulares, mesmo pequenos, dão mais tempo para o seu dinheiro trabalhar a favor do seu futuro. 📈\n\nQuer que eu já prepare o seu próximo aporte? É só responder com o *valor*. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m13', titulo:'CDC 13º · Falta só confirmar', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Soluções do Banco do Brasil.\n\nA *antecipação do seu 13º salário* já está *disponível* para você. 💰\n\nFalta só um passo: confirmar pelo *App BB* para o valor cair na sua conta. Não deixe para depois!\n\nAntes de confirmar, você confere todas as condições, com toda a segurança.\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m14', titulo:'CDC 13º · Disponível', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Soluções do Banco do Brasil.\n\nSabia que você pode *antecipar o seu 13º salário* com o Banco do Brasil? Você recebe o dinheiro agora e pode usar para quitar contas, fazer as compras de fim de ano ou organizar o orçamento. 🎄\n\nA quitação é feita com o próprio 13º, quando ele for creditado.\n\nQuer aproveitar? É só *responder esta mensagem* que eu mesmo cuido da contratação para você. Depois, basta confirmar pelo *App BB*, com toda a segurança. 😉\n\nPor segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m6', titulo:'Rende Fácil + domicílio fiscal', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Soluções do Banco do Brasil.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nPara ativar, são dois passos rápidos:\n1️⃣ Confirme o seu *domicílio fiscal* com o *duplo SIM*.\n2️⃣ Em seguida, confirme a adesão ao *Rende Fácil* com outro *duplo SIM*.\n\nTudo é feito pelo *App BB*, com mais segurança para você. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m8', titulo:'Rende Fácil (domicílio já em dia)', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Soluções do Banco do Brasil.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nSeu *domicílio fiscal* já está em dia, então falta só um passo: confirmar a adesão ao *Rende Fácil* com o *duplo SIM*.\n\nTudo é feito pelo *App BB*, com mais segurança para você. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m9', titulo:'Ourocap · Renovação', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Soluções do Banco do Brasil.\n\nVi que o seu *Ourocap* está chegando ao fim do prazo. Que tal *renovar* e continuar concorrendo aos *sorteios*, enquanto segue guardando dinheiro com disciplina? 🍀\n\nEu cuido da renovação para você, sem complicação. É só responder *QUERO RENOVAR* que eu te passo as opções. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m10', titulo:'Previdência · 1º aporte extra', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Soluções do Banco do Brasil.\n\nSabia que dá para reforçar a sua *previdência* com um *aporte extra*, mesmo de *valor baixo*, quando quiser? É um valor à parte, além das contribuições que você já faz. Pequenos aportes ao longo do tempo fazem diferença no seu futuro. 📈\n\nSe o seu plano for *PGBL* e você faz a declaração *completa* do IR, os aportes feitos até *31/12* podem ajudar a reduzir o imposto deste ano (até 12% da renda bruta tributável).\n\nPosso fazer o aporte para você agora mesmo: é só responder com o *valor* que deseja aportar. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m11', titulo:'Previdência · Fim de ano (já faz aportes)', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Soluções do Banco do Brasil.\n\nVi que você já tem o bom hábito de fazer *aportes extras* na sua *previdência*. Parabéns pela disciplina! 👏\n\nO fim do ano é um ótimo momento para mais um reforço. Se o seu plano for *PGBL* e você faz a declaração *completa* do IR, os aportes até *31/12* podem ajudar a reduzir o imposto deste ano (até 12% da renda bruta tributável).\n\nQuer que eu já prepare o seu próximo aporte? É só responder com o *valor*. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m12', titulo:'Previdência · Ao longo do ano (já faz aportes)', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Soluções do Banco do Brasil.\n\nVi que você já tem o bom hábito de fazer *aportes extras* na sua *previdência*. Parabéns pela disciplina! 👏\n\nQue tal manter o ritmo com mais um reforço? Não precisa ser um valor alto: aportes regulares, mesmo pequenos, dão mais tempo para o seu dinheiro trabalhar a favor do seu futuro. 📈\n\nQuer que eu já prepare o seu próximo aporte? É só responder com o *valor*. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
   {id:'m7', titulo:'Lembrete Rende Fácil', texto:'{saudacao}, {primeiro_nome}! Passando para lembrar: para ativar o *BB Rende Fácil*, basta confirmar pelo *App BB* o *duplo SIM* do *domicílio fiscal* e, em seguida, o *duplo SIM* do *Rende Fácil*. ✅\n\nSe preferir não ativar agora, é só nos avisar. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
-  {id:'m1', titulo:'Apresentação', texto:'{saudacao}, {primeiro_nome}! Tudo bem? Sou {funcionario}, {cargo} da sua agência do Banco do Brasil ({nome_agencia}). Estou à disposição para o que precisar.\n\nPor segurança, lembramos que o BB nunca pede senhas, códigos ou dados de cartão por mensagem.'},
+  {id:'m1', titulo:'Apresentação', texto:'{saudacao}, {primeiro_nome}! Tudo bem? Sou {funcionario}, da sua agência do Banco do Brasil ({nome_agencia}). Estou à disposição para o que precisar.\n\nPor segurança, lembramos que o BB nunca pede senhas, códigos ou dados de cartão por mensagem.'},
   {id:'m2', titulo:'Retorno de solicitação', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da agência {agencia} – {nome_agencia} do Banco do Brasil. Estou retornando sobre a sua solicitação. Você tem um momento para conversarmos?'},
-  {id:'m3', titulo:'Agendar atendimento', texto:'{saudacao}, {primeiro_nome}! Sou {funcionario}, {cargo} do Banco do Brasil. Gostaria de agendar um atendimento com você. Qual o melhor dia e horário?'},
+  {id:'m3', titulo:'Agendar atendimento', texto:'{saudacao}, {primeiro_nome}! Sou {funcionario}, do Banco do Brasil. Gostaria de agendar um atendimento com você. Qual o melhor dia e horário?'},
   {id:'m4', titulo:'Atualização cadastral', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, do Banco do Brasil. Identificamos que seu cadastro precisa ser atualizado. Você pode fazer isso pelo App BB ou na agência {nome_agencia}.\n\nNão envie documentos nem senhas por aqui.'},
   {id:'m5', titulo:'Alerta de segurança', texto:'{saudacao}, {primeiro_nome}! Sou {funcionario}, do Banco do Brasil. Um lembrete importante: o BB nunca pede senhas, códigos de verificação ou transferências por WhatsApp ou ligação. Em caso de dúvida, procure sua agência pelos canais oficiais.'}
 ];
@@ -570,8 +578,8 @@ const INFO_MODELOS = {
   m4:{prod:'Geral', curto:'Atualização cadastral', desc:''}, m5:{prod:'Geral', curto:'Alerta de segurança', desc:''}
 };
 const ORDEM_BLOCOS = ['Rende Fácil','CDC','Previdência','Ourocap','Geral'];
-function infoModelos(){ DB.modelos.forEach(m => { if(m.curto === 'Com domicílio fiscal') m.curto = 'Domicílio fiscal pendente'; const i = INFO_MODELOS[m.id]; if(!m.prod) m.prod = i ? i.prod : 'Geral'; if(m.curto === undefined) m.curto = i ? i.curto : m.titulo; if(m.desc === undefined) m.desc = i ? i.desc : ''; }); }
-const CONFIG_PADRAO = {funcionario:'', cargo:'', sop:'', divMci:true, whats:'business', emailLeva:'bernardocpa@bb.com.br', emailProprio:'', retencao:30, lockMin:5, prodPadrao:'Rende Fácil', retornoDias:3, maxEnvios:1, grupos:GRUPOS_PADRAO};
+function infoModelos(){ DB.modelos.forEach(m => { if(m.texto && m.texto.includes('{cargo}')) m.texto = m.texto.replace(/,? ?\{cargo\}/g, ''); if(m.texto && m.texto.includes('Plataforma de Suporte Operacional')) m.texto = m.texto.split('Plataforma de Suporte Operacional').join('Plataforma de Soluções'); if(m.curto === 'Com domicílio fiscal') m.curto = 'Domicílio fiscal pendente'; const i = INFO_MODELOS[m.id]; if(!m.prod) m.prod = i ? i.prod : 'Geral'; if(m.curto === undefined) m.curto = i ? i.curto : m.titulo; if(m.desc === undefined) m.desc = i ? i.desc : ''; }); }
+const CONFIG_PADRAO = {funcionario:'', cargo:'', sop:'', divMci:true, whats:'business', emailLeva:'', emailProprio:'', retencao:30, lockMin:5, prodPadrao:'Rende Fácil', retornoDias:3, maxEnvios:1, grupos:GRUPOS_PADRAO};
 function dbVazio(){ return {clientes:[], eventos:[], modelos:JSON.parse(JSON.stringify(MODELOS_PADRAO)).map(m => ({...m, ...(INFO_MODELOS[m.id] || {prod:'Geral', curto:m.titulo, desc:''})})), config:{...CONFIG_PADRAO, ordemModelosV2:true, v17:true, evSeed:true, m6Topo:true, modelosVistos:MODELOS_PADRAO.map(m => m.id)}}; }
 async function salvarDB(){ if(!KEY) return; if(!ls.set(K_DATA, await cifrar(KEY, DB))) toast('Não foi possível salvar neste navegador.'); }
 
@@ -641,9 +649,10 @@ async function prepararDB(){
     { const ANTIGOS = {m6:['{saudacao}, {primeiro_nome}! Tudo bem? Aqui é {funcionario}, {cargo} do Banco do Brasil ({nome_agencia}).\n\nTenho duas facilidades rápidas para você:\n\n1️⃣ *Atualização do domicílio fiscal*: é uma confirmação cadastral simples, exigida pela regulamentação, que mantém sua conta e seus investimentos em dia.\n\n2️⃣ *BB Rende Fácil*: com o cadastro atualizado, o saldo que fica parado na conta passa a ser aplicado automaticamente e continua disponível sempre que você precisar, sem precisar fazer nada.\n\nPosso te ajudar a resolver os dois em poucos minutos. Prefere que eu explique por aqui ou numa ligação rápida?\n\nPor segurança, nunca pedimos senhas ou códigos por mensagem. 😊', '{saudacao}, {primeiro_nome}! Aqui é do Banco do Brasil, agência {nome_agencia}.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nPara seguirmos com a ativação, basta confirmar o seu *domicílio fiscal* com o *duplo SIM*. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'], m7:['{saudacao}, {primeiro_nome}! Passando para lembrar: para ativar o *BB Rende Fácil* na sua conta, basta confirmar o seu *domicílio fiscal* com o *duplo SIM*. ✅\n\nSe preferir não ativar agora, é só nos avisar. Por segurança, nunca pedimos senhas ou códigos por mensagem.'], m9:['{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nVi que o seu *Ourocap* está chegando ao fim do prazo. Que tal *renovar* e continuar concorrendo aos *sorteios*, enquanto segue guardando dinheiro com disciplina? 🍀\n\nA renovação é rápida e pode ser feita pelo *App BB*, com toda a segurança. Se preferir, te explico as opções por aqui.\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'], m10:['{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSabia que dá para reforçar a sua *previdência* com um *aporte extra*, mesmo de *valor baixo*, quando quiser? É um valor à parte, além das contribuições que você já faz. Pequenos aportes ao longo do tempo fazem diferença no seu futuro. 📈\n\nSe o seu plano for *PGBL* e você faz a declaração *completa* do IR, os aportes feitos até *31/12* podem ajudar a reduzir o imposto deste ano (até 12% da renda bruta tributável).\n\nO aporte pode ser feito pelo *App BB*, com toda a segurança, ou posso te ajudar por aqui.\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.']};
       Object.entries(ANTIGOS).forEach(([id, velhos]) => { const m = DB.modelos.find(x => x.id === id), novo = MODELOS_PADRAO.find(x => x.id === id); if(m && novo && velhos.includes(m.texto)){ m.texto = novo.texto; m.titulo = novo.titulo; } }); }
     MODELOS_PADRAO.forEach(m => { if(!DB.config.modelosVistos.includes(m.id)){ if(m.id === 'm6') DB.modelos.unshift({...m}); else DB.modelos.splice(Math.min(1, DB.modelos.length), 0, {...m}); DB.config.modelosVistos.push(m.id); } });
+    if(!DB.config.emailV2){ const c = DB.config; if(!c.emailProprio && c.emailLeva && c.emailLeva !== 'bernardocpa@bb.com.br') c.emailProprio = c.emailLeva; c.emailLeva = ''; c.emailV2 = true; }
     if(!DB.config.cdcV1){ const a = DB.modelos.findIndex(m => m.id === 'm13'), b = DB.modelos.findIndex(m => m.id === 'm14'); if(a > b && b >= 0) DB.modelos.splice(b, 0, DB.modelos.splice(a, 1)[0]); DB.config.cdcV1 = true; }
     if(!DB.config.m6Topo){ const i6 = DB.modelos.findIndex(m => m.id === 'm6'); if(i6 > 0) DB.modelos.unshift(DB.modelos.splice(i6, 1)[0]); DB.config.m6Topo = true; }
-    if(!DB.config.v17){ DB.config.maxEnvios = 1; DB.config.v17 = true; }
+    DB.config.maxEnvios = 1; // lembretes removidos: um envio por cliente
     if(!DB.config.ordemModelosV2){ const pos = id => { const k = MODELOS_PADRAO.findIndex(m => m.id === id); return k < 0 ? 999 : k; };
       DB.modelos = DB.modelos.map((m, i) => [m, i]).sort((x, y) => (pos(x[0].id) - pos(y[0].id)) || (x[1] - y[1])).map(x => x[0]); DB.config.ordemModelosV2 = true; }
     infoModelos();
@@ -672,7 +681,7 @@ $('#btnPin').onclick = async () => {
     const modo = modoPin;
     if(modo === 'recuperar'){ const n = await prepararDB(); abrirApp('PIN novo criado. Seus dados estão de volta.'); return; }
     abrirApp(modo === 'trocar' ? 'PIN alterado.' : 'PIN criado. Bem-vindo(a)!');
-    if(!meta.wRec) setTimeout(() => abrirCodigo(modo === 'criar'), 400);
+    posEntrada(modo === 'criar');
     return;
   }
   if(Date.now() < esperaAte){ recomecar(`Muitas tentativas. Aguarde ${Math.ceil((esperaAte - Date.now())/1000)} s.`); return; }
@@ -687,7 +696,7 @@ $('#btnPin').onclick = async () => {
     tentativas = 0; ocupado = false;
     const n = await prepararDB();
     abrirApp(n ? `${n} cliente(s) sem contato recente foram apagados automaticamente.` : '');
-    if(!meta.wRec && !sessionStorage.getItem('codDepois')) setTimeout(() => abrirCodigo(false), 600);
+    posEntrada(false);
   } catch(e){
     ocupado = false;
     // PIN antigo (mais longo): ao chegar em 4 números, só tenta em silêncio e deixa continuar digitando
@@ -726,6 +735,26 @@ $('#btnRecOk').onclick = async () => {
     if(tentativas >= 5) esperaAte = Date.now() + 30000 * (tentativas - 4);
   }
 };
+/* primeiro acesso: nome, e-mail corporativo e SOP (opcional) */
+const emailOk = e => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e);
+let perfilDepois = null;
+function abrirPerfil(depois){
+  perfilDepois = depois;
+  $('#pfNome').value = DB.config.funcionario || ''; $('#pfEmail').value = DB.config.emailProprio || ''; $('#pfSop').value = DB.config.sop || ''; $('#pfMsg').textContent = '';
+  mostrar('#ovPerfil', true); setTimeout(() => $(DB.config.funcionario ? '#pfEmail' : '#pfNome').focus(), 150);
+}
+$('#btnPfOk').onclick = async () => {
+  const n = $('#pfNome').value.trim(), e = $('#pfEmail').value.trim();
+  if(!n){ $('#pfMsg').textContent = 'Informe seu nome.'; $('#pfNome').focus(); return; }
+  if(!emailOk(e)){ $('#pfMsg').textContent = 'Informe um e-mail válido.'; $('#pfEmail').focus(); return; }
+  Object.assign(DB.config, {funcionario:n, emailProprio:e, sop:$('#pfSop').value.trim()});
+  await salvarDB(); carregarConfig(); renderModelos(); mostrar('#ovPerfil', false);
+  if(perfilDepois) perfilDepois();
+};
+function posEntrada(novo){
+  const seguir = () => { if(!meta.wRec && (novo || !sessionStorage.getItem('codDepois'))) setTimeout(() => abrirCodigo(novo), 300); };
+  if(!DB.config.funcionario || !emailOk(DB.config.emailProprio || '')) setTimeout(() => abrirPerfil(seguir), 400); else seguir();
+}
 /* tela do código de recuperação */
 let codAtual = '', codNovoUsuario = false;
 function abrirCodigo(novoUsuario){
@@ -811,7 +840,7 @@ function abrirApp(m){
   if(m) toast(m, 4500);
   armarBloqueio();
 }
-function bloquear(){ if(tessWorker){ tessWorker.terminate(); tessWorker = null; } revisar = []; $('#loteRev').innerHTML = ''; $('#loteResumo').innerHTML = ''; mostrar('#loteBox', false); KEY = null; DB = null; DKRAW = null; PINKEY = null; mostrar('#ovCodigo', false); limparNovo(); fecharDet(); telaPin(false); }
+function bloquear(){ if(tessWorker){ tessWorker.terminate(); tessWorker = null; } revisar = []; $('#loteRev').innerHTML = ''; $('#loteResumo').innerHTML = ''; mostrar('#loteBox', false); KEY = null; DB = null; DKRAW = null; PINKEY = null; mostrar('#ovCodigo', false); mostrar('#ovPerfil', false); limparNovo(); fecharDet(); telaPin(false); }
 function apagarTudo(){
   if(!confirm('Apagar TODOS os dados deste app (clientes, mensagens e PIN)? Não há como desfazer.')) return;
   ls.del(K_DATA); ls.del(K_META); KEY = null; DB = null; meta = null; location.reload();
@@ -1197,12 +1226,22 @@ function numeroWhats(t){
   if(d.length === 10 || d.length === 11) d = '55' + d;
   return /^55\d{10,11}$/.test(d) ? d : '';
 }
+async function trocarProduto(g){
+  const novo = g[0], antigos = (atual.grupos || []).filter(x => x !== novo);
+  const comRes = antigos.filter(x => ['fechado','recusou'].includes(((atual.prod || {})[x] || {}).e));
+  if(comRes.length && !confirm(`Trocar para ${novo} apaga o resultado marcado em ${comRes.join(', ')}. Continuar?`)){ abrirDetSemRolar(); return; }
+  const p = (atual.prod || {})[novo];
+  atual.grupos = [novo]; atual.prod = {[novo]: p || {e:'aberto', em:hoje()}};
+  toque(atual); await salvarDB(); abrirDetSemRolar();
+}
 function chipsGrupos(el, selecionados, aoMudar){
-  const sel = new Set(selecionados);
+  const sel = new Set(selecionados.slice(0, 1));
   el.innerHTML = DB.config.grupos.map(g => `<button type="button" class="${sel.has(g) ? 'on' : ''}" data-g="${esc(g)}">${esc(g)}</button>`).join('');
-  el.querySelectorAll('button').forEach(b => b.onclick = () => { const g = b.dataset.g; sel.has(g) ? sel.delete(g) : sel.add(g); b.classList.toggle('on'); aoMudar && aoMudar([...sel]); });
+  /* um produto por cliente: escolher outro substitui o anterior */
+  el.querySelectorAll('button[data-g]').forEach(b => b.onclick = () => { const g = b.dataset.g; if(sel.has(g) && sel.size === 1) return;
+    sel.clear(); sel.add(g); el.querySelectorAll('button[data-g]').forEach(x => x.classList.toggle('on', x.dataset.g === g)); aoMudar && aoMudar([...sel]); });
   const add = document.createElement('button'); add.type = 'button'; add.className = 'add'; add.textContent = '＋ Novo grupo';
-  add.onclick = async () => { const nome = prompt('Nome do novo grupo:'); if(nome && await criarGrupo(nome)){ const n = DB.config.grupos[DB.config.grupos.length - 1]; sel.add(n); chipsGrupos(el, [...sel], aoMudar); aoMudar && aoMudar([...sel]); } };
+  add.onclick = async () => { const nome = prompt('Nome do novo grupo:'); if(nome && await criarGrupo(nome)){ const n = DB.config.grupos[DB.config.grupos.length - 1]; sel.clear(); sel.add(n); chipsGrupos(el, [...sel], aoMudar); aoMudar && aoMudar([...sel]); } };
   el.appendChild(add);
   el._sel = sel;
 }
@@ -1396,7 +1435,7 @@ function renderLeva(){
   const fech = DB.clientes.filter(c => passaFiltro(c, 'fechou') && noPeriodo(c, 'fechou', periodoPainel));
   const perTxt = periodoPainel ? `últimos ${periodoPainel} dias` : 'todo o período';
   const opc = {
-    leva:{t:'Última leva', n:l ? l.itens.length : 0, info:l ? `${l.itens.length} cliente(s) · ${dt(l.inicio)}${l.fim ? ' a ' + dt(l.fim) : ' (em andamento)'}${l.emailEm ? ` · <b>e-mail aberto em ${dt(l.emailEm)}</b>` : ''} · vai para o e-mail da leva` : 'Nenhuma leva enviada ainda.'},
+    leva:{t:'Última leva', n:l ? l.itens.length : 0, info:l ? `${l.itens.length} cliente(s) · ${dt(l.inicio)}${l.fim ? ' a ' + dt(l.fim) : ' (em andamento)'}${l.emailEm ? ` · <b>e-mail aberto em ${dt(l.emailEm)}</b>` : ''} · vai para o seu e-mail` : 'Nenhuma leva enviada ainda.'},
     enviados:{t:'Enviados', n:enviados.length, lista:enviados, descr:'enviados aguardando resultado', info:'Receberam a mensagem e ainda não têm Fechou/Recusou marcado.'},
     of7:{t:'Ofertados · 7 dias', n:of7.length, lista:of7, descr:'ofertados nos últimos 7 dias', info:'Todos que receberam oferta nos últimos 7 dias.'},
     fech:{t:'Fecharam', n:fech.length, lista:fech, descr:`fecharam (${perTxt})`, info:`Negócios fechados (${perTxt}, conforme o período dos Resultados).`}
@@ -1410,8 +1449,8 @@ function renderLeva(){
   $('#btnEmailLevaDados').disabled = !o.n;
   $('#btnEmailLevaDados').onclick = async () => {
     if(listaConf !== 'leva'){ enviarMcisEmail(o.lista, o.descr); return; }
-    const dest = (DB.config.emailLeva || '').trim();
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(dest)){ toast('Cadastre o e-mail de destino em Ajustes.'); aba('config'); $('#cEmail').focus(); return; }
+    const dest = (DB.config.emailProprio || '').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(dest)){ toast('Cadastre seu e-mail corporativo em Ajustes.'); aba('config'); $('#cEmailProprio').focus(); return; }
     const fim = l.fim || hoje();
     const assunto = `Leva de ofertas – ${l.itens.length} cliente(s) – ${new Date(l.inicio).toLocaleDateString('pt-BR')}`;
     const corpo = `Leva de ofertas enviada pelo WhatsApp\nPeríodo: ${dt(l.inicio)} a ${dt(fim)}\n${DB.config.funcionario ? 'Funcionário: ' + DB.config.funcionario + '\n' : ''}Total: ${l.itens.length} cliente(s)\n\nMCI | Nome\n`
@@ -1503,7 +1542,7 @@ function abrirDet(id){
   mostrar('#btnProximo', nf > 0);
   $('#detHist').innerHTML = atual.hist && atual.hist.length ? '<b style="font-size:14px">Contatos enviados</b>' + atual.hist.slice(0, 15).map(h => `<p class="hist">${new Date(h.em).toLocaleString('pt-BR')} · ${esc(h.modelo)} · ${h.canal === 'business' ? 'Business' : 'Pessoal'}</p>`).join('') : '<p class="hist">Nenhum contato enviado ainda.</p>';
   pintarStatus();
-  chipsGrupos($('#detGrupos'), atual.grupos || [], async g => { atual.grupos = g; atual.prod = atual.prod || {}; g.forEach(x => { if(!atual.prod[x]) atual.prod[x] = {e:'aberto', em:hoje()}; }); toque(atual); await salvarDB(); abrirDetSemRolar(); });
+  chipsGrupos($('#detGrupos'), atual.grupos || [], trocarProduto);
   const biz = DB.config.whats === 'business';
   $('#btnEnviar').textContent = '📤 Enviar pelo WhatsApp ' + (biz ? 'Business' : 'pessoal');
   $('#btnEnviar').className = 'btn ' + (biz ? 'biz' : 'pes');
@@ -1591,7 +1630,7 @@ function abrirDivulgar(itens, titulo, nota){
 $('#divSop').oninput = () => { DB.config.sop = $('#divSop').value.trim(); $('#divPrev').textContent = textoDivulgacao(divItens); };
 $('#btnDivFechar').onclick = async () => { mostrar('#ovDiv', false); await salvarDB(); };
 async function concluirDivulgacao(){
-  if(!DB.config.sop){ toast('Preencha sua identificação (ex.: SOP 68).'); $('#divSop').focus(); return null; }
+  if(!DB.config.sop){ toast('Preencha seu SOP de lotação.'); $('#divSop').focus(); return null; }
   const txt = textoDivulgacao(divItens);
   divItens.forEach(v => { v.c.prod[v.g].div = hoje(); });
   DB.config.divCanal = DB.config.divCanal || '';
@@ -1604,7 +1643,7 @@ document.querySelectorAll('[data-div-canal]').forEach(b => b.onclick = async () 
   location.href = linkWhats(b.dataset.divCanal, '', txt);
 });
 $('#btnDivCopiar').onclick = async () => {
-  if(!DB.config.sop){ toast('Preencha sua identificação (ex.: SOP 68).'); $('#divSop').focus(); return; }
+  if(!DB.config.sop){ toast('Preencha seu SOP de lotação.'); $('#divSop').focus(); return; }
   const txt = textoDivulgacao(divItens);
   let ok = true; try { await navigator.clipboard.writeText(txt); } catch(e){ ok = false; }
   if(!ok){ toast('Não foi possível copiar. Selecione o texto e copie.'); return; }
@@ -1709,12 +1748,11 @@ function renderPainel(){
   renderLeva(); renderHoje();
   const d = dadosPainel(), k = d.k, n = f => DB.clientes.filter(c => !f || marca(c) === f).length;
   const tile = (f, num, t, bg, fg) => `<button class="tile" data-f="${f}" style="background:${bg};color:${fg}"><b>${num}</b><span>${t}</span></button>`;
-  const nr = n('retornar');
   $('#pAgora').innerHTML = tile('', n(''), 'Todos', '#eef1f6', '#0F172A') + tile('pendente', n('pendente'), 'Pendentes', '#fff4e5', '#8a4b0c')
-    + tile('enviado', n('enviado') + nr, nr ? `Enviados (${nr} p/ retornar)` : 'Enviados', '#EEF2F7', '#334155') + tile('fechou', n('fechou'), 'Fecharam', '#e7f5ee', '#0f5a3c');
+    + tile('enviado', n('enviado'), 'Enviados', '#EEF2F7', '#334155') + tile('fechou', n('fechou'), 'Fecharam', '#e7f5ee', '#0f5a3c');
   $('#pAgora').querySelectorAll('.tile').forEach(b => b.onclick = () => abrirFiltrado(b.dataset.f));
   const kpi = (num, t, f) => `<div class="kpi clic" data-f="${f}"><b>${num}</b><span>${t}</span></div>`;
-  $('#pKpis').innerHTML = kpi(k.primeiros, 'ofertas enviadas' + (k.lembretes ? `<br>(+${k.lembretes} lembretes)` : ''), 'ofertados') + kpi(k.respostas, `responderam<br>(${k.taxaResp}%)`, 'responderam') + kpi(k.fechados, 'fecharam', 'fechou') + kpi(k.recusas, 'recusaram', 'recusou');
+  $('#pKpis').innerHTML = kpi(k.primeiros, 'ofertas enviadas', 'ofertados') + kpi(k.respostas, `responderam<br>(${k.taxaResp}%)`, 'responderam') + kpi(k.fechados, 'fecharam', 'fechou') + kpi(k.recusas, 'recusaram', 'recusou');
   $('#pKpis').querySelectorAll('[data-f]').forEach(el => el.onclick = () => abrirFiltrado(el.dataset.f, '', periodoPainel));
   const mx = Math.max(1, k.primeiros, k.respostas, k.fechados);
   const fb = (t, v, cor, f) => `<div class="fbar clic" data-f="${f}"><span class="t">${t}</span><div class="f" style="background:${cor};width:${Math.max(4, Math.round(170 * v / mx))}px"></div><b>${v}</b></div>`;
@@ -1734,15 +1772,15 @@ $('#btnGrafico').onclick = () => { verGrafico = !verGrafico; renderPainel(); };
 function textoResumo(){
   const d = dadosPainel(), k = d.k, per = d.per ? `últimos ${d.per} dias` : 'desde o início';
   let t = `Resumo de contatos (${per}) – ${new Date().toLocaleDateString('pt-BR')}\n`;
-  t += `Mensagens enviadas: ${k.envios} (${k.primeiros} 1º contato, ${k.lembretes} lembretes)\nResponderam: ${k.respostas} (${k.taxaResp}% dos 1º contatos)\nNegócios fechados: ${k.fechados}\nRecusas: ${k.recusas}\n`;
-  t += `Agora: ${d.agora.retornar} para retornar, ${d.agora.pendente} pendentes, ${d.agora.aguardando} aguardando resposta, ${d.agora.negociando} em negociação\n`;
+  t += `Ofertas enviadas: ${k.primeiros}\nResponderam: ${k.respostas} (${k.taxaResp}%)\nNegócios fechados: ${k.fechados}\nRecusas: ${k.recusas}\n`;
+  t += `Agora: ${d.agora.pendente} pendentes, ${d.agora.aguardando} aguardando resposta\n`;
   d.prods.forEach(p => t += `• ${p.g}: ${p.of} ofertas, ${p.f} fechados, ${p.r} recusas${p.neg ? `, ${p.neg} em negociação` : ''}${p.conv === null ? '' : `, conversão ${String(p.conv).replace('.', ',')}%`}\n`);
   const ms = Object.entries(d.mot); if(ms.length) t += 'Motivos de recusa: ' + ms.map(([m, n]) => `${m} (${n})`).join(', ') + '\n';
   return t;
 }
 $('#btnCopiarResumo').onclick = async () => { const t = textoResumo(); try { await navigator.clipboard.writeText(t); toast('Resumo copiado (só números).'); } catch(e){ prompt('Copie o resumo:', t); } };
 $('#btnCsv').onclick = () => {
-  const d = dadosPainel(), k = d.k, L = [['Indicador','Valor'], ['Período', d.per ? d.per + ' dias' : 'desde o início'], ['Mensagens enviadas', k.envios], ['1º contato', k.primeiros], ['Lembretes', k.lembretes], ['Responderam', k.respostas], ['Taxa de resposta (%)', k.taxaResp], ['Negócios fechados', k.fechados], ['Recusas', k.recusas], [], ['Produto','Ofertas','Fechados','Recusas','Conversão (%)']];
+  const d = dadosPainel(), k = d.k, L = [['Indicador','Valor'], ['Período', d.per ? d.per + ' dias' : 'desde o início'], ['Ofertas enviadas', k.primeiros], ['Responderam', k.respostas], ['Taxa de resposta (%)', k.taxaResp], ['Negócios fechados', k.fechados], ['Recusas', k.recusas], [], ['Produto','Ofertas','Fechados','Recusas','Conversão (%)']];
   d.prods.forEach(p => L.push([p.g, p.of, p.f, p.r, p.conv === null ? '' : String(p.conv).replace('.', ',')]));
   L.push([], ['Motivo de recusa','Quantidade']); Object.entries(d.mot).forEach(x => L.push(x));
   L.push([], ['Semana de','Envios','Respostas','Fechados']); d.sem.forEach(w => L.push([w.ini.toLocaleDateString('pt-BR'), w.envios, w.respostas, w.fechados]));
@@ -1751,7 +1789,7 @@ $('#btnCsv').onclick = () => {
 };
 
 /* =================== modelos =================== */
-const TOKENS = [['saudacao','Saudação'],['primeiro_nome','Nome do cliente'],['nome','Nome completo'],['funcionario','Seu nome'],['cargo','Seu cargo'],['agencia','Nº agência'],['nome_agencia','Nome da agência']];
+const TOKENS = [['saudacao','Saudação'],['primeiro_nome','Nome do cliente'],['nome','Nome completo'],['funcionario','Seu nome'],['agencia','Nº agência'],['nome_agencia','Nome da agência']];
 const paraAmigavel = t => TOKENS.reduce((a, [k, l]) => a.split('{' + k + '}').join('[' + l + ']'), t);
 const paraCodigo = t => TOKENS.reduce((a, [k, l]) => a.replace(new RegExp('\\[' + l.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\]', 'gi'), '{' + k + '}'), t);
 const EXEMPLO = {nome:'Maria Silva', nomeAgencia:'Savassi', agencia:'3368-5'};
@@ -1785,7 +1823,7 @@ function editarModelo(id){
   $('#mProd').innerHTML = prods.map(p => `<option ${p === atualP ? 'selected' : ''}>${esc(p)}</option>`).join('');
   $('#edTitulo').textContent = modeloEd ? 'Editar mensagem' : 'Nova mensagem';
   $('#mTitulo').value = modeloEd ? (modeloEd.curto || modeloEd.titulo) : ''; $('#mDesc').value = modeloEd ? (modeloEd.desc || '') : '';
-  $('#mTexto').value = paraAmigavel(modeloEd ? modeloEd.texto : '{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\n');
+  $('#mTexto').value = paraAmigavel(modeloEd ? modeloEd.texto : '{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Soluções do Banco do Brasil.\n\n');
   mostrar('#edModelo', true); $('#edModelo').scrollIntoView({behavior:'smooth'});
 }
 $('#btnNovoModelo').onclick = () => editarModelo(null);
@@ -1812,7 +1850,7 @@ function atualizarGrupos(){
   renderGruposCfg(); renderLista();
   { const c = DB.config; $('#cProdPadrao').innerHTML = '<option value="">Nenhum</option>' + c.grupos.map(g => `<option ${g === c.prodPadrao ? 'selected' : ''}>${esc(g)}</option>`).join(''); }
   chipsGrupos($('#fGrupos'), [...($('#fGrupos')._sel || [])]);
-  if(atual) chipsGrupos($('#detGrupos'), atual.grupos || [], async g => { atual.grupos = g; await salvarDB(); });
+  if(atual) chipsGrupos($('#detGrupos'), atual.grupos || [], trocarProduto);
 }
 function renderGruposCfg(){
   $('#cGrupos').innerHTML = DB.config.grupos.map((g, i) => {
@@ -1835,14 +1873,13 @@ function renderGruposCfg(){
 }
 $('#btnAddGrupo').onclick = async () => { if(await criarGrupo($('#cNovoGrupo').value)) $('#cNovoGrupo').value = ''; };
 $('#cNovoGrupo').addEventListener('keydown', e => { if(e.key === 'Enter') $('#btnAddGrupo').click(); });
-function carregarConfig(){ const c = DB.config; $('#cSop').value = c.sop || ''; $('#cDivMci').checked = c.divMci !== false; $('#cNome').value = c.funcionario; $('#cCargo').value = c.cargo; $('#cWhats').value = c.whats; $('#cEmail').value = c.emailLeva || ''; $('#cEmailProprio').value = c.emailProprio || ''; renderGruposCfg();
+function carregarConfig(){ const c = DB.config; $('#cSop').value = c.sop || ''; $('#cDivMci').checked = c.divMci !== false; $('#cNome').value = c.funcionario; $('#cWhats').value = c.whats; $('#cEmailProprio').value = c.emailProprio || ''; renderGruposCfg();
   $('#recStatus').innerHTML = meta && meta.wRec ? `🔑 Código de recuperação criado em ${new Date(meta.recEm).toLocaleDateString('pt-BR')}.` : '⚠️ Você ainda não tem código de recuperação. Sem ele, esquecer o PIN apaga os dados.';
   $('#btnNovoCodigo').textContent = meta && meta.wRec ? '🔑 Gerar novo código de recuperação' : '🔑 Gerar código de recuperação';
   $('#cProdPadrao').innerHTML = '<option value="">Nenhum</option>' + c.grupos.map(g => `<option ${g === c.prodPadrao ? 'selected' : ''}>${esc(g)}</option>`).join('');
-  $('#cRetorno').value = String(c.retornoDias); $('#cMaxEnv').value = String(c.maxEnvios); mostrar('#boxRetorno', c.maxEnvios > 1); $('#cLock').value = String(c.lockMin); }
-$('#cMaxEnv').onchange = () => mostrar('#boxRetorno', +$('#cMaxEnv').value > 1);
+  $('#cLock').value = String(c.lockMin); }
 $('#btnSalvarCfg').onclick = async () => {
-  Object.assign(DB.config, {sop:$('#cSop').value.trim(), divMci:$('#cDivMci').checked, funcionario:$('#cNome').value.trim(), cargo:$('#cCargo').value.trim(), whats:$('#cWhats').value, emailLeva:$('#cEmail').value.trim(), emailProprio:$('#cEmailProprio').value.trim(), prodPadrao:$('#cProdPadrao').value, retornoDias:+$('#cRetorno').value, maxEnvios:+$('#cMaxEnv').value, lockMin:+$('#cLock').value});
+  Object.assign(DB.config, {sop:$('#cSop').value.trim(), divMci:$('#cDivMci').checked, funcionario:$('#cNome').value.trim(), whats:$('#cWhats').value, emailProprio:$('#cEmailProprio').value.trim(), prodPadrao:$('#cProdPadrao').value, maxEnvios:1, lockMin:+$('#cLock').value});
   await salvarDB(); renderLista(); toast('Ajustes salvos.');
 };
 $('#btnVerAviso').onclick = () => { $('#chkAceite').checked = true; $('#btnAceite').disabled = false; mostrar('#ovAviso', true); };
