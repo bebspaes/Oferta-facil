@@ -466,7 +466,7 @@ const ETAPA = {aberto:'Em aberto', negociando:'Em negociação', fechado:'Fechad
 const ETAPA_CURTA = {aberto:'Aberto', negociando:'Negociando', fechado:'✅ Fechou', recusou:'✖ Recusou'};
 const MOTIVOS = ['Sem interesse','Já possui','Sem saldo/condição','Prefere outra instituição','Outro'];
 const INFO_MODELOS = {
-  m6:{prod:'Rende Fácil', curto:'Com domicílio fiscal', desc:'Para quem ainda precisa do duplo SIM do domicílio'},
+  m6:{prod:'Rende Fácil', curto:'Domicílio fiscal pendente', desc:'Para quem ainda precisa do duplo SIM do domicílio'},
   m8:{prod:'Rende Fácil', curto:'Domicílio já em dia', desc:'Só o duplo SIM do Rende Fácil'},
   m7:{prod:'Rende Fácil', curto:'Lembrete', desc:'Para quem não respondeu'},
   m10:{prod:'Previdência', curto:'1º aporte extra', desc:'Para quem ainda não faz aportes extras'},
@@ -477,7 +477,7 @@ const INFO_MODELOS = {
   m4:{prod:'Geral', curto:'Atualização cadastral', desc:''}, m5:{prod:'Geral', curto:'Alerta de segurança', desc:''}
 };
 const ORDEM_BLOCOS = ['Rende Fácil','Previdência','Ourocap','Geral'];
-function infoModelos(){ DB.modelos.forEach(m => { const i = INFO_MODELOS[m.id]; if(!m.prod) m.prod = i ? i.prod : 'Geral'; if(m.curto === undefined) m.curto = i ? i.curto : m.titulo; if(m.desc === undefined) m.desc = i ? i.desc : ''; }); }
+function infoModelos(){ DB.modelos.forEach(m => { if(m.curto === 'Com domicílio fiscal') m.curto = 'Domicílio fiscal pendente'; const i = INFO_MODELOS[m.id]; if(!m.prod) m.prod = i ? i.prod : 'Geral'; if(m.curto === undefined) m.curto = i ? i.curto : m.titulo; if(m.desc === undefined) m.desc = i ? i.desc : ''; }); }
 const CONFIG_PADRAO = {funcionario:'', cargo:'', whats:'business', emailLeva:'bernardocpa@bb.com.br', retencao:30, lockMin:5, prodPadrao:'Rende Fácil', retornoDias:3, maxEnvios:1, grupos:GRUPOS_PADRAO};
 function dbVazio(){ return {clientes:[], eventos:[], modelos:JSON.parse(JSON.stringify(MODELOS_PADRAO)).map(m => ({...m, ...(INFO_MODELOS[m.id] || {prod:'Geral', curto:m.titulo, desc:''})})), config:{...CONFIG_PADRAO, ordemModelosV2:true, v17:true, evSeed:true, m6Topo:true, modelosVistos:MODELOS_PADRAO.map(m => m.id)}}; }
 async function salvarDB(){ if(!KEY) return; if(!ls.set(K_DATA, await cifrar(KEY, DB))) toast('Não foi possível salvar neste navegador.'); }
