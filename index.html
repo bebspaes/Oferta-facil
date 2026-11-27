@@ -1156,11 +1156,12 @@ function renderLeva(){
 async function respostaRapida(c, q){
   const nome = tituloCase(c.nome.split(' ')[0]);
   const abertos = (c.grupos || []).filter(g => ['aberto','negociando'].includes(etapa(c, g)));
-  if(abertos.length !== 1){ abrirDet(c.id); toast(abertos.length ? 'Marque em qual produto.' : 'Marque o produto ofertado.'); return; }
-  const g = abertos[0], e = q === 'fechou' ? 'fechado' : 'recusou';
-  c.prod[g] = {e, em:hoje(), motivo:''}; evento(e, {p:g}); marcarRespondeu(c); toque(c); await salvarDB();
-  if(e === 'fechado'){ renderLista(); toast(`🎉 ${nome}: ${g} fechado!`); }
-  else { abrirDet(c.id); toast('Informe o motivo da recusa.'); }
+  if(!abertos.length){ abrirDet(c.id); toast('Marque o produto ofertado.'); return; }
+  if(q === 'fechou' && abertos.length > 1){ abrirDet(c.id); toast('Marque qual produto foi fechado.'); return; }
+  const e = q === 'fechou' ? 'fechado' : 'recusou', alvo = e === 'fechado' ? abertos.slice(0, 1) : abertos; // recusa vale para todos os produtos em aberto
+  c.prod = c.prod || {}; alvo.forEach(g => { c.prod[g] = {e, em:hoje(), motivo:''}; evento(e, {p:g}); });
+  marcarRespondeu(c); toque(c); await salvarDB(); renderLista();
+  toast(e === 'fechado' ? `🎉 ${nome}: ${alvo[0]} fechado!` : `${nome}: recusa registrada.`);
 }
 let rodada = false, aguardaProximo = null;
 function novaLeva(){ DB.levas = DB.levas || []; const l = {id:novoId(), inicio:hoje(), fim:null, itens:[]}; DB.levas.push(l); if(DB.levas.length > 10) DB.levas.shift(); return l; }
@@ -1385,7 +1386,7 @@ const rich = t => esc(t).replace(/\*([^*\n]+)\*/g, '<b>$1</b>');
 let modeloEd = null; const blocosAbertos = new Set(['Rende Fácil']);
 function blocos(){ const ps = [...new Set([...ORDEM_BLOCOS, ...DB.modelos.map(m => m.prod || 'Geral')])]; return ps.map(p => [p, DB.modelos.filter(m => (m.prod || 'Geral') === p)]).filter(x => x[1].length); }
 function renderModelos(){
-  const ic = {'Rende Fácil':'🪙', 'Previdência':'🐷', 'Ourocap':'🎟️', 'Geral':'💬'};
+  const ic = {'Rende Fácil':'🪙', 'Previdência':'💰', 'Ourocap':'🎟️', 'Geral':'💬'};
   $('#listaModelos').innerHTML = blocos().map(([p, ms]) => `<div class="blk ${blocosAbertos.has(p) ? 'open' : ''}" data-p="${esc(p)}">
     <button class="blkh"><span>${ic[p] || '📌'} ${esc(p)}</span><span class="cnt">${ms.length}</span></button>
     <div class="blkb">${ms.map(m => `<div class="msg" data-id="${esc(m.id)}"><div style="display:flex;justify-content:space-between;gap:8px"><b style="font-size:14.5px">${esc(m.curto || m.titulo)}</b>${m.id === 'm6' ? '<span class="note" style="color:#1d6b3f;font-weight:700">padrão</span>' : ''}</div>
@@ -1477,7 +1478,9 @@ const ajustarTopo = () => document.documentElement.style.setProperty('--navTop',
 ajustarTopo(); addEventListener('resize', ajustarTopo);
 /* =================== PWA: funciona offline e pode ser instalado =================== */
 if('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')){
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  const tinhaVersao = !!navigator.serviceWorker.controller; let recarregou = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if(tinhaVersao && !recarregou){ recarregou = true; location.reload(); } });
+  navigator.serviceWorker.register('sw.js', {updateViaCache:'none'}).then(r => r.update()).catch(() => {});
 }
 try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch(e){}
 let pedidoInstalar = null;
