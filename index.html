@@ -54,7 +54,8 @@ textarea{min-height:110px;resize:vertical}
 .pin{letter-spacing:8px;text-align:center;font-size:22px}
 .fileHid{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
 label.btn{position:relative;cursor:pointer}
-#cv{width:100%;display:block;touch-action:none;border-radius:8px;border:1px solid var(--line);background:#222}
+#cv{display:block;max-width:100%;max-height:58vh;width:auto;height:auto;margin:0 auto;touch-action:none;border-radius:8px;border:1px solid var(--line);background:#222}
+#cropBox{scroll-margin-top:150px}
 img.prev{max-width:100%;border-radius:8px;border:1px solid var(--line);margin-top:8px}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#14212b;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;z-index:30;max-width:92vw;box-shadow:0 4px 18px #0004}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.chips button{border:1px solid var(--line);background:#fff;border-radius:16px;padding:4px 10px;font-size:12.5px}
@@ -75,6 +76,27 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
 .pinHid{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
 .dots{display:flex;justify-content:center;gap:16px;margin:12px 0 16px;min-height:20px}.dots i{width:18px;height:18px;border-radius:50%;border:2px solid var(--pri);display:block}.dots i.f{background:var(--pri)}
 .teclado{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:290px;margin:0 auto}.teclado button{height:64px;border-radius:50%;border:0;background:#e3eaf7;color:var(--pri);font-size:26px;font-weight:600;-webkit-tap-highlight-color:transparent}.teclado button:active{background:var(--acc)}.teclado button[data-d=x]{background:none;font-size:24px}
+.lrow{background:#fff;border-bottom:1px solid var(--line);padding:12px 4px;cursor:pointer}.lrow:last-child{border-bottom:0}
+.lhead{display:flex;align-items:center;gap:8px}.lnome{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;font-size:14.5px}
+.lprod{font-size:12.5px;color:var(--mut);white-space:nowrap;max-width:40%;overflow:hidden;text-overflow:ellipsis}.lst{width:46px;display:flex;justify-content:flex-end;flex-shrink:0}
+.ic{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center}.ic.ok{background:#e7f5ee}.ic.no{background:#fbe9e7}
+.ldata{font-size:12.5px;font-weight:700;color:#1d4f8c}.lpend{width:10px;height:10px;border-radius:50%;background:#e9a94f}.lret{font-size:11px;font-weight:700;background:var(--acc);color:var(--pri);border-radius:8px;padding:2px 6px}
+.ldet{display:none;padding-top:8px;font-size:13px;color:#4a5670;line-height:1.6}.lrow.open .ldet{display:block}
+.legenda{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font-size:11.5px;color:var(--mut);padding:10px 0 2px}
+.btnIcon{width:44px;flex-shrink:0;border:1px solid var(--line);background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.tile{border:0;border-radius:12px;padding:12px;text-align:left;cursor:pointer}.tile b{display:block;font-size:24px}.tile span{font-size:12.5px}
+.segp{display:flex;gap:4px;background:#e3eaf7;border-radius:10px;padding:3px;margin-top:8px}.segp button{flex:1;border:0;background:none;border-radius:8px;padding:7px 2px;font-size:13px;color:var(--pri)}.segp button.on{background:#fff;font-weight:700}
+.fbar{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:13px}.fbar .t{width:92px;flex-shrink:0}.fbar .f{height:18px;border-radius:5px}
+.semanas{display:flex;align-items:flex-end;gap:14px;height:90px;padding:0 6px;border-bottom:1px solid var(--line)}.semanas div{flex:1;background:#2fb36a;border-radius:5px 5px 0 0}
+.prodl{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}.prodl:last-child{border-bottom:0}
+.blk{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;background:#fff}
+.blkh{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;cursor:pointer;font-weight:700;font-size:15px;width:100%;border:0;background:#fff;color:var(--ink);text-align:left}
+.cnt{font-size:12px;background:#e3eaf7;color:var(--pri);border-radius:10px;padding:2px 9px;font-weight:700}
+.blkb{display:none;border-top:1px solid var(--line)}.blk.open .blkb{display:block}
+.msg{padding:11px 14px;border-bottom:1px solid #eef2f8;cursor:pointer}.msg:last-child{border-bottom:0}
+.bolha{display:none;margin-top:8px;background:#d9fdd3;color:#1b2a1b;border-radius:14px 14px 4px 14px;padding:10px 12px;font-size:13.5px;line-height:1.5;white-space:pre-line}
+.macts{display:none;gap:6px;margin-top:8px}.msg.open .bolha{display:block}.msg.open .macts{display:flex}
+.macts button{flex:1;border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 2px;font-size:13px;font-weight:600;color:var(--pri)}
 .btn.yel{background:var(--acc);color:var(--pri)}
 .gtag{display:inline-block;font-size:11px;background:#eef1f4;color:var(--pri);border-radius:6px;padding:1px 6px;margin:3px 3px 0 0}
 .filtros{display:flex;gap:6px;margin-top:8px}.filtros select{padding:8px;font-size:13.5px}
@@ -144,9 +166,9 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
 </div>
 
 <nav id="nav" class="hidden">
-  <button data-t="novo" class="on"><i>➕</i>Novo</button>
+  <button data-t="novo" class="on"><i>👤</i>Cadastrar</button>
   <button data-t="clientes"><i>👥</i>Clientes</button>
-  <button data-t="painel"><i>📊</i>Painel</button>
+  <button data-t="painel"><i>📊</i>Dados</button>
   <button data-t="modelos"><i>💬</i>Mensagens</button>
   <button data-t="config"><i>⚙️</i>Ajustes</button>
 </nav>
@@ -166,12 +188,12 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <label class="btn yel" style="margin:8px 0 0;font-size:15px">📚 Várias fotos ou arquivo ZIP (lote)
       <input type="file" id="arqLote" accept="image/*,.zip,application/zip,application/x-zip-compressed" multiple class="fileHid"></label>
     <div id="cropBox" class="hidden">
-      <p class="note" style="margin:10px 0 6px">Arraste o dedo sobre o painel do cliente para cortar.</p>
+      <p class="note" style="margin:10px 0 6px">Arraste as <b>bordas amarelas</b> para deixar só o painel do cliente.</p>
       <canvas id="cv"></canvas>
       <div class="mini">
-        <button id="btnCortar" disabled>✂️ Cortar</button>
-        <button id="btnOriginal">↺ Desfazer</button>
         <button id="btnDescartar" class="del">🗑️ Descartar</button>
+        <button id="btnOriginal">↺ Desfazer</button>
+        <button id="btnCortar" disabled>✂️ Cortar</button>
       </div>
     </div>
     <button class="btn" id="btnOcr" disabled>🔍 Ler dados da imagem</button>
@@ -188,11 +210,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <div id="loteRev"></div>
   </div>
 
-  <details class="card" style="padding:10px 14px">
-    <summary style="font-size:13.5px">Alternativa: colar o texto da tela</summary>
-    <textarea id="txtOcr" placeholder="Cole aqui o texto da tela 'Consulta cliente'…" style="margin-top:8px"></textarea>
-    <button class="btn sec" id="btnParse">Extrair campos do texto</button>
-  </details>
+  <div class="hidden"><textarea id="txtOcr"></textarea><button id="btnParse"></button></div>
 
   <div class="card">
     <h2>2. Confira os dados</h2>
@@ -222,27 +240,22 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
       <p class="note" id="levaInfo" style="margin:0"></p>
       <button class="btn yel" id="btnEmailLeva">📧 Enviar lista por e-mail</button>
     </div>
-    <div class="card aguard hidden" id="cardAguard">
-      <h2>✍️ Registrar resposta <span id="nAguard"></span></h2>
-      <p class="note" style="margin:0 0 6px">Algum cliente respondeu no WhatsApp? Digite o <b>final do celular</b> que aparece na conversa e marque com um toque. Quem não responder não precisa de nada.</p>
-      <input id="buscaResp" inputmode="numeric" placeholder="📱 Final do celular (ex.: 5432)" autocomplete="off">
-      <div id="listaAguard"></div>
-    </div>
     <div class="card">
       <button class="btn yel" id="btnRodada" style="margin:0 0 10px">▶️ Iniciar rodada de envios</button>
-      <input id="busca" placeholder="🔎 Buscar por nome, celular, MCI ou conta" autocomplete="off">
-      <div class="filtros">
-        <select id="fltStatus"><option value="">Todas as situações</option>
-          <optgroup label="Contato"><option value="pendente">Pendente de envio</option><option value="retornar">🔁 Retornar</option><option value="contatado">Contatado (aguardando)</option><option value="respondeu">Respondeu</option><option value="sem_resposta">Sem resposta</option></optgroup>
-          <optgroup label="Produto"><option value="p:aberto">Em aberto</option><option value="p:negociando">Em negociação</option><option value="p:fechado">Fechado</option><option value="p:recusou">Recusou</option></optgroup></select>
-        <select id="fltGrupo"><option value="">Todos os produtos</option></select>
+      <div style="display:flex;gap:6px">
+        <input id="busca" placeholder="🔎 Nome ou final do celular" autocomplete="off" style="flex:1;min-width:0">
+        <button class="btnIcon" id="btnFiltro" aria-label="Filtrar e ordenar">⚙️</button>
       </div>
-      <div class="filtros">
-        <select id="optVer"><option value="detalhada">👁️ Detalhada</option><option value="compacta">☰ Compacta</option><option value="situacao">Separar por situação</option><option value="grupo">Separar por produto</option></select>
-        <select id="optOrdem"><option value="recentes">Mais recentes</option><option value="nome">Nome (A–Z)</option><option value="antigos">Sem contato há mais tempo</option></select>
+      <div id="filtroBox" class="hidden">
+        <div class="filtros">
+          <select id="fltStatus"><option value="">Todas as situações</option><option value="pendente">Pendentes</option><option value="enviado">Enviados</option><option value="retornar">Para retornar</option><option value="fechou">Fecharam</option><option value="recusou">Recusaram</option></select>
+          <select id="fltGrupo"><option value="">Todos os produtos</option></select>
+        </div>
+        <div class="filtros"><select id="optOrdem"><option value="recentes">Mais recentes</option><option value="nome">Nome (A–Z)</option><option value="antigos">Sem contato há mais tempo</option></select></div>
       </div>
-      <p class="note" id="contagem" style="margin:8px 0 0"></p>
+      <p class="note hidden" id="filtroAtivo" style="margin:8px 0 0"></p>
       <div id="lista" style="margin-top:6px"></div>
+      <div class="legenda"><span><span class="ic ok" style="display:inline-flex;width:16px;height:16px;vertical-align:-3px">✓</span> Fechou</span><span><span class="ic no" style="display:inline-flex;width:16px;height:16px;vertical-align:-3px;color:#8c2a17">✕</span> Recusou</span><span><b style="color:#1d4f8c">22/11</b> Enviado</span><span><span class="lpend" style="display:inline-block;width:8px;height:8px"></span> Pendente</span></div>
     </div>
   </div>
   <div id="detView" class="hidden">
@@ -296,39 +309,50 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
 <!-- ============ PAINEL ============ -->
 <section id="t-painel" class="hidden">
   <div class="card">
-    <div class="row" style="align-items:center"><h2 style="margin:0">📊 Resultados</h2>
-      <select id="pPeriodo" style="flex:0 0 46%"><option value="7">Últimos 7 dias</option><option value="30">Últimos 30 dias</option><option value="90">Últimos 90 dias</option><option value="0">Desde o início</option></select></div>
+    <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Resultados</h2>
+      <button id="btnGrafico" style="border:1px solid var(--pri);background:#fff;color:var(--pri);border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600">📊 Ver gráfico</button></div>
+    <div class="segp" id="pSeg"><button data-p="7">7 dias</button><button data-p="30" class="on">30 dias</button><button data-p="0">Tudo</button></div>
     <div class="kpis" id="pKpis" style="margin-top:10px"></div>
+    <div id="pChart" class="hidden" style="margin-top:10px">
+      <p class="note" style="margin:0 0 2px">Funil do período</p>
+      <div id="pFunil"></div>
+      <p class="note" style="margin:14px 0 4px">Fechados por semana</p>
+      <div class="semanas" id="pSemBar"></div>
+      <div style="display:flex;gap:14px;padding:4px 6px 0;font-size:11.5px;color:var(--mut)" id="pSemLbl"></div>
+    </div>
   </div>
-  <div class="card"><h2>Agora</h2><div class="kpis" id="pAgora"></div></div>
-  <div class="card"><h2>Por produto</h2><div id="pProd"></div><p class="note">Ofertas = mensagens de 1º contato com o produto. Conversão = fechados ÷ ofertas. Quem não respondeu conta só como oferta.</p></div>
-  <div class="card"><h2>Motivos de recusa</h2><div id="pMotivos"></div></div>
-  <div class="card"><h2>Últimas 4 semanas</h2><div id="pSemanas"></div></div>
   <div class="card">
-    <h2>Compartilhar com o gestor</h2>
+    <h2>Seus clientes agora</h2>
+    <div class="kpis" id="pAgora"></div>
+    <p class="note" style="margin:8px 0 0">Toque num número para ver a lista desses clientes.</p>
+  </div>
+  <div class="card"><h2>Por produto</h2><div id="pProd"></div><p class="note" style="margin:6px 0 0">Conversão = fechados ÷ ofertas enviadas no período.</p></div>
+  <div class="card hidden" id="cardLevaDados">
+    <h2>📧 Última leva enviada</h2>
+    <p class="note" id="levaInfoDados" style="margin:0"></p>
+    <button class="btn yel" id="btnEmailLevaDados">📧 Enviar lista por e-mail</button>
+  </div>
+  <div class="card hidden" id="cardMotivos"><h2>Motivos de recusa</h2><div id="pMotivos"></div></div>
+  <div class="card">
     <div class="ok">O resumo tem <b>só números</b>: nenhum nome, conta, MCI ou telefone de cliente.</div>
-    <button class="btn" id="btnCopiarResumo">📋 Copiar resumo</button>
-    <button class="btn sec" id="btnCsv">⬇️ Baixar planilha (CSV)</button>
+    <div class="row"><button class="btn" id="btnCopiarResumo">📋 Copiar resumo</button><button class="btn sec" id="btnCsv">⬇️ CSV</button></div>
   </div>
 </section>
 
 <!-- ============ MODELOS ============ -->
 <section id="t-modelos" class="hidden">
-  <div class="card">
-    <h2>Mensagens pré-cadastradas</h2>
-    <div id="listaModelos"></div>
-    <button class="btn" id="btnNovoModelo">➕ Nova mensagem</button>
-  </div>
-  <div class="card hidden" id="edModelo">
+  <div id="listaModelos"></div>
+  <button class="btn" id="btnNovoModelo" style="margin-top:4px">➕ Nova mensagem</button>
+  <div class="card hidden" id="edModelo" style="margin-top:12px">
     <h2 id="edTitulo">Editar mensagem</h2>
-    <label>Título</label><input id="mTitulo" maxlength="60">
-    <label>Texto</label><textarea id="mTexto" style="min-height:160px"></textarea>
-    <p class="note">Toque para inserir um campo:</p>
+    <label>Produto</label><select id="mProd"></select>
+    <label>Título</label><input id="mTitulo" maxlength="50">
+    <label>Para quem (opcional)</label><input id="mDesc" maxlength="70" placeholder="ex.: Clientes que já fazem aportes">
+    <label>Texto</label><textarea id="mTexto" style="min-height:190px"></textarea>
+    <p class="note">Toque para inserir (o app troca pelo dado do cliente na hora do envio):</p>
     <div class="chips" id="chips"></div>
-    <div class="warn" style="margin-top:10px">Por sigilo bancário, os modelos <b>não</b> aceitam conta, MCI, CPF ou valores. O app avisa se encontrar números longos no texto.</div>
-    <button class="btn" id="btnSalvarModelo">Salvar mensagem</button>
-    <button class="btn danger" id="btnExcluirModelo">Excluir</button>
-    <button class="btn sec" id="btnCancelarModelo">Cancelar</button>
+    <div class="warn" style="margin-top:10px">Por sigilo bancário, as mensagens <b>não</b> aceitam conta, MCI, CPF ou valores do cliente.</div>
+    <div class="row"><button class="btn" id="btnSalvarModelo">💾 Salvar</button><button class="btn sec" id="btnCancelarModelo">Cancelar</button></div>
   </div>
 </section>
 
@@ -348,8 +372,6 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <select id="cRetorno"><option value="1">1 dia</option><option value="2">2 dias</option><option value="3">3 dias</option><option value="5">5 dias</option><option value="7">7 dias</option></select>
     <label>Lembrete para quem não respondeu</label>
     <select id="cMaxEnv"><option value="1">Não enviar lembrete</option><option value="2">Enviar 1 lembrete</option><option value="3">Enviar até 2 lembretes</option></select>
-    <label>Apagar clientes encerrados (fechou, recusou, sem resposta ou nunca contatados) parados há mais de</label>
-    <select id="cRet"><option value="7">7 dias</option><option value="15">15 dias</option><option value="30">30 dias</option><option value="60">60 dias</option><option value="90">90 dias</option></select>
     <label>Pedir o PIN de novo após ficar sem uso por</label>
     <select id="cLock"><option value="2">2 minutos</option><option value="5">5 minutos</option><option value="10">10 minutos</option></select>
     <label>Grupos</label>
@@ -364,9 +386,9 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
       <li>Dados guardados só neste aparelho, criptografados com AES-256 (chave derivada do seu PIN).</li>
       <li>Capturas de tela não são armazenadas.</li>
       <li>Não são guardados CPF, documentos, filiação, e-mail ou nascimento.</li>
-      <li>Clientes encerrados (fechou, recusou, sem resposta ou nunca contatados) são apagados automaticamente após o prazo escolhido. Quem está em negociação é mantido. Qualquer cliente pode ser excluído a qualquer momento na ficha.</li>
-      <li>A lista de cada leva (MCI e nome) só sai do app quando você toca em “Enviar lista por e-mail”: ela abre no aplicativo de e-mail do celular e quem envia é ele. Use o e-mail corporativo. As listas antigas são apagadas junto com os clientes, no prazo escolhido.</li>
-      <li>O Painel guarda só contagens (sem nome, conta ou telefone), por isso continua mesmo depois que os clientes são apagados.</li>
+      <li>Os clientes ficam salvos para servir de base a novos negócios. Exclua quem não precisar mais na ficha do cliente (botão Excluir).</li>
+      <li>A lista de cada leva (MCI e nome) só sai do app quando você toca em “Enviar lista por e-mail”: ela abre no aplicativo de e-mail do celular e quem envia é ele. Use o e-mail corporativo. O app guarda só as 10 últimas listas.</li>
+      <li>A aba Dados guarda só contagens (sem nome, conta ou telefone).</li>
       <li>O app pede o PIN de novo após o tempo sem uso escolhido.</li>
       <li>Ao enviar, a mensagem trafega pelo WhatsApp (Meta), não por este app.</li>
     </ul>
@@ -410,6 +432,10 @@ let KEY = null, DB = null, meta = null;
 const MODELOS_PADRAO = [
   {id:'m6', titulo:'Rende Fácil + domicílio fiscal', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nPara ativar, são dois passos rápidos:\n1️⃣ Confirme o seu *domicílio fiscal* com o *duplo SIM*.\n2️⃣ Em seguida, confirme a adesão ao *Rende Fácil* com outro *duplo SIM*.\n\nTudo é feito pelo *App BB*, com mais segurança para você. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
   {id:'m8', titulo:'Rende Fácil (domicílio já em dia)', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nSeu *domicílio fiscal* já está em dia, então falta só um passo: confirmar a adesão ao *Rende Fácil* com o *duplo SIM*.\n\nTudo é feito pelo *App BB*, com mais segurança para você. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m9', titulo:'Ourocap · Renovação', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nVi que o seu *Ourocap* está chegando ao fim do prazo. Que tal *renovar* e continuar concorrendo aos *sorteios*, enquanto segue guardando dinheiro com disciplina? 🍀\n\nEu cuido da renovação para você, sem complicação. É só responder *QUERO RENOVAR* que eu te passo as opções. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m10', titulo:'Previdência · 1º aporte extra', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSabia que dá para reforçar a sua *previdência* com um *aporte extra*, mesmo de *valor baixo*, quando quiser? É um valor à parte, além das contribuições que você já faz. Pequenos aportes ao longo do tempo fazem diferença no seu futuro. 📈\n\nSe o seu plano for *PGBL* e você faz a declaração *completa* do IR, os aportes feitos até *31/12* podem ajudar a reduzir o imposto deste ano (até 12% da renda bruta tributável).\n\nPosso fazer o aporte para você agora mesmo: é só responder com o *valor* que deseja aportar. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m11', titulo:'Previdência · Fim de ano (já faz aportes)', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nVi que você já tem o bom hábito de fazer *aportes extras* na sua *previdência*. Parabéns pela disciplina! 👏\n\nO fim do ano é um ótimo momento para mais um reforço. Se o seu plano for *PGBL* e você faz a declaração *completa* do IR, os aportes até *31/12* podem ajudar a reduzir o imposto deste ano (até 12% da renda bruta tributável).\n\nQuer que eu já prepare o seu próximo aporte? É só responder com o *valor*. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
+  {id:'m12', titulo:'Previdência · Ao longo do ano (já faz aportes)', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nVi que você já tem o bom hábito de fazer *aportes extras* na sua *previdência*. Parabéns pela disciplina! 👏\n\nQue tal manter o ritmo com mais um reforço? Não precisa ser um valor alto: aportes regulares, mesmo pequenos, dão mais tempo para o seu dinheiro trabalhar a favor do seu futuro. 📈\n\nQuer que eu já prepare o seu próximo aporte? É só responder com o *valor*. Eu deixo tudo encaminhado e você só confirma pelo *App BB*, com mais segurança. 😉\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
   {id:'m7', titulo:'Lembrete Rende Fácil', texto:'{saudacao}, {primeiro_nome}! Passando para lembrar: para ativar o *BB Rende Fácil*, basta confirmar pelo *App BB* o *duplo SIM* do *domicílio fiscal* e, em seguida, o *duplo SIM* do *Rende Fácil*. ✅\n\nSe preferir não ativar agora, é só nos avisar. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
   {id:'m1', titulo:'Apresentação', texto:'{saudacao}, {primeiro_nome}! Tudo bem? Sou {funcionario}, {cargo} da sua agência do Banco do Brasil ({nome_agencia}). Estou à disposição para o que precisar.\n\nPor segurança, lembramos que o BB nunca pede senhas, códigos ou dados de cartão por mensagem.'},
   {id:'m2', titulo:'Retorno de solicitação', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da agência {agencia} – {nome_agencia} do Banco do Brasil. Estou retornando sobre a sua solicitação. Você tem um momento para conversarmos?'},
@@ -423,8 +449,21 @@ const SITUACAO = {retornar:'🔁 Retornar', pendente:'Pendente de envio', contat
 const ETAPA = {aberto:'Em aberto', negociando:'Em negociação', fechado:'Fechado', recusou:'Recusou'};
 const ETAPA_CURTA = {aberto:'Aberto', negociando:'Negociando', fechado:'✅ Fechou', recusou:'✖ Recusou'};
 const MOTIVOS = ['Sem interesse','Já possui','Sem saldo/condição','Prefere outra instituição','Outro'];
+const INFO_MODELOS = {
+  m6:{prod:'Rende Fácil', curto:'Com domicílio fiscal', desc:'Para quem ainda precisa do duplo SIM do domicílio'},
+  m8:{prod:'Rende Fácil', curto:'Domicílio já em dia', desc:'Só o duplo SIM do Rende Fácil'},
+  m7:{prod:'Rende Fácil', curto:'Lembrete', desc:'Para quem não respondeu'},
+  m10:{prod:'Previdência', curto:'1º aporte extra', desc:'Para quem ainda não faz aportes extras'},
+  m11:{prod:'Previdência', curto:'Fim de ano', desc:'Já faz aportes · IR até 31/12'},
+  m12:{prod:'Previdência', curto:'Ao longo do ano', desc:'Já faz aportes · qualquer época'},
+  m9:{prod:'Ourocap', curto:'Renovação', desc:'Perto do fim do prazo'},
+  m1:{prod:'Geral', curto:'Apresentação', desc:''}, m2:{prod:'Geral', curto:'Retorno de solicitação', desc:''}, m3:{prod:'Geral', curto:'Agendar atendimento', desc:''},
+  m4:{prod:'Geral', curto:'Atualização cadastral', desc:''}, m5:{prod:'Geral', curto:'Alerta de segurança', desc:''}
+};
+const ORDEM_BLOCOS = ['Rende Fácil','Previdência','Ourocap','Geral'];
+function infoModelos(){ DB.modelos.forEach(m => { const i = INFO_MODELOS[m.id]; if(!m.prod) m.prod = i ? i.prod : 'Geral'; if(m.curto === undefined) m.curto = i ? i.curto : m.titulo; if(m.desc === undefined) m.desc = i ? i.desc : ''; }); }
 const CONFIG_PADRAO = {funcionario:'', cargo:'', whats:'business', emailLeva:'bernardocpa@bb.com.br', retencao:30, lockMin:5, prodPadrao:'Rende Fácil', retornoDias:3, maxEnvios:1, grupos:GRUPOS_PADRAO};
-function dbVazio(){ return {clientes:[], eventos:[], modelos:JSON.parse(JSON.stringify(MODELOS_PADRAO)), config:{...CONFIG_PADRAO, v17:true, evSeed:true, m6Topo:true, modelosVistos:MODELOS_PADRAO.map(m => m.id)}}; }
+function dbVazio(){ return {clientes:[], eventos:[], modelos:JSON.parse(JSON.stringify(MODELOS_PADRAO)).map(m => ({...m, ...(INFO_MODELOS[m.id] || {prod:'Geral', curto:m.titulo, desc:''})})), config:{...CONFIG_PADRAO, ordemModelosV2:true, v17:true, evSeed:true, m6Topo:true, modelosVistos:MODELOS_PADRAO.map(m => m.id)}}; }
 async function salvarDB(){ if(!KEY) return; if(!ls.set(K_DATA, await cifrar(KEY, DB))) toast('Não foi possível salvar neste navegador.'); }
 
 /* =================== fluxo de abertura =================== */
@@ -515,11 +554,14 @@ $('#btnPin').onclick = async () => {
     KEY = k; tentativas = 0; ocupado = false;
     DB.config = {...CONFIG_PADRAO, ...(DB.config || {})};
     DB.config.modelosVistos = DB.config.modelosVistos || DB.modelos.map(m => m.id);
-    { const ANTIGOS = {m6:['{saudacao}, {primeiro_nome}! Tudo bem? Aqui é {funcionario}, {cargo} do Banco do Brasil ({nome_agencia}).\n\nTenho duas facilidades rápidas para você:\n\n1️⃣ *Atualização do domicílio fiscal*: é uma confirmação cadastral simples, exigida pela regulamentação, que mantém sua conta e seus investimentos em dia.\n\n2️⃣ *BB Rende Fácil*: com o cadastro atualizado, o saldo que fica parado na conta passa a ser aplicado automaticamente e continua disponível sempre que você precisar, sem precisar fazer nada.\n\nPosso te ajudar a resolver os dois em poucos minutos. Prefere que eu explique por aqui ou numa ligação rápida?\n\nPor segurança, nunca pedimos senhas ou códigos por mensagem. 😊', '{saudacao}, {primeiro_nome}! Aqui é do Banco do Brasil, agência {nome_agencia}.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nPara seguirmos com a ativação, basta confirmar o seu *domicílio fiscal* com o *duplo SIM*. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'], m7:['{saudacao}, {primeiro_nome}! Passando para lembrar: para ativar o *BB Rende Fácil* na sua conta, basta confirmar o seu *domicílio fiscal* com o *duplo SIM*. ✅\n\nSe preferir não ativar agora, é só nos avisar. Por segurança, nunca pedimos senhas ou códigos por mensagem.']};
-      Object.entries(ANTIGOS).forEach(([id, velhos]) => { const m = DB.modelos.find(x => x.id === id), novo = MODELOS_PADRAO.find(x => x.id === id); if(m && novo && velhos.includes(m.texto)) m.texto = novo.texto; }); }
+    { const ANTIGOS = {m6:['{saudacao}, {primeiro_nome}! Tudo bem? Aqui é {funcionario}, {cargo} do Banco do Brasil ({nome_agencia}).\n\nTenho duas facilidades rápidas para você:\n\n1️⃣ *Atualização do domicílio fiscal*: é uma confirmação cadastral simples, exigida pela regulamentação, que mantém sua conta e seus investimentos em dia.\n\n2️⃣ *BB Rende Fácil*: com o cadastro atualizado, o saldo que fica parado na conta passa a ser aplicado automaticamente e continua disponível sempre que você precisar, sem precisar fazer nada.\n\nPosso te ajudar a resolver os dois em poucos minutos. Prefere que eu explique por aqui ou numa ligação rápida?\n\nPor segurança, nunca pedimos senhas ou códigos por mensagem. 😊', '{saudacao}, {primeiro_nome}! Aqui é do Banco do Brasil, agência {nome_agencia}.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nPara seguirmos com a ativação, basta confirmar o seu *domicílio fiscal* com o *duplo SIM*. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'], m7:['{saudacao}, {primeiro_nome}! Passando para lembrar: para ativar o *BB Rende Fácil* na sua conta, basta confirmar o seu *domicílio fiscal* com o *duplo SIM*. ✅\n\nSe preferir não ativar agora, é só nos avisar. Por segurança, nunca pedimos senhas ou códigos por mensagem.'], m9:['{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nVi que o seu *Ourocap* está chegando ao fim do prazo. Que tal *renovar* e continuar concorrendo aos *sorteios*, enquanto segue guardando dinheiro com disciplina? 🍀\n\nA renovação é rápida e pode ser feita pelo *App BB*, com toda a segurança. Se preferir, te explico as opções por aqui.\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'], m10:['{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSabia que dá para reforçar a sua *previdência* com um *aporte extra*, mesmo de *valor baixo*, quando quiser? É um valor à parte, além das contribuições que você já faz. Pequenos aportes ao longo do tempo fazem diferença no seu futuro. 📈\n\nSe o seu plano for *PGBL* e você faz a declaração *completa* do IR, os aportes feitos até *31/12* podem ajudar a reduzir o imposto deste ano (até 12% da renda bruta tributável).\n\nO aporte pode ser feito pelo *App BB*, com toda a segurança, ou posso te ajudar por aqui.\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.']};
+      Object.entries(ANTIGOS).forEach(([id, velhos]) => { const m = DB.modelos.find(x => x.id === id), novo = MODELOS_PADRAO.find(x => x.id === id); if(m && novo && velhos.includes(m.texto)){ m.texto = novo.texto; m.titulo = novo.titulo; } }); }
     MODELOS_PADRAO.forEach(m => { if(!DB.config.modelosVistos.includes(m.id)){ if(m.id === 'm6') DB.modelos.unshift({...m}); else DB.modelos.splice(Math.min(1, DB.modelos.length), 0, {...m}); DB.config.modelosVistos.push(m.id); } });
     if(!DB.config.m6Topo){ const i6 = DB.modelos.findIndex(m => m.id === 'm6'); if(i6 > 0) DB.modelos.unshift(DB.modelos.splice(i6, 1)[0]); DB.config.m6Topo = true; }
     if(!DB.config.v17){ DB.config.maxEnvios = 1; DB.config.v17 = true; }
+    if(!DB.config.ordemModelosV2){ const pos = id => { const k = MODELOS_PADRAO.findIndex(m => m.id === id); return k < 0 ? 999 : k; };
+      DB.modelos = DB.modelos.map((m, i) => [m, i]).sort((x, y) => (pos(x[0].id) - pos(y[0].id)) || (x[1] - y[1])).map(x => x[0]); DB.config.ordemModelosV2 = true; }
+    infoModelos();
     migrarClientes();
     aplicarRegras();
     const n = aplicarRetencao(); if(n) await salvarDB();
@@ -540,12 +582,8 @@ function emAndamento(c){
   if(c.status === 'respondeu') return (c.grupos || []).some(g => ['aberto','negociando'].includes(etapa(c, g)));
   return false;
 }
-function aplicarRetencao(){
-  const lim = Date.now() - DB.config.retencao * 864e5, antes = DB.clientes.length;
-  DB.clientes = DB.clientes.filter(c => emAndamento(c) || new Date(c.atualizadoEm || c.ultimoContato || c.criadoEm).getTime() >= lim);
-  DB.levas = (DB.levas || []).filter(l => new Date(l.fim || l.inicio).getTime() >= lim).slice(-10);
-  return antes - DB.clientes.length;
-}
+/* os clientes ficam salvos (base para novos negócios); só as listas de leva antigas são descartadas (ficam as 10 últimas) */
+function aplicarRetencao(){ DB.levas = (DB.levas || []).slice(-10); return 0; }
 function migrarClientes(){
   DB.clientes.forEach(c => { if(c.nome) c.nome = limparIniciais(c.nome); });
   DB.eventos = DB.eventos || [];
@@ -611,6 +649,8 @@ function aba(t){
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.t === t));
   ['novo','clientes','painel','modelos','config'].forEach(x => mostrar('#t-' + x, x === t));
   if(t === 'painel') renderPainel();
+  if(t === 'modelos'){ mostrar('#edModelo', false); renderModelos(); }
+  if(t === 'clientes') renderLista();
   scrollTo(0, 0);
 }
 document.querySelectorAll('nav button').forEach(b => b.onclick = () => { aba(b.dataset.t); if(b.dataset.t === 'clientes') fecharDet(); });
@@ -637,24 +677,55 @@ function carregarArquivo(f){
 }
 ['#arqCam','#arqGal'].forEach(s => $(s).onchange = e => { carregarArquivo(e.target.files[0]); e.target.value = ''; });
 
+/* moldura de corte: arraste as bordas ou os cantos; arraste o meio para mover */
+const cheia = () => ({x:0, y:0, w:src.width, h:src.height});
+const cortada = () => sel && (sel.x > 2 || sel.y > 2 || sel.w < src.width - 4 || sel.h < src.height - 4);
 function desenhar(){
   const cv = $('#cv'); if(!src) return;
+  if(!sel) sel = cheia();
   cv.width = src.width; cv.height = src.height;
   const g = cv.getContext('2d'); g.drawImage(src, 0, 0);
-  if(sel && sel.w > 4 && sel.h > 4){
-    g.fillStyle = 'rgba(0,0,0,.55)';
-    g.fillRect(0, 0, cv.width, sel.y); g.fillRect(0, sel.y + sel.h, cv.width, cv.height - sel.y - sel.h);
-    g.fillRect(0, sel.y, sel.x, sel.h); g.fillRect(sel.x + sel.w, sel.y, cv.width - sel.x - sel.w, sel.h);
-    const lw = Math.max(3, cv.width / 200); g.lineWidth = lw; g.strokeStyle = '#f2c94c'; g.strokeRect(sel.x, sel.y, sel.w, sel.h);
-  }
-  $('#btnCortar').disabled = !(sel && sel.w > 20 && sel.h > 20);
+  g.fillStyle = 'rgba(0,0,0,.55)';
+  g.fillRect(0, 0, cv.width, sel.y); g.fillRect(0, sel.y + sel.h, cv.width, cv.height - sel.y - sel.h);
+  g.fillRect(0, sel.y, sel.x, sel.h); g.fillRect(sel.x + sel.w, sel.y, cv.width - sel.x - sel.w, sel.h);
+  const u = cv.width / Math.max(1, cv.getBoundingClientRect().width || 340), lw = 2.5 * u, hw = 6 * u, L = Math.min(34 * u, sel.w / 3, sel.h / 3);
+  g.strokeStyle = '#f5c400'; g.lineWidth = lw; g.strokeRect(sel.x + lw / 2, sel.y + lw / 2, sel.w - lw, sel.h - lw);
+  g.lineWidth = hw; g.lineCap = 'round';
+  const x1 = sel.x + hw / 2, y1 = sel.y + hw / 2, x2 = sel.x + sel.w - hw / 2, y2 = sel.y + sel.h - hw / 2, mx = sel.x + sel.w / 2, my = sel.y + sel.h / 2;
+  g.beginPath();
+  [[x1, y1, 1, 1], [x2, y1, -1, 1], [x1, y2, 1, -1], [x2, y2, -1, -1]].forEach(([x, y, a, b]) => { g.moveTo(x + a * L, y); g.lineTo(x, y); g.lineTo(x, y + b * L); });
+  g.moveTo(mx - L / 2, y1); g.lineTo(mx + L / 2, y1); g.moveTo(mx - L / 2, y2); g.lineTo(mx + L / 2, y2);
+  g.moveTo(x1, my - L / 2); g.lineTo(x1, my + L / 2); g.moveTo(x2, my - L / 2); g.lineTo(x2, my + L / 2);
+  g.stroke();
+  $('#btnCortar').disabled = !cortada();
 }
 function ponto(e){ const r = $('#cv').getBoundingClientRect(); return {x:Math.max(0, Math.min(src.width, (e.clientX - r.left) * src.width / r.width)), y:Math.max(0, Math.min(src.height, (e.clientY - r.top) * src.height / r.height))}; }
-$('#cv').addEventListener('pointerdown', e => { if(!src) return; e.preventDefault(); $('#cv').setPointerCapture(e.pointerId); arrastando = ponto(e); sel = {x:arrastando.x, y:arrastando.y, w:0, h:0}; desenhar(); });
-$('#cv').addEventListener('pointermove', e => { if(!arrastando) return; e.preventDefault(); const p = ponto(e); sel = {x:Math.min(p.x, arrastando.x), y:Math.min(p.y, arrastando.y), w:Math.abs(p.x - arrastando.x), h:Math.abs(p.y - arrastando.y)}; desenhar(); });
+$('#cv').addEventListener('pointerdown', e => {
+  if(!src) return; e.preventDefault(); $('#cv').setPointerCapture(e.pointerId);
+  const p = ponto(e), r = $('#cv').getBoundingClientRect(), tol = 30 * src.width / r.width;
+  const dentroY = p.y > sel.y - tol && p.y < sel.y + sel.h + tol, dentroX = p.x > sel.x - tol && p.x < sel.x + sel.w + tol;
+  let m = '';
+  if(dentroY && Math.abs(p.x - sel.x) < tol) m += 'l'; else if(dentroY && Math.abs(p.x - (sel.x + sel.w)) < tol) m += 'r';
+  if(dentroX && Math.abs(p.y - sel.y) < tol) m += 't'; else if(dentroX && Math.abs(p.y - (sel.y + sel.h)) < tol) m += 'b';
+  if(!m && p.x > sel.x && p.x < sel.x + sel.w && p.y > sel.y && p.y < sel.y + sel.h) m = 'mover';
+  arrastando = m ? {m, p, s:{...sel}, min:60 * src.width / r.width} : null;
+});
+$('#cv').addEventListener('pointermove', e => {
+  if(!arrastando) return; e.preventDefault();
+  const {m, p, s, min} = arrastando, q = ponto(e), dx = q.x - p.x, dy = q.y - p.y, W = src.width, H = src.height, lim = (v, a, b) => Math.max(a, Math.min(b, v));
+  const n = {...s};
+  if(m === 'mover'){ n.x = lim(s.x + dx, 0, W - s.w); n.y = lim(s.y + dy, 0, H - s.h); }
+  else {
+    if(m.includes('l')){ n.x = lim(s.x + dx, 0, s.x + s.w - min); n.w = s.x + s.w - n.x; }
+    if(m.includes('r')){ n.w = lim(s.w + dx, min, W - s.x); }
+    if(m.includes('t')){ n.y = lim(s.y + dy, 0, s.y + s.h - min); n.h = s.y + s.h - n.y; }
+    if(m.includes('b')){ n.h = lim(s.h + dy, min, H - s.y); }
+  }
+  sel = n; desenhar();
+});
 ['pointerup','pointercancel'].forEach(ev => $('#cv').addEventListener(ev, () => { arrastando = null; }));
 $('#btnCortar').onclick = () => {
-  if(!sel) return;
+  if(!cortada()) return;
   const c = document.createElement('canvas'); c.width = Math.round(sel.w); c.height = Math.round(sel.h);
   c.getContext('2d').drawImage(src, sel.x, sel.y, sel.w, sel.h, 0, 0, c.width, c.height);
   src = c; sel = null; desenhar(); toast('Imagem cortada.');
@@ -664,7 +735,7 @@ $('#btnDescartar').onclick = () => { descartarImagem(); toast('Imagem descartada
 
 $('#btnOcr').onclick = async () => {
   if(!src) return;
-  if(sel && sel.w > 20 && sel.h > 20) $('#btnCortar').click(); // aplica corte marcado e não confirmado
+  if(cortada()) $('#btnCortar').click(); // aplica o corte ajustado e não confirmado
   const st = $('#ocrStatus'), bt = $('#btnOcr');
   bt.disabled = true;
   try {
@@ -1012,52 +1083,61 @@ function renderRevisar(){
     };
   });
 }
+function marca(c){
+  const gs = c.grupos || [];
+  if(gs.some(g => etapa(c, g) === 'fechado')) return 'fechou';
+  if(gs.length && gs.every(g => etapa(c, g) === 'recusou')) return 'recusou';
+  if(situacao(c) === 'retornar') return 'retornar';
+  return c.ultimoContato ? 'enviado' : 'pendente';
+}
+const NOME_FILTRO = {pendente:'Pendentes', enviado:'Enviados', retornar:'Para retornar', fechou:'Fecharam', recusou:'Recusaram'};
 function renderLista(){
   if(!DB) return;
   if(aplicarRegras()) salvarDB();
-  renderAguardando();
+  renderLeva();
   const q = $('#busca').value.trim().toLowerCase(), qd = q.replace(/\D/g, '');
   const fs = $('#fltStatus').value, gsel = $('#fltGrupo'), fg = gsel.value;
   gsel.innerHTML = '<option value="">Todos os produtos</option>' + DB.config.grupos.map(g => `<option ${g === fg ? 'selected' : ''}>${esc(g)}</option>`).join('');
-  const passaSit = c => {
-    if(!fs) return true;
-    if(fs.startsWith('p:')){ const e = fs.slice(2); return fg ? (c.grupos || []).includes(fg) && etapa(c, fg) === e : (c.grupos || []).some(g => etapa(c, g) === e); }
-    return situacao(c) === fs;
-  };
-  const arr = DB.clientes.filter(c => (!q || c.nome.toLowerCase().includes(q) || (qd && ((c.mci || '').includes(qd) || (c.conta || '').replace(/\D/g, '').includes(qd) || (c.telefone || '').replace(/\D/g, '').includes(qd))))
-    && passaSit(c) && (!fg || (c.grupos || []).includes(fg)));
-  const n = k => DB.clientes.filter(c => situacao(c) === k).length;
-  $('#contagem').textContent = `${n('retornar')} retornar · ${n('pendente')} pendente(s) · ${n('contatado')} aguardando · ${n('respondeu')} respondeu · ${n('sem_resposta')} sem resposta`;
+  const arr = DB.clientes.filter(c => (!q || c.nome.toLowerCase().includes(q) || (qd && ((c.telefone || '').replace(/\D/g, '').endsWith(qd) || (c.telefone || '').replace(/\D/g, '').includes(qd) || (c.mci || '').includes(qd))))
+    && (!fs || marca(c) === fs) && (!fg || (c.grupos || []).includes(fg)));
+  const ativos = [fs && NOME_FILTRO[fs], fg].filter(Boolean);
+  $('#filtroAtivo').innerHTML = ativos.length ? `Filtro: <b>${esc(ativos.join(' · '))}</b> · <a href="#" id="limparFiltro">limpar</a>` : '';
+  mostrar('#filtroAtivo', ativos.length > 0);
+  if(ativos.length) $('#limparFiltro').onclick = e => { e.preventDefault(); $('#fltStatus').value = ''; $('#fltGrupo').value = ''; renderLista(); };
   const nf = fila().length;
   $('#btnRodada').textContent = nf ? `▶️ Iniciar rodada de envios (${nf} na fila)` : '✅ Nenhum cliente na fila de envio';
   $('#btnRodada').disabled = !nf;
-  const ver = DB.config.ver === 'status' ? 'situacao' : (DB.config.ver || 'detalhada'), ordem = DB.config.ordem || 'recentes';
-  $('#optVer').value = ver; $('#optOrdem').value = ordem;
+  const ordem = DB.config.ordem || 'recentes'; $('#optOrdem').value = ordem;
   const t = c => new Date(c.ultimoContato || c.criadoEm).getTime();
   arr.sort(ordem === 'nome' ? (a, b) => a.nome.localeCompare(b.nome, 'pt-BR') : ordem === 'antigos' ? (a, b) => t(a) - t(b) : (a, b) => t(b) - t(a));
-  const tags = c => (c.grupos || []).map(g => { const e = etapa(c, g); return `<span class="gtag e-${e}">${esc(g)}${e === 'fechado' ? ' ✅' : e === 'negociando' ? ' ⏳' : ''}</span>`; }).join('');
-  const item = c => { const st = situacao(c); return `<div class="item" data-id="${esc(c.id)}"><div><b>${esc(tituloCase(c.nome))}</b><span class="det">Ag. ${esc(c.agencia || '-')} · Cc. ${esc(c.conta || '-')} · MCI ${esc(c.mci || '-')}${c.ultimoContato ? ' · contato ' + fmtData(c.ultimoContato) : ''}</span><div class="det">${tags(c)}</div></div><span class="pill st-${st}">${SITUACAO[st] || ''}</span></div>`; };
-  let html = '';
-  if(!arr.length) html = `<p class="note">${DB.clientes.length ? 'Nada encontrado.' : 'Nenhum cliente salvo. Use a aba “Novo”.'}</p>`;
-  else if(ver === 'situacao') html = Object.keys(SITUACAO).map(k => { const a = arr.filter(c => situacao(c) === k); return a.length ? `<div class="secao">${SITUACAO[k]} (${a.length})</div>` + a.map(item).join('') : ''; }).join('');
-  else if(ver === 'grupo'){
-    html = DB.config.grupos.map(g => { const a = arr.filter(c => (c.grupos || []).includes(g)); if(!a.length) return '';
-      const cont = Object.keys(ETAPA).map(e => [e, a.filter(c => etapa(c, g) === e).length]).filter(x => x[1]).map(x => `${x[1]} ${ETAPA[x[0]].toLowerCase()}`).join(' · ');
-      return `<div class="secao">${esc(g)} (${a.length})</div><p class="note" style="margin:2px 0">${cont}</p>` + a.map(item).join(''); }).join('');
-    const sem = arr.filter(c => !(c.grupos || []).length); if(sem.length) html += `<div class="secao">Sem produto (${sem.length})</div>` + sem.map(item).join('');
-  } else html = arr.map(item).join('');
-  $('#lista').className = ver === 'compacta' ? 'compact' : ''; $('#lista').innerHTML = html;
-  document.querySelectorAll('#lista .item').forEach(el => el.onclick = () => abrirDet(el.dataset.id));
+  const icone = c => { const m = marca(c);
+    if(m === 'fechou') return '<span class="ic ok" aria-label="Fechou" style="color:#0f5a3c;font-weight:800">✓</span>';
+    if(m === 'recusou') return '<span class="ic no" aria-label="Recusou" style="color:#8c2a17;font-weight:800">✕</span>';
+    if(m === 'retornar') return '<span class="lret">Retornar</span>';
+    if(m === 'enviado') return `<span class="ldata">${new Date(c.ultimoContato).toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'})}</span>`;
+    return '<span class="lpend" aria-label="Pendente"></span>'; };
+  const prod = c => { const g = c.grupos || []; return g.length ? esc(g[0]) + (g.length > 1 ? ' +' + (g.length - 1) : '') : '—'; };
+  const linha = c => `<div class="lrow" data-id="${esc(c.id)}"><div class="lhead"><span class="lnome">${esc(tituloCase(c.nome))}</span><span class="lprod">${prod(c)}</span><span class="lst">${icone(c)}</span></div>
+    <div class="ldet">Ag. ${esc(c.agencia || '-')} · Cc. ${esc(c.conta || '-')} · MCI ${esc(c.mci || '-')}<br>Celular ${esc(fmtTel(c.telefone))}${(c.grupos || []).length > 1 ? '<br>Produtos: ' + c.grupos.map(g => esc(g) + (etapa(c, g) === 'fechado' ? ' ✓' : etapa(c, g) === 'recusou' ? ' ✕' : '')).join(', ') : ''}
+      <div class="qa"><button data-q="fechou" class="f">✓ Fechou</button><button data-q="recusou" class="r">✕ Recusou</button><button data-q="abrir">💬 Abrir</button></div></div></div>`;
+  $('#lista').innerHTML = arr.length ? arr.map(linha).join('') : `<p class="note">${DB.clientes.length ? 'Nada encontrado.' : 'Nenhum cliente salvo. Use a aba “Cadastrar”.'}</p>`;
+  document.querySelectorAll('#lista .lrow').forEach(el => {
+    const c = DB.clientes.find(x => x.id === el.dataset.id);
+    el.onclick = () => el.classList.toggle('open');
+    el.querySelectorAll('[data-q]').forEach(b => b.onclick = async ev => { ev.stopPropagation(); if(b.dataset.q === 'abrir') abrirDet(c.id); else await respostaRapida(c, b.dataset.q); });
+  });
 }
+$('#btnFiltro').onclick = () => $('#filtroBox').classList.toggle('hidden');
+function abrirFiltrado(f){ $('#fltStatus').value = f; $('#fltGrupo').value = ''; $('#busca').value = ''; aba('clientes'); fecharDet(); }
 function fmtTel(t){ const d = String(t || '').replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, ''); return d.length === 11 ? `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}` : d.length === 10 ? `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}` : (t || '-'); }
 function aguardando(){ return DB.clientes.filter(c => ['contatado','sem_resposta'].includes(c.status) || (c.status === 'respondeu' && (c.grupos || []).some(g => ['aberto','negociando'].includes(etapa(c, g))))).sort((a, b) => new Date(b.ultimoContato || 0) - new Date(a.ultimoContato || 0)); }
 function renderLeva(){
   const l = [...(DB.levas || [])].reverse().find(x => x.itens.length);
-  mostrar('#cardLeva', !!l); if(!l) return;
+  mostrar('#cardLeva', !!l && !l.emailEm); mostrar('#cardLevaDados', !!l); if(!l) return;
   const dt = d => new Date(d).toLocaleString('pt-BR', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
-  $('#levaInfo').innerHTML = `${l.itens.length} cliente(s) · ${dt(l.inicio)}${l.fim ? ' a ' + dt(l.fim) : ' (em andamento)'}${l.emailEm ? ` · <b>e-mail aberto em ${dt(l.emailEm)}</b>` : ''}`;
-  $('#btnEmailLeva').textContent = `📧 Enviar lista por e-mail (${l.itens.length})` ;
-  $('#btnEmailLeva').onclick = async () => {
+  const info = `${l.itens.length} cliente(s) · ${dt(l.inicio)}${l.fim ? ' a ' + dt(l.fim) : ' (em andamento)'}${l.emailEm ? ` · <b>e-mail aberto em ${dt(l.emailEm)}</b>` : ''}`;
+  $('#levaInfo').innerHTML = info; $('#levaInfoDados').innerHTML = info;
+  const enviar = async () => {
     const dest = (DB.config.emailLeva || '').trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(dest)){ toast('Cadastre o e-mail de destino em Ajustes.'); aba('config'); $('#cEmail').focus(); return; }
     const fim = l.fim || hoje();
@@ -1067,34 +1147,17 @@ function renderLeva(){
     l.emailEm = hoje(); await salvarDB(); renderLeva();
     location.href = `mailto:${dest}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
   };
-}
-function renderAguardando(){
-  renderLeva();
-  const todos = aguardando(), fd = $('#buscaResp').value.replace(/\D/g, '');
-  mostrar('#cardAguard', todos.length > 0); $('#nAguard').textContent = '';
-  const filt = fd ? todos.filter(c => (c.telefone || '').replace(/\D/g, '').endsWith(fd) || (c.telefone || '').replace(/\D/g, '').includes(fd)) : todos;
-  const MAX = 10, a = filt.slice(0, MAX);
-  $('#listaAguard').innerHTML = (fd && !filt.length ? '<p class="note">Nenhum cliente com esse número.</p>' : '') + a.map(c => { const st = situacao(c), abertos = (c.grupos || []).filter(g => ['aberto','negociando'].includes(etapa(c, g)));
-    return `<div class="item" data-id="${esc(c.id)}"><div style="flex:1;cursor:pointer" data-abre="1"><b>${esc(tituloCase(c.nome))}</b><span><span class="tel">📱 ${esc(fmtTel(c.telefone))}</span> · enviado ${fmtData(c.ultimoContato)}${abertos.length ? ' · ' + esc(abertos.join(', ')) : ''}</span></div>${st === 'retornar' ? '<span class="pill st-retornar">🔁 Retornar</span>' : ''}
-      <div class="qa">${c.status === 'respondeu' ? '' : '<button data-q="resp">🙋 Respondeu</button>'}<button data-q="fechou" class="f">✅ Fechou</button><button data-q="recusou" class="r">✖ Recusou</button></div></div>`; }).join('')
-    + (filt.length > MAX ? `<p class="note">Mostrando os ${MAX} envios mais recentes de ${filt.length}. Digite o final do celular para achar os demais.</p>` : '');
-  $('#listaAguard').querySelectorAll('.item').forEach(el => {
-    const c = DB.clientes.find(x => x.id === el.dataset.id);
-    el.querySelector('[data-abre]').onclick = () => abrirDet(c.id);
-    el.querySelectorAll('[data-q]').forEach(b => b.onclick = async ev => { ev.stopPropagation(); await respostaRapida(c, b.dataset.q); });
-  });
+  ['#btnEmailLeva','#btnEmailLevaDados'].forEach(b => { $(b).textContent = `📧 Enviar lista por e-mail (${l.itens.length})`; $(b).onclick = enviar; });
 }
 async function respostaRapida(c, q){
   const nome = tituloCase(c.nome.split(' ')[0]);
-  if(q === 'resp'){ marcarRespondeu(c); toque(c); await salvarDB(); renderLista(); toast(`${nome}: marcado como “Respondeu”.`); $('#buscaResp').value = ''; renderAguardando(); return; }
   const abertos = (c.grupos || []).filter(g => ['aberto','negociando'].includes(etapa(c, g)));
   if(abertos.length !== 1){ abrirDet(c.id); toast(abertos.length ? 'Marque em qual produto.' : 'Marque o produto ofertado.'); return; }
   const g = abertos[0], e = q === 'fechou' ? 'fechado' : 'recusou';
   c.prod[g] = {e, em:hoje(), motivo:''}; evento(e, {p:g}); marcarRespondeu(c); toque(c); await salvarDB();
-  if(e === 'fechado'){ $('#buscaResp').value = ''; renderLista(); toast(`🎉 ${nome}: ${g} fechado!`); }
+  if(e === 'fechado'){ renderLista(); toast(`🎉 ${nome}: ${g} fechado!`); }
   else { abrirDet(c.id); toast('Informe o motivo da recusa.'); }
 }
-$('#buscaResp').oninput = renderAguardando;
 let rodada = false, aguardaProximo = null;
 function novaLeva(){ DB.levas = DB.levas || []; const l = {id:novoId(), inicio:hoje(), fim:null, itens:[]}; DB.levas.push(l); if(DB.levas.length > 10) DB.levas.shift(); return l; }
 function levaAtual(){ return (DB.levas || [])[DB.levas.length - 1]; }
@@ -1105,7 +1168,6 @@ function irProximo(){
   rodada = false; const l = levaAtual(); if(l) l.fim = hoje(); salvarDB(); fecharDet(); scrollTo(0, 0);
   toast(l && l.itens.length ? `✅ Rodada concluída: ${l.itens.length} cliente(s). Toque em “Enviar lista por e-mail”.` : '✅ Rodada concluída!', 6000); return false;
 }
-$('#optVer').onchange = async () => { DB.config.ver = $('#optVer').value; await salvarDB(); renderLista(); };
 $('#optOrdem').onchange = async () => { DB.config.ordem = $('#optOrdem').value; await salvarDB(); renderLista(); };
 $('#busca').oninput = renderLista; $('#fltStatus').onchange = renderLista; $('#fltGrupo').onchange = renderLista;
 
@@ -1116,9 +1178,10 @@ function abrirDet(id){
   $('#detDados').innerHTML = `<h2>${esc(tituloCase(atual.nome))}</h2>
     <div class="note">Agência <b>${esc(atual.agencia || '-')}</b> ${atual.nomeAgencia ? '· ' + esc(atual.nomeAgencia) : ''}<br>Conta <b>${esc(atual.conta || '-')}</b> · MCI <b>${esc(atual.mci || '-')}</b><br>Celular <b>${esc(fmtTel(atual.telefone))}</b>${numeroWhats(atual.telefone) ? '' : ' <span style="color:#a12a14">⚠️ inválido</span>'}${atual.obs ? '<br>Obs.: ' + esc(atual.obs) : ''}</div>`;
   mostrar('#detEdit', false); mostrar('#btnEditar', true); mostrar('#detDados', true);
-  $('#selModelo').innerHTML = DB.modelos.map(m => `<option value="${esc(m.id)}">${esc(m.titulo)}</option>`).join('');
+  $('#selModelo').innerHTML = blocos().map(([p, ms]) => `<optgroup label="${esc(p)}">${ms.map(m => `<option value="${esc(m.id)}">${esc(m.curto || m.titulo)}</option>`).join('')}</optgroup>`).join('');
   const st = situacao(atual), temRF = (atual.grupos || []).includes('Rende Fácil') || !(atual.grupos || []).length;
-  const pref = st === 'retornar' && temRF ? 'm7' : (st === 'pendente' && temRF ? 'm6' : '');
+  const gs = atual.grupos || [];
+  const pref = st === 'retornar' && temRF ? 'm7' : (st === 'pendente' && temRF ? 'm6' : (gs.includes('Capitalização') ? 'm9' : (gs.includes('Previdência') ? 'm10' : '')));
   if(pref && DB.modelos.some(m => m.id === pref)) $('#selModelo').value = pref;
   montarMsg();
   const envs = (atual.hist || []).length;
@@ -1242,9 +1305,10 @@ $('#btnSalvarEd').onclick = async () => {
 $('#btnExcluir').onclick = async () => { if(!confirm('Excluir ' + atual.nome + ' deste app?')) return; DB.clientes = DB.clientes.filter(c => c.id !== atual.id); await salvarDB(); fecharDet(); toast('Cliente excluído.'); };
 
 /* =================== painel (só números, sem dados de clientes) =================== */
+let periodoPainel = 30, verGrafico = true;
 function semanaIni(d){ const x = new Date(d); x.setHours(0, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
 function dadosPainel(){
-  const per = +$('#pPeriodo').value, ini = per ? Date.now() - per * 864e5 : 0;
+  const per = periodoPainel, ini = per ? Date.now() - per * 864e5 : 0;
   const ev = DB.eventos.filter(e => new Date(e.t).getTime() >= ini);
   const c = k => ev.filter(e => e.k === k).length;
   const prim = ev.filter(e => e.k === 'envio' && !e.f).length;
@@ -1265,16 +1329,30 @@ function dadosPainel(){
 }
 function renderPainel(){
   if(!DB) return;
-  const d = dadosPainel(), k = d.k;
-  const kpi = (n, t) => `<div class="kpi"><b>${n}</b><span>${t}</span></div>`;
-  $('#pKpis').innerHTML = kpi(k.envios, `mensagens enviadas<br>(${k.primeiros} 1º contato · ${k.lembretes} lembrete)`) + kpi(k.respostas, `responderam<br>(${k.taxaResp}% dos 1º contatos)`) + kpi(k.fechados, 'negócios fechados') + kpi(k.recusas, 'recusas');
-  $('#pAgora').innerHTML = kpi(d.agora.retornar, '🔁 para retornar') + kpi(d.agora.pendente, 'pendentes de envio') + kpi(d.agora.aguardando, 'aguardando resposta') + kpi(d.agora.negociando, 'em negociação');
-  $('#pProd').innerHTML = d.prods.length ? `<table class="tb"><tr><th>Produto</th><th class="n">Ofertas</th><th class="n">Fechou</th><th class="n">Recusou</th><th class="n">Conversão</th></tr>${d.prods.map(p => `<tr><td>${esc(p.g)}</td><td class="n">${p.of}</td><td class="n">${p.f}</td><td class="n">${p.r}</td><td class="n">${p.conv === null ? '–' : String(p.conv).replace('.', ',') + '%'}</td></tr>`).join('')}</table>` : '<p class="note">Sem movimentação de produtos ainda.</p>';
-  const ms = Object.entries(d.mot).sort((a, b) => b[1] - a[1]);
-  $('#pMotivos').innerHTML = ms.length ? `<table class="tb">${ms.map(([m, n]) => `<tr><td>${esc(m)}</td><td class="n">${n}</td></tr>`).join('')}</table>` : '<p class="note">Nenhuma recusa no período.</p>';
-  $('#pSemanas').innerHTML = `<table class="tb"><tr><th>Semana de</th><th class="n">Envios</th><th class="n">Respostas</th><th class="n">Fechados</th></tr>${d.sem.map(w => `<tr><td>${w.ini.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'})}</td><td class="n">${w.envios}</td><td class="n">${w.respostas}</td><td class="n">${w.fechados}</td></tr>`).join('')}</table>`;
+  renderLeva();
+  const d = dadosPainel(), k = d.k, n = f => DB.clientes.filter(c => !f || marca(c) === f).length;
+  const tile = (f, num, t, bg, fg) => `<button class="tile" data-f="${f}" style="background:${bg};color:${fg}"><b>${num}</b><span>${t}</span></button>`;
+  const nr = n('retornar');
+  $('#pAgora').innerHTML = tile('', n(''), 'Todos', '#eef1f6', '#0a2a6b') + tile('pendente', n('pendente'), 'Pendentes', '#fff4e5', '#8a4b0c')
+    + tile('enviado', n('enviado') + nr, nr ? `Enviados (${nr} p/ retornar)` : 'Enviados', '#e6f0fb', '#1d4f8c') + tile('fechou', n('fechou'), 'Fecharam', '#e7f5ee', '#0f5a3c');
+  $('#pAgora').querySelectorAll('.tile').forEach(b => b.onclick = () => abrirFiltrado(b.dataset.f));
+  const kpi = (num, t) => `<div class="kpi"><b>${num}</b><span>${t}</span></div>`;
+  $('#pKpis').innerHTML = kpi(k.primeiros, 'ofertas enviadas' + (k.lembretes ? `<br>(+${k.lembretes} lembretes)` : '')) + kpi(k.respostas, `responderam<br>(${k.taxaResp}%)`) + kpi(k.fechados, 'fecharam') + kpi(k.recusas, 'recusaram');
+  const mx = Math.max(1, k.primeiros, k.respostas, k.fechados);
+  const fb = (t, v, cor) => `<div class="fbar"><span class="t">${t}</span><div class="f" style="background:${cor};width:${Math.max(4, Math.round(170 * v / mx))}px"></div><b>${v}</b></div>`;
+  $('#pFunil').innerHTML = fb('Ofertas', k.primeiros, '#0a2a6b') + fb('Responderam', k.respostas, '#378add') + fb('Fecharam', k.fechados, '#2fb36a') + fb('Recusaram', k.recusas, '#e39a8c');
+  const ms = Math.max(1, ...d.sem.map(w => w.fechados));
+  $('#pSemBar').innerHTML = d.sem.map(w => `<div title="${w.fechados} fechados" style="height:${Math.max(3, Math.round(80 * w.fechados / ms))}px"></div>`).join('');
+  $('#pSemLbl').innerHTML = d.sem.map(w => `<span style="flex:1;text-align:center">${w.ini.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'})} · ${w.fechados}</span>`).join('');
+  mostrar('#pKpis', !verGrafico); mostrar('#pChart', verGrafico); $('#btnGrafico').textContent = verGrafico ? '🔢 Ver números' : '📊 Ver gráfico';
+  document.querySelectorAll('#pSeg button').forEach(b => b.classList.toggle('on', +b.dataset.p === periodoPainel));
+  $('#pProd').innerHTML = d.prods.length ? d.prods.map(p => `<div class="prodl"><span>${esc(p.g)}</span><span style="color:${p.f ? '#0f5a3c' : 'var(--mut)'}">${p.f} fechado(s)${p.conv === null ? '' : ' · ' + String(p.conv).replace('.', ',') + '%'}${p.r ? ` · ${p.r} recusa(s)` : ''}</span></div>`).join('') : '<p class="note">Sem movimentação de produtos ainda.</p>';
+  const mo = Object.entries(d.mot).sort((a, b) => b[1] - a[1]);
+  mostrar('#cardMotivos', mo.length > 0);
+  $('#pMotivos').innerHTML = mo.map(([m, q]) => `<div class="prodl"><span>${esc(m)}</span><b>${q}</b></div>`).join('');
 }
-$('#pPeriodo').onchange = renderPainel;
+document.querySelectorAll('#pSeg button').forEach(b => b.onclick = () => { periodoPainel = +b.dataset.p; renderPainel(); });
+$('#btnGrafico').onclick = () => { verGrafico = !verGrafico; renderPainel(); };
 function textoResumo(){
   const d = dadosPainel(), k = d.k, per = d.per ? `últimos ${d.per} dias` : 'desde o início';
   let t = `Resumo de contatos (${per}) – ${new Date().toLocaleDateString('pt-BR')}\n`;
@@ -1295,35 +1373,54 @@ $('#btnCsv').onclick = () => {
 };
 
 /* =================== modelos =================== */
-const CAMPOS = ['saudacao','primeiro_nome','nome','agencia','nome_agencia','funcionario','cargo'];
-let modeloEd = null;
+const TOKENS = [['saudacao','Saudação'],['primeiro_nome','Nome do cliente'],['nome','Nome completo'],['funcionario','Seu nome'],['cargo','Seu cargo'],['agencia','Nº agência'],['nome_agencia','Nome da agência']];
+const paraAmigavel = t => TOKENS.reduce((a, [k, l]) => a.split('{' + k + '}').join('[' + l + ']'), t);
+const paraCodigo = t => TOKENS.reduce((a, [k, l]) => a.replace(new RegExp('\\[' + l.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\]', 'gi'), '{' + k + '}'), t);
+const EXEMPLO = {nome:'Maria Silva', nomeAgencia:'Savassi', agencia:'3368-5'};
+const rich = t => esc(t).replace(/\*([^*\n]+)\*/g, '<b>$1</b>');
+let modeloEd = null; const blocosAbertos = new Set(['Rende Fácil']);
+function blocos(){ const ps = [...new Set([...ORDEM_BLOCOS, ...DB.modelos.map(m => m.prod || 'Geral')])]; return ps.map(p => [p, DB.modelos.filter(m => (m.prod || 'Geral') === p)]).filter(x => x[1].length); }
 function renderModelos(){
-  $('#listaModelos').innerHTML = DB.modelos.map(m => `<div class="item" data-id="${esc(m.id)}"><div><b>${esc(m.titulo)}</b><span>${esc(m.texto.slice(0, 70))}…</span></div><span class="pill">editar</span></div>`).join('') || '<p class="note">Nenhuma mensagem.</p>';
-  document.querySelectorAll('#listaModelos .item').forEach(el => el.onclick = () => editarModelo(el.dataset.id));
-  $('#chips').innerHTML = CAMPOS.map(c => `<button type="button" data-c="${c}">{${c}}</button>`).join('');
-  document.querySelectorAll('#chips button').forEach(b => b.onclick = () => { const ta = $('#mTexto'), p = ta.selectionStart ?? ta.value.length; ta.value = ta.value.slice(0, p) + '{' + b.dataset.c + '}' + ta.value.slice(ta.selectionEnd ?? p); ta.focus(); });
+  const ic = {'Rende Fácil':'🪙', 'Previdência':'🐷', 'Ourocap':'🎟️', 'Geral':'💬'};
+  $('#listaModelos').innerHTML = blocos().map(([p, ms]) => `<div class="blk ${blocosAbertos.has(p) ? 'open' : ''}" data-p="${esc(p)}">
+    <button class="blkh"><span>${ic[p] || '📌'} ${esc(p)}</span><span class="cnt">${ms.length}</span></button>
+    <div class="blkb">${ms.map(m => `<div class="msg" data-id="${esc(m.id)}"><div style="display:flex;justify-content:space-between;gap:8px"><b style="font-size:14.5px">${esc(m.curto || m.titulo)}</b>${m.id === 'm6' ? '<span class="note" style="color:#1d6b3f;font-weight:700">padrão</span>' : ''}</div>
+      ${m.desc ? `<div class="note" style="margin-top:2px">${esc(m.desc)}</div>` : ''}
+      <div class="bolha">${rich(preencherModelo(m.texto, EXEMPLO))}</div>
+      <div class="macts"><button data-a="ed">✏️ Editar</button><button data-a="dup">📄 Duplicar</button><button data-a="del" style="color:#a12a14">🗑️</button></div></div>`).join('')}</div></div>`).join('') || '<p class="note">Nenhuma mensagem.</p>';
+  document.querySelectorAll('#listaModelos .blk').forEach(b => b.querySelector('.blkh').onclick = () => { b.classList.toggle('open'); const p = b.dataset.p; b.classList.contains('open') ? blocosAbertos.add(p) : blocosAbertos.delete(p); });
+  document.querySelectorAll('#listaModelos .msg').forEach(el => {
+    const m = DB.modelos.find(x => x.id === el.dataset.id);
+    el.onclick = () => el.classList.toggle('open');
+    el.querySelectorAll('[data-a]').forEach(b => b.onclick = async ev => { ev.stopPropagation();
+      if(b.dataset.a === 'ed') editarModelo(m.id);
+      else if(b.dataset.a === 'dup'){ const n = {...m, id:'m' + Date.now(), titulo:m.titulo + ' (cópia)', curto:(m.curto || m.titulo) + ' (cópia)'}; DB.modelos.splice(DB.modelos.indexOf(m) + 1, 0, n); await salvarDB(); renderModelos(); editarModelo(n.id); }
+      else if(confirm('Excluir a mensagem “' + (m.curto || m.titulo) + '”?')){ DB.modelos = DB.modelos.filter(x => x !== m); await salvarDB(); renderModelos(); toast('Mensagem excluída.'); } });
+  });
+  $('#chips').innerHTML = TOKENS.map(([k, l]) => `<button type="button" data-l="${esc(l)}">${esc(l)}</button>`).join('');
+  document.querySelectorAll('#chips button').forEach(b => b.onclick = () => { const ta = $('#mTexto'), p = ta.selectionStart ?? ta.value.length, ins = '[' + b.dataset.l + ']'; ta.value = ta.value.slice(0, p) + ins + ta.value.slice(ta.selectionEnd ?? p); ta.focus(); ta.selectionStart = ta.selectionEnd = p + ins.length; });
 }
 function editarModelo(id){
   modeloEd = id ? DB.modelos.find(m => m.id === id) : null;
+  const prods = [...new Set([...ORDEM_BLOCOS, ...DB.config.grupos, ...DB.modelos.map(m => m.prod || 'Geral')])];
+  const atualP = modeloEd ? (modeloEd.prod || 'Geral') : ([...blocosAbertos][0] || 'Geral');
+  $('#mProd').innerHTML = prods.map(p => `<option ${p === atualP ? 'selected' : ''}>${esc(p)}</option>`).join('');
   $('#edTitulo').textContent = modeloEd ? 'Editar mensagem' : 'Nova mensagem';
-  $('#mTitulo').value = modeloEd ? modeloEd.titulo : ''; $('#mTexto').value = modeloEd ? modeloEd.texto : '{saudacao}, {primeiro_nome}! Aqui é {funcionario}, do Banco do Brasil. ';
-  mostrar('#btnExcluirModelo', !!modeloEd); mostrar('#edModelo', true);
-  $('#edModelo').scrollIntoView({behavior:'smooth'});
+  $('#mTitulo').value = modeloEd ? (modeloEd.curto || modeloEd.titulo) : ''; $('#mDesc').value = modeloEd ? (modeloEd.desc || '') : '';
+  $('#mTexto').value = paraAmigavel(modeloEd ? modeloEd.texto : '{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\n');
+  mostrar('#edModelo', true); $('#edModelo').scrollIntoView({behavior:'smooth'});
 }
 $('#btnNovoModelo').onclick = () => editarModelo(null);
 $('#btnCancelarModelo').onclick = () => mostrar('#edModelo', false);
 $('#btnSalvarModelo').onclick = async () => {
-  const titulo = $('#mTitulo').value.trim(), texto = $('#mTexto').value.trim();
-  if(!titulo || !texto){ toast('Preencha título e texto.'); return; }
-  if(/\{(conta|mci|cpf|saldo|valor)\}/i.test(texto)){ toast('Campos sigilosos não são permitidos nos modelos.'); return; }
+  const curto = $('#mTitulo').value.trim(), prod = $('#mProd').value, desc = $('#mDesc').value.trim(), texto = paraCodigo($('#mTexto').value.trim());
+  if(!curto || !texto){ toast('Preencha título e texto.'); return; }
+  if(/\{(conta|mci|cpf|saldo|valor)\}|\[(conta|mci|cpf|saldo|valor)\]/i.test(texto)){ toast('Campos sigilosos não são permitidos nas mensagens.'); return; }
   if(/\d{6,}/.test(texto.replace(/[\s.\-]/g, '')) && !confirm('O texto contém um número longo. Confirma que não é dado sigiloso?')) return;
-  if(modeloEd){ modeloEd.titulo = titulo; modeloEd.texto = texto; }
-  else DB.modelos.push({id:'m' + Date.now(), titulo, texto});
-  await salvarDB(); renderModelos(); mostrar('#edModelo', false); toast('Mensagem salva.');
-};
-$('#btnExcluirModelo').onclick = async () => {
-  if(!modeloEd || !confirm('Excluir esta mensagem?')) return;
-  DB.modelos = DB.modelos.filter(m => m.id !== modeloEd.id); await salvarDB(); renderModelos(); mostrar('#edModelo', false);
+  const titulo = prod === 'Geral' ? curto : prod + ' · ' + curto;
+  if(modeloEd) Object.assign(modeloEd, {titulo, curto, prod, desc, texto});
+  else DB.modelos.push({id:'m' + Date.now(), titulo, curto, prod, desc, texto});
+  blocosAbertos.add(prod); await salvarDB(); renderModelos(); mostrar('#edModelo', false); toast('Mensagem salva.');
 };
 
 /* =================== ajustes =================== */
@@ -1362,10 +1459,10 @@ $('#btnAddGrupo').onclick = async () => { if(await criarGrupo($('#cNovoGrupo').v
 $('#cNovoGrupo').addEventListener('keydown', e => { if(e.key === 'Enter') $('#btnAddGrupo').click(); });
 function carregarConfig(){ const c = DB.config; $('#cNome').value = c.funcionario; $('#cCargo').value = c.cargo; $('#cWhats').value = c.whats; $('#cEmail').value = c.emailLeva || ''; renderGruposCfg();
   $('#cProdPadrao').innerHTML = '<option value="">Nenhum</option>' + c.grupos.map(g => `<option ${g === c.prodPadrao ? 'selected' : ''}>${esc(g)}</option>`).join('');
-  $('#cRetorno').value = String(c.retornoDias); $('#cMaxEnv').value = String(c.maxEnvios); $('#cRet').value = String(c.retencao); $('#cLock').value = String(c.lockMin); }
+  $('#cRetorno').value = String(c.retornoDias); $('#cMaxEnv').value = String(c.maxEnvios); $('#cLock').value = String(c.lockMin); }
 $('#btnSalvarCfg').onclick = async () => {
-  Object.assign(DB.config, {funcionario:$('#cNome').value.trim(), cargo:$('#cCargo').value.trim(), whats:$('#cWhats').value, emailLeva:$('#cEmail').value.trim(), prodPadrao:$('#cProdPadrao').value, retornoDias:+$('#cRetorno').value, maxEnvios:+$('#cMaxEnv').value, retencao:+$('#cRet').value, lockMin:+$('#cLock').value});
-  const n = aplicarRetencao(); await salvarDB(); renderLista(); toast('Ajustes salvos.' + (n ? ` ${n} cliente(s) antigo(s) apagado(s).` : ''));
+  Object.assign(DB.config, {funcionario:$('#cNome').value.trim(), cargo:$('#cCargo').value.trim(), whats:$('#cWhats').value, emailLeva:$('#cEmail').value.trim(), prodPadrao:$('#cProdPadrao').value, retornoDias:+$('#cRetorno').value, maxEnvios:+$('#cMaxEnv').value, lockMin:+$('#cLock').value});
+  await salvarDB(); renderLista(); toast('Ajustes salvos.');
 };
 $('#btnVerAviso').onclick = () => { $('#chkAceite').checked = true; $('#btnAceite').disabled = false; mostrar('#ovAviso', true); };
 $('#btnBloquear').onclick = bloquear;
