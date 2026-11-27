@@ -75,6 +75,9 @@ textarea{min-height:110px;resize:vertical}
 .resRow{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line)}.resRow:first-child{border-top:0}.resRow b{flex:1;min-width:0}
 .rb{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;font-weight:700;font-size:14px;color:var(--mut)}.rb.ok.on{background:#e7f5ee;border-color:#3aa57a;color:#0f5a3c}.rb.no.on{background:#fdecea;border-color:#e08a7a;color:#8c2a17}
 .linkBtn{display:block;margin:14px auto 0;background:none;border:0;color:var(--mut);font-size:13.5px;text-decoration:underline}
+.confOpc{display:grid;grid-template-columns:1fr 1fr;gap:8px}.confOpc button{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:10px 8px;font-size:13.5px;font-weight:600;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:6px;text-align:left}.confOpc button b{background:#EEF2F7;border-radius:999px;padding:1px 8px;font-size:12.5px}.confOpc button.on{border-color:var(--pri);background:var(--pri);color:#fff}.confOpc button.on b{background:var(--acc);color:var(--pri)}
+.fLinha{display:flex;gap:6px;margin:0 0 6px}.fLinha .fChip{margin:0;flex:1;min-width:0}
+.fMail{border:0;border-radius:12px;background:var(--pri);color:#fff;font-size:20px;padding:0 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}.fMail small{font-size:11px;font-weight:700;margin-top:2px}
 .fChip{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin:0 0 6px;border:0;border-radius:12px;background:var(--acc);color:var(--pri);padding:9px 12px;font-size:14px;text-align:left}.fChip .x{font-weight:800;white-space:nowrap}
 .tagsLinha{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.tagsLinha .stTag{margin-top:0}.prodTag{background:var(--pri);color:#fff}
 .clic{cursor:pointer;-webkit-tap-highlight-color:rgba(15,23,42,.08)}.fbar.clic:active,.prodl.clic:active,.kpi.clic:active{opacity:.6}
@@ -211,6 +214,21 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
   </div>
 </div>
 
+<div id="ovDiv" class="overlay hidden">
+  <div class="card">
+    <h2 id="divTitulo">📣 Divulgar no grupo</h2>
+    <p class="note" id="divNota" style="margin-top:0"></p>
+    <div id="divSopBox" class="hidden"><label>Sua identificação no grupo</label><input id="divSop" autocomplete="off" placeholder="ex.: SOP 68"><p class="note" style="margin:4px 0 0">Fica salva em Ajustes.</p></div>
+    <div class="bolha" id="divPrev" style="display:block;white-space:pre-wrap;margin:10px 0"></div>
+    <p class="note" style="margin:0 0 6px">Enviar pelo WhatsApp onde está o grupo do PSO:</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="btn biz" data-div-canal="business" style="margin:0">💼 Business</button>
+      <button class="btn biz" data-div-canal="pessoal" style="margin:0">💬 Pessoal</button>
+    </div>
+    <button class="btn sec" id="btnDivCopiar">📋 Copiar texto</button>
+    <button class="btn sec" id="btnDivFechar">Agora não</button>
+  </div>
+</div>
 <div id="ovCodigo" class="overlay hidden">
   <div class="card" style="text-align:center">
     <div id="codOferta">
@@ -320,7 +338,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
       </div>
       </div>
       <div id="lista" style="margin-top:6px"></div>
-      <div class="legenda"><span><span class="ic ok" style="display:inline-flex;width:16px;height:16px;vertical-align:-3px">✓</span> Fechou</span><span><span class="ic no" style="display:inline-flex;width:16px;height:16px;vertical-align:-3px;color:#8c2a17">✕</span> Recusou</span><span><b style="color:#334155">22/11</b> Enviado</span><span><span class="lpend" style="display:inline-block;width:8px;height:8px"></span> Pendente</span></div>
+      <div class="legenda"><span><span class="ic ok" style="display:inline-flex;width:16px;height:16px;vertical-align:-3px">✓</span> Fechou</span><span><span class="ic no" style="display:inline-flex;width:16px;height:16px;vertical-align:-3px;color:#8c2a17">✕</span> Recusou</span><span>Enviado</span><span><span class="lpend" style="display:inline-block;width:8px;height:8px"></span> Pendente</span></div>
     </div>
   </div>
   <div id="detView" class="hidden">
@@ -384,10 +402,17 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <div class="ok">O resumo tem <b>só números</b>: nenhum nome, conta, MCI ou telefone de cliente.</div>
     <div class="row"><button class="btn" id="btnCopiarResumo">📋 Copiar resumo</button><button class="btn sec" id="btnCsv">⬇️ CSV</button></div>
   </div>
-  <div class="card hidden" id="cardLevaDados">
-    <h2>📧 Última leva enviada</h2>
-    <p class="note" id="levaInfoDados" style="margin:0"></p>
-    <button class="btn yel" id="btnEmailLevaDados">📧 Enviar lista por e-mail</button>
+  <div class="card" id="cardHoje">
+    <h2>📣 Vendas de hoje</h2>
+    <p class="note" id="hojeInfo" style="margin:0"></p>
+    <button class="btn biz" id="btnResumoDia">📣 Divulgar resumo do dia</button>
+  </div>
+  <div class="card" id="cardLevaDados">
+    <h2>📧 Conferir no sistema do banco</h2>
+    <p class="note" style="margin:-4px 0 8px">Envie os MCIs para o seu e-mail e confira no computador.</p>
+    <div class="confOpc" id="confOpc"></div>
+    <p class="note" id="levaInfoDados" style="margin:8px 0 0"></p>
+    <button class="btn yel" id="btnEmailLevaDados">📧 Enviar MCIs por e-mail</button>
   </div>
 </section>
 
@@ -413,6 +438,9 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
   <div class="card">
     <h2>Seus dados (usados nas mensagens)</h2>
     <label>Seu nome</label><input id="cNome" autocomplete="off">
+    <label>Identificação no grupo do PSO (divulgação de vendas)</label><input id="cSop" autocomplete="off" placeholder="ex.: SOP 68">
+    <label class="chk" style="display:flex;gap:8px;align-items:center;margin-top:8px"><input type="checkbox" id="cDivMci" style="width:auto"> Incluir o MCI na divulgação</label>
+    <p class="note" style="margin:4px 0 0">O MCI identifica o cliente: divulgue só em grupo interno do BB.</p>
     <label>Seu cargo / função</label><input id="cCargo" autocomplete="off" placeholder="ex.: Gerente de Relacionamento">
     <label>Seu e-mail (recebe o código de recuperação do PIN)</label><input id="cEmailProprio" type="email" inputmode="email" autocomplete="off" placeholder="nome@bb.com.br">
     <label>E-mail que recebe a lista de cada leva (MCI e nome)</label>
@@ -543,7 +571,7 @@ const INFO_MODELOS = {
 };
 const ORDEM_BLOCOS = ['Rende Fácil','CDC','Previdência','Ourocap','Geral'];
 function infoModelos(){ DB.modelos.forEach(m => { if(m.curto === 'Com domicílio fiscal') m.curto = 'Domicílio fiscal pendente'; const i = INFO_MODELOS[m.id]; if(!m.prod) m.prod = i ? i.prod : 'Geral'; if(m.curto === undefined) m.curto = i ? i.curto : m.titulo; if(m.desc === undefined) m.desc = i ? i.desc : ''; }); }
-const CONFIG_PADRAO = {funcionario:'', cargo:'', whats:'business', emailLeva:'bernardocpa@bb.com.br', emailProprio:'', retencao:30, lockMin:5, prodPadrao:'Rende Fácil', retornoDias:3, maxEnvios:1, grupos:GRUPOS_PADRAO};
+const CONFIG_PADRAO = {funcionario:'', cargo:'', sop:'', divMci:true, whats:'business', emailLeva:'bernardocpa@bb.com.br', emailProprio:'', retencao:30, lockMin:5, prodPadrao:'Rende Fácil', retornoDias:3, maxEnvios:1, grupos:GRUPOS_PADRAO};
 function dbVazio(){ return {clientes:[], eventos:[], modelos:JSON.parse(JSON.stringify(MODELOS_PADRAO)).map(m => ({...m, ...(INFO_MODELOS[m.id] || {prod:'Geral', curto:m.titulo, desc:''})})), config:{...CONFIG_PADRAO, ordemModelosV2:true, v17:true, evSeed:true, m6Topo:true, modelosVistos:MODELOS_PADRAO.map(m => m.id)}}; }
 async function salvarDB(){ if(!KEY) return; if(!ls.set(K_DATA, await cifrar(KEY, DB))) toast('Não foi possível salvar neste navegador.'); }
 
@@ -1359,13 +1387,29 @@ function abrirFiltrado(f, g, per){
 }
 function fmtTel(t){ const d = String(t || '').replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, ''); return d.length === 11 ? `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}` : d.length === 10 ? `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}` : (t || '-'); }
 function aguardando(){ return DB.clientes.filter(c => ['contatado','sem_resposta'].includes(c.status) || (c.status === 'respondeu' && (c.grupos || []).some(g => ['aberto','negociando'].includes(etapa(c, g))))).sort((a, b) => new Date(b.ultimoContato || 0) - new Date(a.ultimoContato || 0)); }
+let listaConf = 'enviados';
 function renderLeva(){
   const l = [...(DB.levas || [])].reverse().find(x => x.itens.length);
-  mostrar('#cardLevaDados', !!l); if(!l) return;
   const dt = d => new Date(d).toLocaleString('pt-BR', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
-  const info = `${l.itens.length} cliente(s) · ${dt(l.inicio)}${l.fim ? ' a ' + dt(l.fim) : ' (em andamento)'}${l.emailEm ? ` · <b>e-mail aberto em ${dt(l.emailEm)}</b>` : ''}`;
-  $('#levaInfoDados').innerHTML = info;
-  const enviar = async () => {
+  const enviados = DB.clientes.filter(c => ofertado(c) && !['fechou','recusou'].includes(marca(c)));
+  const of7 = DB.clientes.filter(c => passaFiltro(c, 'ofertados') && noPeriodo(c, 'ofertados', 7));
+  const fech = DB.clientes.filter(c => passaFiltro(c, 'fechou') && noPeriodo(c, 'fechou', periodoPainel));
+  const perTxt = periodoPainel ? `últimos ${periodoPainel} dias` : 'todo o período';
+  const opc = {
+    leva:{t:'Última leva', n:l ? l.itens.length : 0, info:l ? `${l.itens.length} cliente(s) · ${dt(l.inicio)}${l.fim ? ' a ' + dt(l.fim) : ' (em andamento)'}${l.emailEm ? ` · <b>e-mail aberto em ${dt(l.emailEm)}</b>` : ''} · vai para o e-mail da leva` : 'Nenhuma leva enviada ainda.'},
+    enviados:{t:'Enviados', n:enviados.length, lista:enviados, descr:'enviados aguardando resultado', info:'Receberam a mensagem e ainda não têm Fechou/Recusou marcado.'},
+    of7:{t:'Ofertados · 7 dias', n:of7.length, lista:of7, descr:'ofertados nos últimos 7 dias', info:'Todos que receberam oferta nos últimos 7 dias.'},
+    fech:{t:'Fecharam', n:fech.length, lista:fech, descr:`fecharam (${perTxt})`, info:`Negócios fechados (${perTxt}, conforme o período dos Resultados).`}
+  };
+  if(!opc[listaConf]) listaConf = 'enviados';
+  $('#confOpc').innerHTML = Object.entries(opc).map(([k, o]) => `<button class="${k === listaConf ? 'on' : ''}" data-k="${k}">${o.t} <b>${o.n}</b></button>`).join('');
+  $('#confOpc').querySelectorAll('button').forEach(b => b.onclick = () => { listaConf = b.dataset.k; renderLeva(); });
+  const o = opc[listaConf];
+  $('#levaInfoDados').innerHTML = o.info;
+  $('#btnEmailLevaDados').textContent = `📧 Enviar MCIs por e-mail (${o.n})`;
+  $('#btnEmailLevaDados').disabled = !o.n;
+  $('#btnEmailLevaDados').onclick = async () => {
+    if(listaConf !== 'leva'){ enviarMcisEmail(o.lista, o.descr); return; }
     const dest = (DB.config.emailLeva || '').trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(dest)){ toast('Cadastre o e-mail de destino em Ajustes.'); aba('config'); $('#cEmail').focus(); return; }
     const fim = l.fim || hoje();
@@ -1375,7 +1419,6 @@ function renderLeva(){
     l.emailEm = hoje(); await salvarDB(); renderLeva();
     location.href = `mailto:${dest}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
   };
-  ['#btnEmailLevaDados'].forEach(b => { $(b).textContent = `📧 Enviar lista por e-mail (${l.itens.length})`; $(b).onclick = enviar; });
 }
 async function respostaRapida(c, q){
   const nome = tituloCase(c.nome.split(' ')[0]);
@@ -1385,7 +1428,7 @@ async function respostaRapida(c, q){
   const e = q === 'fechou' ? 'fechado' : 'recusou', alvo = e === 'fechado' ? abertos.slice(0, 1) : abertos; // recusa vale para todos os produtos em aberto
   c.prod = c.prod || {}; alvo.forEach(g => { c.prod[g] = {e, em:hoje(), motivo:''}; evento(e, {p:g}); });
   marcarRespondeu(c); toque(c); await salvarDB(); renderLista();
-  toast(e === 'fechado' ? `🎉 ${nome}: ${alvo[0]} fechado!` : `${nome}: recusa registrada.`);
+  if(e === 'fechado') oferecerDivulgar(c, alvo[0]); else toast(`${nome}: recusa registrada.`);
 }
 let rodada = false, aguardaProximo = null;
 function novaLeva(){ DB.levas = DB.levas || []; const l = {id:novoId(), inicio:hoje(), fim:null, itens:[]}; DB.levas.push(l); if(DB.levas.length > 10) DB.levas.shift(); return l; }
@@ -1400,6 +1443,17 @@ function irProximo(){
 $('#optOrdem').onchange = async () => { DB.config.ordem = $('#optOrdem').value; await salvarDB(); renderLista(); };
 function limparFiltros(){ $('#fltStatus').value = ''; $('#fltGrupo').value = ''; filtroPeriodo = 0; renderLista(); }
 let filtroPeriodo = 0, abrindoFiltro = false;
+/* manda MCIs para o e-mail do próprio funcionário (para conferir no sistema do banco) */
+function enviarMcisEmail(lista, descr){
+  const cs = lista.filter(c => c.mci);
+  if(!cs.length){ toast('Nenhum cliente com MCI nesta lista.'); return; }
+  const em = DB.config.emailProprio || '';
+  if(!em) toast('Dica: cadastre seu e-mail em Ajustes para ele vir preenchido.');
+  const corpo = `MCIs (${cs.length}) — ${descr}\n\n` + cs.map(c => c.mci).join('\n') +
+    `\n\n— Conferência —\n` + cs.map(c => `${c.mci} · ${tituloCase(c.nome)}${(c.grupos || []).length ? ' · ' + c.grupos.join(', ') : ''}`).join('\n') +
+    `\n\nGerado pelo Oferta Fácil. Uso interno — sigilo bancário e LGPD.`;
+  location.href = `mailto:${encodeURIComponent(em)}?subject=${encodeURIComponent(`Oferta Fácil – MCIs: ${descr} (${cs.length})`)}&body=${encodeURIComponent(corpo)}`;
+}
 /* ofertado = recebeu mensagem pelo app ou já tem resultado (fechou/recusou) marcado */
 function ofertado(c){ return !!c.ultimoContato || (c.hist || []).length > 0 || Object.values(c.prod || {}).some(p => ['fechado','recusou'].includes(p.e)); }
 /* datas de resultado só dos produtos que o cliente ainda tem marcados (o mesmo que a lista usa) */
@@ -1467,7 +1521,8 @@ function renderProds(){
   const gs = atual.grupos || [];
   mostrar('#cardResultado', atual.status !== 'pendente' && gs.length > 0);
   $('#detProds').innerHTML = gs.map((g, i) => { const e = ((atual.prod || {})[g] || {}).e;
-    return `<div class="resRow"><b>${esc(g)}</b><button class="rb ok ${e === 'fechado' ? 'on' : ''}" data-i="${i}" data-e="fechado">✅ Fechou</button><button class="rb no ${e === 'recusou' ? 'on' : ''}" data-i="${i}" data-e="recusou">✖ Recusou</button></div>`; }).join('');
+    return `<div class="resRow"><b>${esc(g)}</b><button class="rb ok ${e === 'fechado' ? 'on' : ''}" data-i="${i}" data-e="fechado">✅ Fechou</button><button class="rb no ${e === 'recusou' ? 'on' : ''}" data-i="${i}" data-e="recusou">✖ Recusou</button>${e === 'fechado' ? `<button class="rb" data-div="${i}" aria-label="Divulgar no grupo">📣</button>` : ''}</div>`; }).join('');
+  $('#detProds').querySelectorAll('[data-div]').forEach(b => b.onclick = () => abrirDivulgar([{c:atual, g:gs[+b.dataset.div]}]));
   $('#detProds').querySelectorAll('button[data-e]').forEach(b => b.onclick = async () => {
     const g = gs[+b.dataset.i]; atual.prod = atual.prod || {};
     const ant = (atual.prod[g] || {}).e;
@@ -1478,7 +1533,7 @@ function renderProds(){
     atual.prod[g] = {e, em:hoje(), motivo:''};
     if(e !== 'aberto'){ evento(e, {p:g}); marcarRespondeu(atual); }
     toque(atual); await salvarDB(); abrirDetSemRolar();
-    toast(e === 'fechado' ? '🎉 ' + g + ': negócio fechado!' : e === 'recusou' ? g + ': recusa registrada.' : g + ': marcação desfeita.');
+    if(e === 'fechado') oferecerDivulgar(atual, g); else toast(e === 'recusou' ? g + ': recusa registrada.' : g + ': marcação desfeita.');
   });
 }
 $('#btnProximo').onclick = () => { if(!rodada){ rodada = true; const l = levaAtual(); if(!l || l.fim) novaLeva(); } irProximo(); };
@@ -1508,8 +1563,73 @@ function avisoMsg(){
 $('#selModelo').onchange = montarMsg;
 $('#txtMsg').oninput = avisoMsg;
 
+/* ===== divulgação de vendas no grupo ===== */
+const dd = n => String(n).padStart(2, '0');
+function vendasHoje(){ // [{c, g, div}] fechados hoje, só produtos marcados no cliente
+  const h0 = new Date(); h0.setHours(0, 0, 0, 0); const out = [];
+  DB.clientes.forEach(c => (c.grupos || []).forEach(g => { const p = (c.prod || {})[g]; if(p && p.e === 'fechado' && p.em && new Date(p.em) >= h0) out.push({c, g, div:!!p.div}); }));
+  return out;
+}
+function textoDivulgacao(itens){
+  const mci = DB.config.divMci !== false, por = {};
+  itens.forEach(v => (por[v.g] = por[v.g] || []).push(v.c));
+  const linhas = [DB.config.sop || 'SOP'];
+  Object.entries(por).forEach(([g, cs]) => { linhas.push(`${dd(cs.length)} ${g}`); if(mci) cs.forEach(c => c.mci && linhas.push(c.mci)); });
+  return linhas.join('\n');
+}
+let divItens = [];
+function abrirDivulgar(itens, titulo, nota){
+  divItens = itens;
+  $('#divTitulo').textContent = titulo || '📣 Divulgar no grupo';
+  $('#divNota').textContent = nota || 'Toque em enviar e escolha o grupo do PSO no WhatsApp.';
+  mostrar('#divSopBox', !DB.config.sop); $('#divSop').value = DB.config.sop || '';
+  const ult = DB.config.divCanal || DB.config.whats;
+  document.querySelectorAll('[data-div-canal]').forEach(b => b.className = 'btn ' + (b.dataset.divCanal === ult ? 'biz' : 'sec'));
+  $('#divPrev').textContent = textoDivulgacao(itens);
+  mostrar('#ovDiv', true);
+}
+$('#divSop').oninput = () => { DB.config.sop = $('#divSop').value.trim(); $('#divPrev').textContent = textoDivulgacao(divItens); };
+$('#btnDivFechar').onclick = async () => { mostrar('#ovDiv', false); await salvarDB(); };
+async function concluirDivulgacao(){
+  if(!DB.config.sop){ toast('Preencha sua identificação (ex.: SOP 68).'); $('#divSop').focus(); return null; }
+  const txt = textoDivulgacao(divItens);
+  divItens.forEach(v => { v.c.prod[v.g].div = hoje(); });
+  DB.config.divCanal = DB.config.divCanal || '';
+  await salvarDB(); carregarConfig(); mostrar('#ovDiv', false); if(!$('#t-painel').classList.contains('hidden')) renderPainel();
+  return txt;
+}
+document.querySelectorAll('[data-div-canal]').forEach(b => b.onclick = async () => {
+  const txt = await concluirDivulgacao(); if(txt === null) return;
+  DB.config.divCanal = b.dataset.divCanal; await salvarDB();   // lembra a última escolha
+  location.href = linkWhats(b.dataset.divCanal, '', txt);
+});
+$('#btnDivCopiar').onclick = async () => {
+  if(!DB.config.sop){ toast('Preencha sua identificação (ex.: SOP 68).'); $('#divSop').focus(); return; }
+  const txt = textoDivulgacao(divItens);
+  let ok = true; try { await navigator.clipboard.writeText(txt); } catch(e){ ok = false; }
+  if(!ok){ toast('Não foi possível copiar. Selecione o texto e copie.'); return; }
+  await concluirDivulgacao(); toast('Copiado! Cole no grupo do PSO.');
+};
+function oferecerDivulgar(c, g){ abrirDivulgar([{c, g}], '🎉 Venda fechada!', 'Quer divulgar no grupo do PSO? Toque em enviar e escolha o grupo no WhatsApp.'); }
+$('#btnResumoDia').onclick = () => {
+  const v = vendasHoje(); if(!v.length) return;
+  const nov = v.filter(x => !x.div);
+  abrirDivulgar(nov.length ? nov : v, '📣 Resumo do dia', nov.length < v.length ? (nov.length ? `${v.length - nov.length} venda(s) de hoje já divulgada(s) ficaram de fora.` : 'Todas as vendas de hoje já foram divulgadas. Enviando de novo o resumo completo.') : 'Todas as vendas de hoje, agrupadas por produto.');
+};
+function renderHoje(){
+  const v = vendasHoje(), nov = v.filter(x => !x.div).length;
+  $('#hojeInfo').innerHTML = v.length ? `<b>${v.length}</b> venda(s) hoje${v.length - nov ? ` · ${v.length - nov} já divulgada(s)` : ''}` : 'Nenhuma venda registrada hoje ainda.';
+  mostrar('#btnResumoDia', v.length > 0);
+  $('#btnResumoDia').textContent = nov ? `📣 Divulgar resumo do dia (${nov})` : '📣 Divulgar resumo do dia de novo';
+}
 function linkWhats(canal, num, texto){
   const t = encodeURIComponent(texto);
+  if(!num){ // sem número: o WhatsApp abre a lista de conversas/grupos para escolher
+    const android = /android/i.test(navigator.userAgent), ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if(android) return `intent://send/?text=${t}#Intent;scheme=whatsapp;package=${canal === 'business' ? 'com.whatsapp.w4b' : 'com.whatsapp'};S.browser_fallback_url=${encodeURIComponent('https://wa.me/?text=' + t)};end`;
+    if(ios) return canal === 'business' ? `whatsapp-business://send?text=${t}` : `whatsapp://send?text=${t}`;
+    return `https://wa.me/?text=${t}`;
+  }
   const android = /android/i.test(navigator.userAgent), ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
   if(android){
     const pkg = canal === 'business' ? 'com.whatsapp.w4b' : 'com.whatsapp';
@@ -1586,7 +1706,7 @@ function dadosPainel(){
 }
 function renderPainel(){
   if(!DB) return;
-  renderLeva();
+  renderLeva(); renderHoje();
   const d = dadosPainel(), k = d.k, n = f => DB.clientes.filter(c => !f || marca(c) === f).length;
   const tile = (f, num, t, bg, fg) => `<button class="tile" data-f="${f}" style="background:${bg};color:${fg}"><b>${num}</b><span>${t}</span></button>`;
   const nr = n('retornar');
@@ -1715,14 +1835,14 @@ function renderGruposCfg(){
 }
 $('#btnAddGrupo').onclick = async () => { if(await criarGrupo($('#cNovoGrupo').value)) $('#cNovoGrupo').value = ''; };
 $('#cNovoGrupo').addEventListener('keydown', e => { if(e.key === 'Enter') $('#btnAddGrupo').click(); });
-function carregarConfig(){ const c = DB.config; $('#cNome').value = c.funcionario; $('#cCargo').value = c.cargo; $('#cWhats').value = c.whats; $('#cEmail').value = c.emailLeva || ''; $('#cEmailProprio').value = c.emailProprio || ''; renderGruposCfg();
+function carregarConfig(){ const c = DB.config; $('#cSop').value = c.sop || ''; $('#cDivMci').checked = c.divMci !== false; $('#cNome').value = c.funcionario; $('#cCargo').value = c.cargo; $('#cWhats').value = c.whats; $('#cEmail').value = c.emailLeva || ''; $('#cEmailProprio').value = c.emailProprio || ''; renderGruposCfg();
   $('#recStatus').innerHTML = meta && meta.wRec ? `🔑 Código de recuperação criado em ${new Date(meta.recEm).toLocaleDateString('pt-BR')}.` : '⚠️ Você ainda não tem código de recuperação. Sem ele, esquecer o PIN apaga os dados.';
   $('#btnNovoCodigo').textContent = meta && meta.wRec ? '🔑 Gerar novo código de recuperação' : '🔑 Gerar código de recuperação';
   $('#cProdPadrao').innerHTML = '<option value="">Nenhum</option>' + c.grupos.map(g => `<option ${g === c.prodPadrao ? 'selected' : ''}>${esc(g)}</option>`).join('');
   $('#cRetorno').value = String(c.retornoDias); $('#cMaxEnv').value = String(c.maxEnvios); mostrar('#boxRetorno', c.maxEnvios > 1); $('#cLock').value = String(c.lockMin); }
 $('#cMaxEnv').onchange = () => mostrar('#boxRetorno', +$('#cMaxEnv').value > 1);
 $('#btnSalvarCfg').onclick = async () => {
-  Object.assign(DB.config, {funcionario:$('#cNome').value.trim(), cargo:$('#cCargo').value.trim(), whats:$('#cWhats').value, emailLeva:$('#cEmail').value.trim(), emailProprio:$('#cEmailProprio').value.trim(), prodPadrao:$('#cProdPadrao').value, retornoDias:+$('#cRetorno').value, maxEnvios:+$('#cMaxEnv').value, lockMin:+$('#cLock').value});
+  Object.assign(DB.config, {sop:$('#cSop').value.trim(), divMci:$('#cDivMci').checked, funcionario:$('#cNome').value.trim(), cargo:$('#cCargo').value.trim(), whats:$('#cWhats').value, emailLeva:$('#cEmail').value.trim(), emailProprio:$('#cEmailProprio').value.trim(), prodPadrao:$('#cProdPadrao').value, retornoDias:+$('#cRetorno').value, maxEnvios:+$('#cMaxEnv').value, lockMin:+$('#cLock').value});
   await salvarDB(); renderLista(); toast('Ajustes salvos.');
 };
 $('#btnVerAviso').onclick = () => { $('#chkAceite').checked = true; $('#btnAceite').disabled = false; mostrar('#ovAviso', true); };
