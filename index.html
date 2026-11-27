@@ -63,6 +63,7 @@ textarea{min-height:110px;resize:vertical}
 .pinLogo{width:64px;height:64px;border-radius:20px;background:var(--acc);color:var(--pri);font-weight:800;font-size:20px;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:8px}
 .pinLogo span{position:absolute;top:-8px;right:-8px;width:26px;height:26px;border-radius:50%;background:#fff;color:var(--pri);font-size:18px;line-height:26px}
 #pinTitulo{margin:0;font-size:22px;font-weight:800;color:#fff}#pinTexto{margin:0;font-size:13.5px;color:#CBD5E1;max-width:300px}#pinEtapa{color:#fff;font-size:16px}
+@keyframes deslE{from{transform:translateX(40px);opacity:.3}to{transform:none;opacity:1}}@keyframes deslD{from{transform:translateX(-40px);opacity:.3}to{transform:none;opacity:1}}.desl-e{animation:deslE .22s ease-out}.desl-d{animation:deslD .22s ease-out}
 .pinMsg{min-height:20px;margin:14px 0 0;color:#FCA5A5;font-size:14px;font-weight:600}
 .pinEsq{margin-top:22px;background:none;border:0;color:#94A3B8;font-size:13.5px;text-decoration:underline}
 .fileHid{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
@@ -382,10 +383,10 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <select id="cWhats"><option value="business">WhatsApp Business</option><option value="pessoal">WhatsApp pessoal</option></select>
     <label>Produto já marcado em novos clientes</label>
     <select id="cProdPadrao"></select>
-    <label>Considerar “sem resposta” após</label>
-    <select id="cRetorno"><option value="1">1 dia</option><option value="2">2 dias</option><option value="3">3 dias</option><option value="5">5 dias</option><option value="7">7 dias</option></select>
     <label>Lembrete para quem não respondeu</label>
     <select id="cMaxEnv"><option value="1">Não enviar lembrete</option><option value="2">Enviar 1 lembrete</option><option value="3">Enviar até 2 lembretes</option></select>
+    <div id="boxRetorno"><label>Enviar o lembrete após</label>
+    <select id="cRetorno"><option value="1">1 dia</option><option value="2">2 dias</option><option value="3">3 dias</option><option value="5">5 dias</option><option value="7">7 dias</option></select></div>
     <label>Pedir o PIN de novo após ficar sem uso por</label>
     <select id="cLock"><option value="2">2 minutos</option><option value="5">5 minutos</option><option value="10">10 minutos</option></select>
     <label>Grupos</label>
@@ -675,7 +676,30 @@ addEventListener('popstate', e => {
   else { aba(st.t || 'novo'); if((st.t || 'novo') === 'clientes') fecharDet(); }
   navAplicando = false;
 });
+const ABAS = ['novo','clientes','painel','modelos','config'];
+let abaAtual = 'novo';
+(() => {
+  let x0 = 0, y0 = 0, t0 = 0, ok = false;
+  const app = document.getElementById('app');
+  app.addEventListener('touchstart', e => {
+    ok = e.touches.length === 1 && !e.target.closest('input,textarea,select,canvas,#cropBox,.noSwipe');
+    if(!ok) return; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
+  }, {passive:true});
+  app.addEventListener('touchend', e => {
+    if(!ok) return; ok = false;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    if(Date.now() - t0 > 700 || Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.7) return;
+    if(document.querySelector('.overlay:not(.hidden)')) return;
+    const i = ABAS.indexOf(abaAtual) + (dx < 0 ? 1 : -1);
+    if(i < 0 || i >= ABAS.length) return;
+    const t = ABAS[i];
+    aba(t); if(t === 'clientes') fecharDet();
+    const sec = document.getElementById('t-' + t);
+    sec.classList.remove('desl-e','desl-d'); void sec.offsetWidth; sec.classList.add(dx < 0 ? 'desl-e' : 'desl-d');
+  }, {passive:true});
+})();
 function aba(t){
+  abaAtual = t;
   pushNav({t});
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.t === t));
   ['novo','clientes','painel','modelos','config'].forEach(x => mostrar('#t-' + x, x === t));
@@ -1490,7 +1514,8 @@ $('#btnAddGrupo').onclick = async () => { if(await criarGrupo($('#cNovoGrupo').v
 $('#cNovoGrupo').addEventListener('keydown', e => { if(e.key === 'Enter') $('#btnAddGrupo').click(); });
 function carregarConfig(){ const c = DB.config; $('#cNome').value = c.funcionario; $('#cCargo').value = c.cargo; $('#cWhats').value = c.whats; $('#cEmail').value = c.emailLeva || ''; renderGruposCfg();
   $('#cProdPadrao').innerHTML = '<option value="">Nenhum</option>' + c.grupos.map(g => `<option ${g === c.prodPadrao ? 'selected' : ''}>${esc(g)}</option>`).join('');
-  $('#cRetorno').value = String(c.retornoDias); $('#cMaxEnv').value = String(c.maxEnvios); $('#cLock').value = String(c.lockMin); }
+  $('#cRetorno').value = String(c.retornoDias); $('#cMaxEnv').value = String(c.maxEnvios); mostrar('#boxRetorno', c.maxEnvios > 1); $('#cLock').value = String(c.lockMin); }
+$('#cMaxEnv').onchange = () => mostrar('#boxRetorno', +$('#cMaxEnv').value > 1);
 $('#btnSalvarCfg').onclick = async () => {
   Object.assign(DB.config, {funcionario:$('#cNome').value.trim(), cargo:$('#cCargo').value.trim(), whats:$('#cWhats').value, emailLeva:$('#cEmail').value.trim(), prodPadrao:$('#cProdPadrao').value, retornoDias:+$('#cRetorno').value, maxEnvios:+$('#cMaxEnv').value, lockMin:+$('#cLock').value});
   await salvarDB(); renderLista(); toast('Ajustes salvos.');
