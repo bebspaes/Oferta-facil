@@ -76,6 +76,7 @@ textarea{min-height:110px;resize:vertical}
 .rb{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;font-weight:700;font-size:14px;color:var(--mut)}.rb.ok.on{background:#e7f5ee;border-color:#3aa57a;color:#0f5a3c}.rb.no.on{background:#fdecea;border-color:#e08a7a;color:#8c2a17}
 .linkBtn{display:block;margin:14px auto 0;background:none;border:0;color:var(--mut);font-size:13.5px;text-decoration:underline}
 .fChip{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin:0 0 6px;border:0;border-radius:12px;background:var(--acc);color:var(--pri);padding:9px 12px;font-size:14px;text-align:left}.fChip .x{font-weight:800;white-space:nowrap}
+.tagsLinha{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.tagsLinha .stTag{margin-top:0}.prodTag{background:var(--pri);color:#fff}
 .pinMsg{min-height:20px;margin:14px 0 0;color:#FCA5A5;font-size:14px;font-weight:600}
 .pinEsq{margin-top:22px;background:none;border:0;color:#94A3B8;font-size:13.5px;text-decoration:underline}
 .fileHid{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
@@ -522,6 +523,7 @@ const SITUACAO = {retornar:'🔁 Retornar', pendente:'Pendente de envio', contat
 const ETAPA = {aberto:'Em aberto', negociando:'Em negociação', fechado:'Fechado', recusou:'Recusou'};
 const ETAPA_CURTA = {aberto:'Aberto', negociando:'Negociando', fechado:'✅ Fechou', recusou:'✖ Recusou'};
 const MOTIVOS = ['Sem interesse','Já possui','Sem saldo/condição','Prefere outra instituição','Outro'];
+const ICONE_PROD = {'Rende Fácil':'🪙', 'Previdência':'💰', 'Ourocap':'🎟️', 'Capitalização':'🎟️', 'Seguridade':'🛡️', 'Consórcio':'🏠', 'CDC':'💳'};
 const INFO_MODELOS = {
   m6:{prod:'Rende Fácil', curto:'Domicílio fiscal pendente', desc:'Para quem ainda precisa do duplo SIM do domicílio'},
   m8:{prod:'Rende Fácil', curto:'Domicílio já em dia', desc:'Só o duplo SIM do Rende Fácil'},
@@ -1398,7 +1400,7 @@ function abrirDet(id){
     : stD === 'pendente' ? ['⏳ Pendente de envio', '#fff4e5', '#8a4b0c'] : ['📤 Enviado em ' + fmtData(atual.ultimoContato), '#EEF2F7', '#334155'];
   $('#detDados').innerHTML = `<h2 style="margin:0">${esc(tituloCase(atual.nome))}</h2>
     <div class="detLinha">Ag. <b>${esc(atual.agencia || '-')}</b>${atual.nomeAgencia ? ' ' + esc(atual.nomeAgencia) : ''} · Conta <b>${esc(atual.conta || '-')}</b><br>MCI <b>${esc(atual.mci || '-')}</b> · <b>${esc(fmtTel(atual.telefone))}</b>${numeroWhats(atual.telefone) ? '' : ' <span style="color:#a12a14">⚠️ celular inválido</span>'}${atual.obs ? '<br>Obs.: ' + esc(atual.obs) : ''}</div>
-    <span class="stTag" style="background:${tag[1]};color:${tag[2]}">${tag[0]}</span>`;
+    <div class="tagsLinha"><span class="stTag" style="background:${tag[1]};color:${tag[2]}">${tag[0]}</span>${(atual.grupos || []).map(g => `<span class="stTag prodTag">${ICONE_PROD[g] || '📦'} ${esc(g)}</span>`).join('') || '<span class="stTag prodTag" style="opacity:.7">Sem produto marcado</span>'}</div>`;
   mostrar('#detEdit', false); mostrar('#btnEditar', true);
   $('#selModelo').innerHTML = blocos().map(([p, ms]) => `<optgroup label="${esc(p)}">${ms.map(m => `<option value="${esc(m.id)}">${esc(m.curto || m.titulo)}</option>`).join('')}</optgroup>`).join('');
   const st = situacao(atual), temRF = (atual.grupos || []).includes('Rende Fácil') || !(atual.grupos || []).length;
@@ -1414,7 +1416,7 @@ function abrirDet(id){
   mostrar('#btnProximo', nf > 0);
   $('#detHist').innerHTML = atual.hist && atual.hist.length ? '<b style="font-size:14px">Contatos enviados</b>' + atual.hist.slice(0, 15).map(h => `<p class="hist">${new Date(h.em).toLocaleString('pt-BR')} · ${esc(h.modelo)} · ${h.canal === 'business' ? 'Business' : 'Pessoal'}</p>`).join('') : '<p class="hist">Nenhum contato enviado ainda.</p>';
   pintarStatus();
-  chipsGrupos($('#detGrupos'), atual.grupos || [], async g => { atual.grupos = g; atual.prod = atual.prod || {}; g.forEach(x => { if(!atual.prod[x]) atual.prod[x] = {e:'aberto', em:hoje()}; }); toque(atual); await salvarDB(); renderProds(); });
+  chipsGrupos($('#detGrupos'), atual.grupos || [], async g => { atual.grupos = g; atual.prod = atual.prod || {}; g.forEach(x => { if(!atual.prod[x]) atual.prod[x] = {e:'aberto', em:hoje()}; }); toque(atual); await salvarDB(); abrirDetSemRolar(); });
   const biz = DB.config.whats === 'business';
   $('#btnEnviar').textContent = '📤 Enviar pelo WhatsApp ' + (biz ? 'Business' : 'pessoal');
   $('#btnEnviar').className = 'btn ' + (biz ? 'biz' : 'pes');
