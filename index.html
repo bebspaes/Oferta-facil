@@ -74,6 +74,7 @@ textarea{min-height:110px;resize:vertical}
 .stTag{display:inline-block;margin-top:8px;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:700}
 .resRow{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line)}.resRow:first-child{border-top:0}.resRow b{flex:1;min-width:0}
 .rb{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;font-weight:700;font-size:14px;color:var(--mut)}.rb.ok.on{background:#e7f5ee;border-color:#3aa57a;color:#0f5a3c}.rb.no.on{background:#fdecea;border-color:#e08a7a;color:#8c2a17}
+.linkBtn{display:block;margin:14px auto 0;background:none;border:0;color:var(--mut);font-size:13.5px;text-decoration:underline}
 .pinMsg{min-height:20px;margin:14px 0 0;color:#FCA5A5;font-size:14px;font-weight:600}
 .pinEsq{margin-top:22px;background:none;border:0;color:#94A3B8;font-size:13.5px;text-decoration:underline}
 .fileHid{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
@@ -321,7 +322,26 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
   <div id="detView" class="hidden">
     <button class="btn sec" id="btnVoltar" style="margin:0 0 12px">← Voltar à lista</button>
     <div class="card">
-      <div class="detTopo"><div id="detDados" style="flex:1;min-width:0"></div><button class="btnIcon" id="btnEditar" aria-label="Editar dados">✏️</button></div>
+      <div id="detDados"></div>
+      <div id="detAlerta"></div>
+      <label style="margin-top:12px">Mensagem</label><select id="selModelo"></select>
+      <textarea id="txtMsg" style="min-height:150px;margin-top:8px"></textarea>
+      <p class="note" id="msgAviso"></p>
+      <button class="btn biz" id="btnEnviar">📤 Enviar pelo WhatsApp</button>
+      <p class="note" style="margin:6px 0 0">Abre direto na conversa, sem salvar o número na agenda.</p>
+      <button class="btn yel hidden" id="btnProximo">⏭️ Próximo da fila</button>
+    </div>
+    <div class="card hidden" id="cardResultado">
+      <h2>Resultado</h2>
+      <p class="note" style="margin:-4px 0 8px">Marque só se o cliente responder. Toque de novo para desfazer.</p>
+      <div id="detProds"></div>
+    </div>
+    <div class="card">
+      <label style="margin-top:0">Produto ofertado</label>
+      <div class="chips" id="detGrupos"></div>
+      <h2 style="margin-top:16px">Histórico</h2>
+      <div id="detHist"></div>
+      <button class="linkBtn" id="btnEditar">✏️ Corrigir dados do cliente</button>
       <div id="detEdit" class="hidden">
         <label>Nome do cliente</label><input id="eNome" autocomplete="off">
         <div class="row"><div><label>Celular (WhatsApp)</label><input id="eTel" inputmode="tel" autocomplete="off"></div><div><label>MCI (9 dígitos)</label><input id="eMci" inputmode="numeric" maxlength="9" autocomplete="off"></div></div>
@@ -330,29 +350,6 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
         <label>Observação interna (não vai na mensagem)</label><input id="eObs" autocomplete="off" maxlength="140">
         <div class="row"><button class="btn" id="btnSalvarEd">💾 Salvar</button><button class="btn sec" id="btnCancelarEd">Cancelar</button></div>
       </div>
-      <div id="detAlerta"></div>
-      <label style="margin-top:12px">Produto ofertado</label>
-      <div class="chips" id="detGrupos"></div>
-    </div>
-    <div class="card hidden" id="cardResultado">
-      <h2>Resultado</h2>
-      <p class="note" style="margin:-4px 0 8px">Marque só se o cliente responder. Toque de novo para desfazer.</p>
-      <div id="detProds"></div>
-    </div>
-    <div class="card">
-      <h2>Enviar mensagem</h2>
-      <label>Modelo</label><select id="selModelo"></select>
-      <label>Mensagem (pode editar antes de enviar)</label><textarea id="txtMsg" style="min-height:150px"></textarea>
-      <p class="note" id="msgAviso"></p>
-      <button class="btn biz" id="btnEnviar">📤 Enviar pelo WhatsApp</button>
-      <p class="note" id="viaWhats" style="margin:6px 0 0"></p>
-      <button class="btn sec" id="btnCopiar">Copiar mensagem</button>
-      <p class="note">O WhatsApp abre direto na conversa, <b>sem salvar o número na agenda</b>.</p>
-      <button class="btn yel" id="btnProximo">⏭️ Próximo da fila</button>
-    </div>
-    <div class="card">
-      <h2>Histórico</h2>
-      <div id="detHist"></div>
       <button class="btn danger" id="btnExcluir">🗑️ Excluir este cliente</button>
     </div>
   </div>
@@ -1400,7 +1397,7 @@ function abrirDet(id){
   $('#detDados').innerHTML = `<h2 style="margin:0">${esc(tituloCase(atual.nome))}</h2>
     <div class="detLinha">Ag. <b>${esc(atual.agencia || '-')}</b>${atual.nomeAgencia ? ' ' + esc(atual.nomeAgencia) : ''} · Conta <b>${esc(atual.conta || '-')}</b><br>MCI <b>${esc(atual.mci || '-')}</b> · <b>${esc(fmtTel(atual.telefone))}</b>${numeroWhats(atual.telefone) ? '' : ' <span style="color:#a12a14">⚠️ celular inválido</span>'}${atual.obs ? '<br>Obs.: ' + esc(atual.obs) : ''}</div>
     <span class="stTag" style="background:${tag[1]};color:${tag[2]}">${tag[0]}</span>`;
-  mostrar('#detEdit', false); mostrar('#btnEditar', true); mostrar('#detDados', true);
+  mostrar('#detEdit', false); mostrar('#btnEditar', true);
   $('#selModelo').innerHTML = blocos().map(([p, ms]) => `<optgroup label="${esc(p)}">${ms.map(m => `<option value="${esc(m.id)}">${esc(m.curto || m.titulo)}</option>`).join('')}</optgroup>`).join('');
   const st = situacao(atual), temRF = (atual.grupos || []).includes('Rende Fácil') || !(atual.grupos || []).length;
   const gs = atual.grupos || [];
@@ -1411,15 +1408,14 @@ function abrirDet(id){
   $('#detAlerta').innerHTML = st === 'retornar' ? `<div class="alerta">🔁 Retornar: sem resposta há ${Math.floor(dias(atual.ultimoContato))} dia(s). Este será o contato ${envs + 1} de ${DB.config.maxEnvios}.</div>` : '';
   renderProds();
   const nf = fila().filter(c => c.id !== atual.id).length;
-  $('#btnProximo').textContent = nf ? (rodada ? `⏭️ Pular para o próximo (${nf} restantes)` : `⏭️ Próximo da fila (${nf})`) : '✅ Fila de envios concluída';
-  $('#btnProximo').disabled = !nf;
+  $('#btnProximo').textContent = rodada ? `⏭️ Pular para o próximo (${nf} restantes)` : `⏭️ Próximo pendente (${nf})`;
+  mostrar('#btnProximo', nf > 0);
   $('#detHist').innerHTML = atual.hist && atual.hist.length ? '<b style="font-size:14px">Contatos enviados</b>' + atual.hist.slice(0, 15).map(h => `<p class="hist">${new Date(h.em).toLocaleString('pt-BR')} · ${esc(h.modelo)} · ${h.canal === 'business' ? 'Business' : 'Pessoal'}</p>`).join('') : '<p class="hist">Nenhum contato enviado ainda.</p>';
   pintarStatus();
   chipsGrupos($('#detGrupos'), atual.grupos || [], async g => { atual.grupos = g; atual.prod = atual.prod || {}; g.forEach(x => { if(!atual.prod[x]) atual.prod[x] = {e:'aberto', em:hoje()}; }); toque(atual); await salvarDB(); renderProds(); });
   const biz = DB.config.whats === 'business';
   $('#btnEnviar').textContent = '📤 Enviar pelo WhatsApp ' + (biz ? 'Business' : 'pessoal');
   $('#btnEnviar').className = 'btn ' + (biz ? 'biz' : 'pes');
-  $('#viaWhats').textContent = 'Para trocar entre Business e pessoal, vá em Ajustes.';
   scrollTo(0, 0);
 }
 function pintarStatus(){ document.querySelectorAll('#detStatus button').forEach(b => b.classList.toggle('on', b.dataset.s === atual.status)); }
@@ -1506,11 +1502,10 @@ async function enviar(canal){
   setTimeout(() => { toast('Lembre-se de registrar o contato no sistema oficial do BB.', 5000); if(atual && atual.id === idEnv) abrirDet(idEnv); else renderLista(); }, 1200);
 }
 $('#btnEnviar').onclick = () => enviar(DB.config.whats);
-$('#btnCopiar').onclick = async () => { try { await navigator.clipboard.writeText($('#txtMsg').value); toast('Mensagem copiada.'); } catch(e){ $('#txtMsg').select(); toast('Selecione e copie manualmente.'); } };
 $('#btnEditar').onclick = () => {
   $('#eNome').value = tituloCase(atual.nome || ''); $('#eTel').value = fmtTel(atual.telefone) === '-' ? '' : fmtTel(atual.telefone); $('#eMci').value = atual.mci || '';
   $('#eAg').value = atual.agencia || ''; $('#eConta').value = atual.conta || ''; $('#eNomeAg').value = atual.nomeAgencia || ''; $('#eObs').value = atual.obs || '';
-  mostrar('#detEdit', true); mostrar('#btnEditar', false); mostrar('#detDados', false); $('#eNome').focus();
+  mostrar('#detEdit', true); mostrar('#btnEditar', false); $('#eNome').focus();
 };
 $('#btnCancelarEd').onclick = () => abrirDetSemRolar();
 $('#btnSalvarEd').onclick = async () => {

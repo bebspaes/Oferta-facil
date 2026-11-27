@@ -1,6 +1,6 @@
 // Oferta Fácil – service worker: guarda o app no celular para abrir sem internet.
 // Não guarda nem envia dados de clientes (eles ficam criptografados no próprio app).
-const CACHE = 'oferta-facil-20261126-2354';
+const CACHE = 'oferta-facil-20261127-0009';
 const ARQUIVOS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(ARQUIVOS.map(u => new Request(u, {cache:'reload'})))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
