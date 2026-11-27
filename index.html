@@ -68,6 +68,8 @@ textarea{min-height:110px;resize:vertical}
 .pinLogo span{position:absolute;top:-8px;right:-8px;width:26px;height:26px;border-radius:50%;background:#fff;color:var(--pri);font-size:18px;line-height:26px}
 #pinTitulo{margin:0;font-size:22px;font-weight:800;color:#fff}#pinTexto{margin:0;font-size:13.5px;color:#CBD5E1;max-width:300px}#pinEtapa{color:#fff;font-size:16px}
 @keyframes deslE{from{transform:translateX(40px);opacity:.3}to{transform:none;opacity:1}}@keyframes deslD{from{transform:translateX(-40px);opacity:.3}to{transform:none;opacity:1}}.desl-e{animation:deslE .22s ease-out}.desl-d{animation:deslD .22s ease-out}
+.recIn{max-width:300px;width:100%;margin-top:18px;text-align:center;font-size:19px;letter-spacing:2px;font-weight:700;text-transform:uppercase;border-radius:14px;border:0;padding:14px}
+.codBox{font-size:22px;font-weight:800;letter-spacing:2px;background:#F3F4F6;border:2px dashed var(--accd);border-radius:14px;padding:14px 8px;margin:10px 0 6px;user-select:all;word-break:break-all}
 .pinMsg{min-height:20px;margin:14px 0 0;color:#FCA5A5;font-size:14px;font-weight:600}
 .pinEsq{margin-top:22px;background:none;border:0;color:#94A3B8;font-size:13.5px;text-decoration:underline}
 .fileHid{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
@@ -182,6 +184,43 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <button class="btn yel" id="btnPin" style="max-width:260px;margin:14px auto 0">Entrar</button>
     <p id="pinMsg" class="pinMsg"></p>
     <button class="pinEsq hidden" id="btnEsqueci">Esqueci o PIN</button>
+  </div>
+</div>
+
+<div id="ovRecuperar" class="overlay hidden">
+  <div class="pinTela">
+    <div class="pinTopo">
+      <div class="pinLogo">🔑</div>
+      <h2 style="margin:0;font-size:22px;font-weight:800;color:#fff">Esqueci o PIN</h2>
+      <p style="margin:0;font-size:13.5px;color:#CBD5E1;max-width:310px">Digite o código de recuperação que você enviou para o seu e-mail ao criar o PIN.</p>
+    </div>
+    <input id="recCodigo" class="recIn" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24">
+    <button class="btn yel" id="btnRecOk" style="max-width:300px;margin:14px auto 0">Recuperar</button>
+    <p id="recMsg" class="pinMsg"></p>
+    <button class="pinEsq" id="btnRecVoltar">← Voltar ao PIN</button>
+    <button class="pinEsq" id="btnRecApagar" style="margin-top:10px">Não tenho o código — apagar tudo</button>
+  </div>
+</div>
+
+<div id="ovCodigo" class="overlay hidden">
+  <div class="card" style="text-align:center">
+    <div id="codOferta">
+      <h2>🔑 Código de recuperação</h2>
+      <p class="note">Novo: se você esquecer o PIN, um código de recuperação permite entrar de novo <b>sem perder os clientes</b>. Ele é gerado no celular e você mesmo o envia para o seu e-mail.</p>
+      <button class="btn yel" id="btnCodGerar">Gerar meu código</button>
+      <button class="btn sec" id="btnCodDepois">Agora não</button>
+    </div>
+    <div id="codMostra" class="hidden">
+      <h2>🔑 Seu código de recuperação</h2>
+      <p class="note" style="margin-top:0">Use só se esquecer o PIN: toque em “Esqueci o PIN” e digite este código.</p>
+      <div class="codBox" id="codTexto"></div>
+      <label style="text-align:left">Seu e-mail corporativo</label>
+      <input id="codEmail" type="email" inputmode="email" autocomplete="off" placeholder="nome@bb.com.br">
+      <button class="btn yel" id="btnCodEmail">📧 Enviar para meu e-mail</button>
+      <button class="btn sec" id="btnCodCopiar">📋 Copiar código</button>
+      <div class="alerta" style="text-align:left;margin-top:10px">Este código abre os dados dos clientes, como o PIN. Envie <b>só para o seu e-mail corporativo</b> e não compartilhe. Gerar um novo código em Ajustes invalida este.</div>
+      <button class="btn" id="btnCodOk">Já guardei o código</button>
+    </div>
   </div>
 </div>
 
@@ -378,6 +417,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <h2>Seus dados (usados nas mensagens)</h2>
     <label>Seu nome</label><input id="cNome" autocomplete="off">
     <label>Seu cargo / função</label><input id="cCargo" autocomplete="off" placeholder="ex.: Gerente de Relacionamento">
+    <label>Seu e-mail (recebe o código de recuperação do PIN)</label><input id="cEmailProprio" type="email" inputmode="email" autocomplete="off" placeholder="nome@bb.com.br">
     <label>E-mail que recebe a lista de cada leva (MCI e nome)</label>
     <input id="cEmail" type="email" inputmode="email" autocomplete="off" placeholder="nome@bb.com.br">
     <label>Enviar mensagens pelo</label>
@@ -413,6 +453,8 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <p class="note hidden" id="dicaIos">No iPhone: toque em <b>Compartilhar</b> (□↑) e depois em <b>Adicionar à Tela de Início</b>.</p>
     <button class="btn sec" id="btnBloquear">Bloquear agora</button>
     <button class="btn sec" id="btnTrocarPin">Trocar PIN</button>
+    <p class="note" id="recStatus" style="margin:10px 0 0"></p>
+    <button class="btn sec" id="btnNovoCodigo">🔑 Gerar código de recuperação</button>
     <button class="btn danger" id="btnApagarTudo">Apagar todos os dados do app</button>
   </div>
 </section>
@@ -443,8 +485,29 @@ async function derivar(pin, salt){
 async function cifrar(key, obj){ const iv = crypto.getRandomValues(new Uint8Array(12)); const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, enc.encode(JSON.stringify(obj))); return JSON.stringify({iv:b64(iv), ct:b64(ct)}); }
 async function decifrar(key, str){ const {iv, ct} = JSON.parse(str); const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv:unb64(iv)}, key, unb64(ct)); return JSON.parse(dec.decode(pt)); }
 
+/* chave dos dados (DK) aleatória, guardada embrulhada pelo PIN e pelo código de recuperação */
+async function cifrarRaw(key, bytes){ const iv = crypto.getRandomValues(new Uint8Array(12)); const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, bytes); return {iv:b64(iv), ct:b64(ct)}; }
+async function decifrarRaw(key, o){ return new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM', iv:unb64(o.iv)}, key, unb64(o.ct))); }
+const importarDK = raw => crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['encrypt','decrypt']);
+const ALFA_COD = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+function gerarCodigo(){ const r = crypto.getRandomValues(new Uint8Array(16)); let c = ''; r.forEach((b, i) => { c += ALFA_COD[b & 31]; if(i % 4 === 3 && i < 15) c += '-'; }); return c; }
+const normCodigo = c => (c || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
 /* =================== estado =================== */
-let KEY = null, DB = null, meta = null;
+let KEY = null, DB = null, meta = null, DKRAW = null, PINKEY = null;
+async function garantirDK(){
+  if(DKRAW) return;
+  DKRAW = crypto.getRandomValues(new Uint8Array(32)); KEY = await importarDK(DKRAW);
+  meta.wPin = await cifrarRaw(PINKEY, DKRAW);
+  await salvarDB(); ls.set(K_META, JSON.stringify(meta));
+}
+async function novoCodigoRec(){
+  await garantirDK();
+  const cod = gerarCodigo(), salt = crypto.getRandomValues(new Uint8Array(16));
+  const rk = await derivar(normCodigo(cod), salt);
+  meta.wRec = await cifrarRaw(rk, DKRAW); meta.recSalt = b64(salt); meta.recEm = hoje();
+  ls.set(K_META, JSON.stringify(meta));
+  return cod;
+}
 const MODELOS_PADRAO = [
   {id:'m6', titulo:'Rende Fácil + domicílio fiscal', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nPara ativar, são dois passos rápidos:\n1️⃣ Confirme o seu *domicílio fiscal* com o *duplo SIM*.\n2️⃣ Em seguida, confirme a adesão ao *Rende Fácil* com outro *duplo SIM*.\n\nTudo é feito pelo *App BB*, com mais segurança para você. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
   {id:'m8', titulo:'Rende Fácil (domicílio já em dia)', texto:'{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nSeu *domicílio fiscal* já está em dia, então falta só um passo: confirmar a adesão ao *Rende Fácil* com o *duplo SIM*.\n\nTudo é feito pelo *App BB*, com mais segurança para você. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'},
@@ -478,7 +541,7 @@ const INFO_MODELOS = {
 };
 const ORDEM_BLOCOS = ['Rende Fácil','Previdência','Ourocap','Geral'];
 function infoModelos(){ DB.modelos.forEach(m => { if(m.curto === 'Com domicílio fiscal') m.curto = 'Domicílio fiscal pendente'; const i = INFO_MODELOS[m.id]; if(!m.prod) m.prod = i ? i.prod : 'Geral'; if(m.curto === undefined) m.curto = i ? i.curto : m.titulo; if(m.desc === undefined) m.desc = i ? i.desc : ''; }); }
-const CONFIG_PADRAO = {funcionario:'', cargo:'', whats:'business', emailLeva:'bernardocpa@bb.com.br', retencao:30, lockMin:5, prodPadrao:'Rende Fácil', retornoDias:3, maxEnvios:1, grupos:GRUPOS_PADRAO};
+const CONFIG_PADRAO = {funcionario:'', cargo:'', whats:'business', emailLeva:'bernardocpa@bb.com.br', emailProprio:'', retencao:30, lockMin:5, prodPadrao:'Rende Fácil', retornoDias:3, maxEnvios:1, grupos:GRUPOS_PADRAO};
 function dbVazio(){ return {clientes:[], eventos:[], modelos:JSON.parse(JSON.stringify(MODELOS_PADRAO)).map(m => ({...m, ...(INFO_MODELOS[m.id] || {prod:'Geral', curto:m.titulo, desc:''})})), config:{...CONFIG_PADRAO, ordemModelosV2:true, v17:true, evSeed:true, m6Topo:true, modelosVistos:MODELOS_PADRAO.map(m => m.id)}}; }
 async function salvarDB(){ if(!KEY) return; if(!ls.set(K_DATA, await cifrar(KEY, DB))) toast('Não foi possível salvar neste navegador.'); }
 
@@ -505,7 +568,7 @@ function telaPin(criar, trocar){
   $('#pin1').value = ''; $('#pin2').value = ''; $('#pinMsg').textContent = '';
   const novo = modoPin !== 'entrar';
   $('#pinTitulo').textContent = novo ? (trocar ? 'Novo PIN' : 'Crie um PIN') : 'Desbloquear';
-  $('#pinTexto').textContent = novo ? 'O PIN protege os dados dos clientes. Se esquecer, os dados só podem ser apagados.' : '';
+  $('#pinTexto').textContent = novo ? 'O PIN protege os dados dos clientes. Se esquecer, você entra com o código de recuperação.' : '';
   $('#btnPin').textContent = novo ? 'Criar PIN' : 'Entrar';
   $('#pin1').maxLength = novo ? 4 : 12; $('#pin2').maxLength = 4;
   // com PIN de 4 números o desbloqueio é automático; o botão só aparece para PIN antigo (mais longo)
@@ -542,32 +605,7 @@ $('#pin1').addEventListener('input', () => {
   else pintarPin();
 });
 $('#pin2').addEventListener('input', () => { if(soDigitos($('#pin2')).length === 4 && $('#pin1').value.length === 4) $('#btnPin').click(); });
-$('#btnPin').onclick = async () => {
-  if(ocupado) return;
-  const p1 = $('#pin1').value.trim(), p2 = $('#pin2').value.trim(), msg = $('#pinMsg');
-  const recomecar = t => { msg.textContent = t; $('#pin1').value = ''; $('#pin2').value = ''; pintarPin(); if(navigator.vibrate) navigator.vibrate(120); };
-  if(modoPin !== 'entrar'){
-    if(!/^\d{4}$/.test(p1)){ msg.textContent = 'O PIN deve ter 4 números.'; return; }
-    if(p1 !== p2){ recomecar('Os PINs não conferem. Digite de novo.'); return; }
-    if(/^(\d)\1+$/.test(p1) || '0123456789'.includes(p1) || '9876543210'.includes(p1)){ recomecar('Evite sequências (1234) ou números repetidos (1111).'); return; }
-    ocupado = true;
-    msg.textContent = 'Gerando chave…';
-    const salt = crypto.getRandomValues(new Uint8Array(16));
-    KEY = await derivar(p1, salt);
-    meta.salt = b64(salt); meta.pinLen = 4; ls.set(K_META, JSON.stringify(meta));
-    ocupado = false;
-    if(modoPin === 'criar') DB = dbVazio();
-    await salvarDB();
-    abrirApp(modoPin === 'trocar' ? 'PIN alterado.' : 'PIN criado. Bem-vindo(a)!');
-    return;
-  }
-  if(Date.now() < esperaAte){ recomecar(`Muitas tentativas. Aguarde ${Math.ceil((esperaAte - Date.now())/1000)} s.`); return; }
-  ocupado = true; msg.textContent = 'Verificando…';
-  try {
-    const k = await derivar(p1, unb64(meta.salt));
-    const data = ls.get(K_DATA);
-    DB = data ? await decifrar(k, data) : dbVazio();
-    KEY = k; tentativas = 0; ocupado = false;
+async function prepararDB(){
     DB.config = {...CONFIG_PADRAO, ...(DB.config || {})};
     DB.config.modelosVistos = DB.config.modelosVistos || DB.modelos.map(m => m.id);
     { const ANTIGOS = {m6:['{saudacao}, {primeiro_nome}! Tudo bem? Aqui é {funcionario}, {cargo} do Banco do Brasil ({nome_agencia}).\n\nTenho duas facilidades rápidas para você:\n\n1️⃣ *Atualização do domicílio fiscal*: é uma confirmação cadastral simples, exigida pela regulamentação, que mantém sua conta e seus investimentos em dia.\n\n2️⃣ *BB Rende Fácil*: com o cadastro atualizado, o saldo que fica parado na conta passa a ser aplicado automaticamente e continua disponível sempre que você precisar, sem precisar fazer nada.\n\nPosso te ajudar a resolver os dois em poucos minutos. Prefere que eu explique por aqui ou numa ligação rápida?\n\nPor segurança, nunca pedimos senhas ou códigos por mensagem. 😊', '{saudacao}, {primeiro_nome}! Aqui é do Banco do Brasil, agência {nome_agencia}.\n\nSua conta já pode contar com o *BB Rende Fácil*: o saldo que fica parado passa a ser aplicado automaticamente e continua disponível sempre que você precisar.\n\nPara seguirmos com a ativação, basta confirmar o seu *domicílio fiscal* com o *duplo SIM*. ✅\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'], m7:['{saudacao}, {primeiro_nome}! Passando para lembrar: para ativar o *BB Rende Fácil* na sua conta, basta confirmar o seu *domicílio fiscal* com o *duplo SIM*. ✅\n\nSe preferir não ativar agora, é só nos avisar. Por segurança, nunca pedimos senhas ou códigos por mensagem.'], m9:['{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nVi que o seu *Ourocap* está chegando ao fim do prazo. Que tal *renovar* e continuar concorrendo aos *sorteios*, enquanto segue guardando dinheiro com disciplina? 🍀\n\nA renovação é rápida e pode ser feita pelo *App BB*, com toda a segurança. Se preferir, te explico as opções por aqui.\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.'], m10:['{saudacao}, {primeiro_nome}! Aqui é {funcionario}, da Plataforma de Suporte Operacional do Banco do Brasil.\n\nSabia que dá para reforçar a sua *previdência* com um *aporte extra*, mesmo de *valor baixo*, quando quiser? É um valor à parte, além das contribuições que você já faz. Pequenos aportes ao longo do tempo fazem diferença no seu futuro. 📈\n\nSe o seu plano for *PGBL* e você faz a declaração *completa* do IR, os aportes feitos até *31/12* podem ajudar a reduzir o imposto deste ano (até 12% da renda bruta tributável).\n\nO aporte pode ser feito pelo *App BB*, com toda a segurança, ou posso te ajudar por aqui.\n\nQualquer dúvida, é só responder esta mensagem. Por segurança, nunca pedimos senhas ou códigos por mensagem.']};
@@ -581,7 +619,44 @@ $('#btnPin').onclick = async () => {
     migrarClientes();
     aplicarRegras();
     const n = aplicarRetencao(); if(n) await salvarDB();
+    return n;
+}
+$('#btnPin').onclick = async () => {
+  if(ocupado) return;
+  const p1 = $('#pin1').value.trim(), p2 = $('#pin2').value.trim(), msg = $('#pinMsg');
+  const recomecar = t => { msg.textContent = t; $('#pin1').value = ''; $('#pin2').value = ''; pintarPin(); if(navigator.vibrate) navigator.vibrate(120); };
+  if(modoPin !== 'entrar'){
+    if(!/^\d{4}$/.test(p1)){ msg.textContent = 'O PIN deve ter 4 números.'; return; }
+    if(p1 !== p2){ recomecar('Os PINs não conferem. Digite de novo.'); return; }
+    if(/^(\d)\1+$/.test(p1) || '0123456789'.includes(p1) || '9876543210'.includes(p1)){ recomecar('Evite sequências (1234) ou números repetidos (1111).'); return; }
+    ocupado = true;
+    msg.textContent = 'Gerando chave…';
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const pk = await derivar(p1, salt);
+    if(modoPin === 'criar'){ DB = dbVazio(); DKRAW = null; delete meta.wRec; delete meta.recSalt; delete meta.recEm; }
+    if(!DKRAW){ DKRAW = crypto.getRandomValues(new Uint8Array(32)); KEY = await importarDK(DKRAW); }
+    PINKEY = pk; meta.wPin = await cifrarRaw(pk, DKRAW); meta.salt = b64(salt); meta.pinLen = 4;
+    await salvarDB(); ls.set(K_META, JSON.stringify(meta));
+    ocupado = false;
+    const modo = modoPin;
+    if(modo === 'recuperar'){ const n = await prepararDB(); abrirApp('PIN novo criado. Seus dados estão de volta.'); return; }
+    abrirApp(modo === 'trocar' ? 'PIN alterado.' : 'PIN criado. Bem-vindo(a)!');
+    if(!meta.wRec) setTimeout(() => abrirCodigo(modo === 'criar'), 400);
+    return;
+  }
+  if(Date.now() < esperaAte){ recomecar(`Muitas tentativas. Aguarde ${Math.ceil((esperaAte - Date.now())/1000)} s.`); return; }
+  ocupado = true; msg.textContent = 'Verificando…';
+  try {
+    const k = await derivar(p1, unb64(meta.salt));
+    let raw = null, dk = k;
+    if(meta.wPin){ raw = await decifrarRaw(k, meta.wPin); dk = await importarDK(raw); }
+    const data = ls.get(K_DATA);
+    DB = data ? await decifrar(dk, data) : dbVazio();
+    KEY = dk; DKRAW = raw; PINKEY = k;
+    tentativas = 0; ocupado = false;
+    const n = await prepararDB();
     abrirApp(n ? `${n} cliente(s) sem contato recente foram apagados automaticamente.` : '');
+    if(!meta.wRec && !sessionStorage.getItem('codDepois')) setTimeout(() => abrirCodigo(false), 600);
   } catch(e){
     ocupado = false;
     // PIN antigo (mais longo): ao chegar em 4 números, só tenta em silêncio e deixa continuar digitando
@@ -590,7 +665,59 @@ $('#btnPin').onclick = async () => {
     if(tentativas >= 5){ esperaAte = Date.now() + 30000 * (tentativas - 4); msg.textContent = 'Muitas tentativas. Aguarde antes de tentar de novo.'; }
   }
 };
-$('#btnEsqueci').onclick = () => apagarTudo();
+$('#btnEsqueci').onclick = () => {
+  if(!meta || !meta.wRec){ apagarTudo(); return; }
+  $('#recCodigo').value = ''; $('#recMsg').textContent = '';
+  mostrar('#ovPin', false); mostrar('#ovRecuperar', true); setTimeout(() => $('#recCodigo').focus(), 100);
+};
+$('#btnRecVoltar').onclick = () => { mostrar('#ovRecuperar', false); telaPin(false); };
+$('#btnRecApagar').onclick = () => apagarTudo();
+$('#recCodigo').addEventListener('keydown', e => { if(e.key === 'Enter') $('#btnRecOk').click(); });
+$('#btnRecOk').onclick = async () => {
+  if(ocupado) return;
+  const msg = $('#recMsg'), c = normCodigo($('#recCodigo').value);
+  if(Date.now() < esperaAte){ msg.textContent = `Muitas tentativas. Aguarde ${Math.ceil((esperaAte - Date.now())/1000)} s.`; return; }
+  if(c.length !== 16){ msg.textContent = 'O código tem 16 letras e números.'; return; }
+  ocupado = true; msg.textContent = 'Verificando…';
+  try {
+    const rk = await derivar(c, unb64(meta.recSalt));
+    const raw = await decifrarRaw(rk, meta.wRec), dk = await importarDK(raw);
+    const data = ls.get(K_DATA);
+    DB = data ? await decifrar(dk, data) : dbVazio();
+    KEY = dk; DKRAW = raw; tentativas = 0; ocupado = false;
+    mostrar('#ovRecuperar', false);
+    telaPin(false, true); modoPin = 'recuperar';
+    $('#pinTitulo').textContent = 'Crie um novo PIN';
+    $('#pinTexto').textContent = 'Código aceito. Seus dados estão salvos — agora escolha um PIN novo.';
+  } catch(e){
+    ocupado = false; tentativas++;
+    msg.textContent = 'Código incorreto. Confira no seu e-mail.';
+    if(tentativas >= 5) esperaAte = Date.now() + 30000 * (tentativas - 4);
+  }
+};
+/* tela do código de recuperação */
+let codAtual = '', codNovoUsuario = false;
+function abrirCodigo(novoUsuario){
+  codNovoUsuario = novoUsuario;
+  mostrar('#codOferta', !novoUsuario); mostrar('#codMostra', false);
+  mostrar('#ovCodigo', true);
+  if(novoUsuario) $('#btnCodGerar').click();
+}
+$('#btnCodDepois').onclick = () => { sessionStorage.setItem('codDepois', '1'); mostrar('#ovCodigo', false); toast('Você pode gerar o código depois em Ajustes.'); };
+$('#btnCodGerar').onclick = async () => {
+  $('#btnCodGerar').disabled = true;
+  try { codAtual = await novoCodigoRec(); } finally { $('#btnCodGerar').disabled = false; }
+  $('#codTexto').textContent = codAtual; $('#codEmail').value = (DB.config.emailProprio || '');
+  mostrar('#codOferta', false); mostrar('#codMostra', true); carregarConfig();
+};
+$('#btnCodEmail').onclick = async () => {
+  const em = $('#codEmail').value.trim();
+  if(em && em !== DB.config.emailProprio){ DB.config.emailProprio = em; await salvarDB(); carregarConfig(); }
+  const corpo = `Código de recuperação do Oferta Fácil:\n\n${codAtual}\n\nUse só se esquecer o PIN: na tela do PIN, toque em “Esqueci o PIN” e digite este código.\n\nNão compartilhe: este código abre os dados dos clientes salvos no seu celular. Se você gerar um novo código em Ajustes, este deixa de valer.`;
+  location.href = `mailto:${encodeURIComponent(em)}?subject=${encodeURIComponent('Oferta Fácil – código de recuperação do PIN')}&body=${encodeURIComponent(corpo)}`;
+};
+$('#btnCodCopiar').onclick = async () => { try { await navigator.clipboard.writeText(codAtual); toast('Código copiado.'); } catch(e){ toast('Não foi possível copiar. Anote o código.'); } };
+$('#btnCodOk').onclick = () => { codAtual = ''; $('#codTexto').textContent = ''; mostrar('#ovCodigo', false); };
 
 /* mantém quem está em andamento; apaga só os encerrados parados há mais que o prazo */
 function emAndamento(c){
@@ -653,7 +780,7 @@ function abrirApp(m){
   if(m) toast(m, 4500);
   armarBloqueio();
 }
-function bloquear(){ if(tessWorker){ tessWorker.terminate(); tessWorker = null; } revisar = []; $('#loteRev').innerHTML = ''; $('#loteResumo').innerHTML = ''; mostrar('#loteBox', false); KEY = null; DB = null; limparNovo(); fecharDet(); telaPin(false); }
+function bloquear(){ if(tessWorker){ tessWorker.terminate(); tessWorker = null; } revisar = []; $('#loteRev').innerHTML = ''; $('#loteResumo').innerHTML = ''; mostrar('#loteBox', false); KEY = null; DB = null; DKRAW = null; PINKEY = null; mostrar('#ovCodigo', false); limparNovo(); fecharDet(); telaPin(false); }
 function apagarTudo(){
   if(!confirm('Apagar TODOS os dados deste app (clientes, mensagens e PIN)? Não há como desfazer.')) return;
   ls.del(K_DATA); ls.del(K_META); KEY = null; DB = null; meta = null; location.reload();
@@ -1550,17 +1677,23 @@ function renderGruposCfg(){
 }
 $('#btnAddGrupo').onclick = async () => { if(await criarGrupo($('#cNovoGrupo').value)) $('#cNovoGrupo').value = ''; };
 $('#cNovoGrupo').addEventListener('keydown', e => { if(e.key === 'Enter') $('#btnAddGrupo').click(); });
-function carregarConfig(){ const c = DB.config; $('#cNome').value = c.funcionario; $('#cCargo').value = c.cargo; $('#cWhats').value = c.whats; $('#cEmail').value = c.emailLeva || ''; renderGruposCfg();
+function carregarConfig(){ const c = DB.config; $('#cNome').value = c.funcionario; $('#cCargo').value = c.cargo; $('#cWhats').value = c.whats; $('#cEmail').value = c.emailLeva || ''; $('#cEmailProprio').value = c.emailProprio || ''; renderGruposCfg();
+  $('#recStatus').innerHTML = meta && meta.wRec ? `🔑 Código de recuperação criado em ${new Date(meta.recEm).toLocaleDateString('pt-BR')}.` : '⚠️ Você ainda não tem código de recuperação. Sem ele, esquecer o PIN apaga os dados.';
+  $('#btnNovoCodigo').textContent = meta && meta.wRec ? '🔑 Gerar novo código de recuperação' : '🔑 Gerar código de recuperação';
   $('#cProdPadrao').innerHTML = '<option value="">Nenhum</option>' + c.grupos.map(g => `<option ${g === c.prodPadrao ? 'selected' : ''}>${esc(g)}</option>`).join('');
   $('#cRetorno').value = String(c.retornoDias); $('#cMaxEnv').value = String(c.maxEnvios); mostrar('#boxRetorno', c.maxEnvios > 1); $('#cLock').value = String(c.lockMin); }
 $('#cMaxEnv').onchange = () => mostrar('#boxRetorno', +$('#cMaxEnv').value > 1);
 $('#btnSalvarCfg').onclick = async () => {
-  Object.assign(DB.config, {funcionario:$('#cNome').value.trim(), cargo:$('#cCargo').value.trim(), whats:$('#cWhats').value, emailLeva:$('#cEmail').value.trim(), prodPadrao:$('#cProdPadrao').value, retornoDias:+$('#cRetorno').value, maxEnvios:+$('#cMaxEnv').value, lockMin:+$('#cLock').value});
+  Object.assign(DB.config, {funcionario:$('#cNome').value.trim(), cargo:$('#cCargo').value.trim(), whats:$('#cWhats').value, emailLeva:$('#cEmail').value.trim(), emailProprio:$('#cEmailProprio').value.trim(), prodPadrao:$('#cProdPadrao').value, retornoDias:+$('#cRetorno').value, maxEnvios:+$('#cMaxEnv').value, lockMin:+$('#cLock').value});
   await salvarDB(); renderLista(); toast('Ajustes salvos.');
 };
 $('#btnVerAviso').onclick = () => { $('#chkAceite').checked = true; $('#btnAceite').disabled = false; mostrar('#ovAviso', true); };
 $('#btnBloquear').onclick = bloquear;
 $('#btnTrocarPin').onclick = () => telaPin(false, true);
+$('#btnNovoCodigo').onclick = () => {
+  if(meta.wRec && !confirm('Gerar um novo código? O código anterior deixa de valer.')) return;
+  abrirCodigo(true);
+};
 $('#btnApagarTudo').onclick = apagarTudo;
 
 const ajustarTopo = () => document.documentElement.style.setProperty('--navTop', document.querySelector('.bar').offsetHeight + 'px');
