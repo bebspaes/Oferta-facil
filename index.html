@@ -1396,6 +1396,8 @@ function limparFiltros(){ $('#fltStatus').value = ''; $('#fltGrupo').value = '';
 let filtroPeriodo = 0, abrindoFiltro = false;
 /* ofertado = recebeu mensagem pelo app ou já tem resultado (fechou/recusou) marcado */
 function ofertado(c){ return !!c.ultimoContato || (c.hist || []).length > 0 || Object.values(c.prod || {}).some(p => ['fechado','recusou'].includes(p.e)); }
+/* datas de resultado só dos produtos que o cliente ainda tem marcados (o mesmo que a lista usa) */
+const resultados = (c, e) => (c.grupos || []).map(g => (c.prod || {})[g]).filter(p => p && p.e === e && p.em).map(p => new Date(p.em).getTime());
 function respondeu(c){ const m = marca(c); return c.status === 'respondeu' || m === 'fechou' || m === 'recusou'; }
 function passaFiltro(c, fs){
   if(!fs) return true;
@@ -1408,8 +1410,8 @@ function noPeriodo(c, fs, per){
   if(per === undefined) per = filtroPeriodo;
   if(!per) return true;
   const lim = Date.now() - per * 864e5;
-  const ds = [c.ultimoContato, ...(c.hist || []).map(h => h.em), ...Object.values(c.prod || {}).filter(p => ['fechado','recusou'].includes(p.e)).map(p => p.em)].filter(Boolean).map(x => new Date(x).getTime());
-  if(fs === 'fechou' || fs === 'recusou'){ const e = fs === 'fechou' ? 'fechado' : 'recusou'; return Object.values(c.prod || {}).some(p => p.e === e && p.em && new Date(p.em).getTime() >= lim); }
+  const ds = [...[c.ultimoContato, ...(c.hist || []).map(h => h.em)].filter(Boolean).map(x => new Date(x).getTime()), ...resultados(c, 'fechado'), ...resultados(c, 'recusou')];
+  if(fs === 'fechou' || fs === 'recusou') return resultados(c, fs === 'fechou' ? 'fechado' : 'recusou').some(t => t >= lim);
   return ds.some(t => t >= lim);
 }
 $('#busca').oninput = renderLista; $('#fltStatus').onchange = renderLista; $('#fltGrupo').onchange = renderLista;
@@ -1570,7 +1572,7 @@ function dadosPainel(){
   const sem = []; const s0 = semanaIni(new Date());
   for(let i = 3; i >= 0; i--){ const a = new Date(s0); a.setDate(a.getDate() - 7 * i); const b = new Date(a); b.setDate(b.getDate() + 7);
     const w = DB.eventos.filter(e => { const t = new Date(e.t); return t >= a && t < b; });
-    const naSem = x => Object.values(x.prod || {}).some(p => p.e === 'fechado' && p.em && new Date(p.em) >= a && new Date(p.em) < b);
+    const naSem = x => passaFiltro(x, 'fechou') && resultados(x, 'fechado').some(t => t >= a.getTime() && t < b.getTime());
     sem.push({ini:a, envios:w.filter(e => e.k === 'envio').length, respostas:w.filter(e => e.k === 'resposta').length, fechados:DB.clientes.filter(naSem).length}); }
   const sit = x => DB.clientes.filter(c => situacao(c) === x).length;
   const agora = {retornar:sit('retornar'), pendente:sit('pendente'), aguardando:sit('contatado'), negociando:DB.clientes.filter(c => (c.grupos || []).some(g => etapa(c, g) === 'negociando')).length};
