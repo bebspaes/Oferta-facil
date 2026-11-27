@@ -1337,7 +1337,7 @@ function renderLista(){
   const prod = c => { const g = c.grupos || []; return g.length ? esc(g[0]) + (g.length > 1 ? ' +' + (g.length - 1) : '') : '—'; };
   const linha = c => `<div class="lrow" data-id="${esc(c.id)}"><div class="lhead"><span class="lnome">${esc(tituloCase(c.nome))}</span><span class="lprod">${prod(c)}</span><span class="lst">${icone(c)}</span></div>
     <div class="ldet">Ag. ${esc(c.agencia || '-')} · Cc. ${esc(c.conta || '-')} · MCI ${esc(c.mci || '-')}<br>Celular ${esc(fmtTel(c.telefone))}${(c.grupos || []).length > 1 ? '<br>Produtos: ' + c.grupos.map(g => esc(g) + (etapa(c, g) === 'fechado' ? ' ✓' : etapa(c, g) === 'recusou' ? ' ✕' : '')).join(', ') : ''}
-      <div class="qa"><button data-q="fechou" class="f">✓ Fechou</button><button data-q="recusou" class="r">✕ Recusou</button><button data-q="abrir">💬 Abrir</button></div></div></div>`;
+      <div class="qa">${marca(c) === 'pendente' ? '<button data-q="abrir" style="flex:1">💬 Abrir e enviar mensagem</button>' : '<button data-q="fechou" class="f">✓ Fechou</button><button data-q="recusou" class="r">✕ Recusou</button><button data-q="abrir">💬 Abrir</button>'}</div></div></div>`;
   $('#lista').innerHTML = arr.length ? arr.map(linha).join('') : `<p class="note">${DB.clientes.length ? 'Nada encontrado.' : 'Nenhum cliente salvo. Use a aba “Cadastrar”.'}</p>`;
   document.querySelectorAll('#lista .lrow').forEach(el => {
     const c = DB.clientes.find(x => x.id === el.dataset.id);
@@ -1394,10 +1394,12 @@ function irProximo(){
 $('#optOrdem').onchange = async () => { DB.config.ordem = $('#optOrdem').value; await salvarDB(); renderLista(); };
 function limparFiltros(){ $('#fltStatus').value = ''; $('#fltGrupo').value = ''; filtroPeriodo = 0; renderLista(); }
 let filtroPeriodo = 0, abrindoFiltro = false;
+/* ofertado = recebeu mensagem pelo app ou já tem resultado (fechou/recusou) marcado */
+function ofertado(c){ return !!c.ultimoContato || (c.hist || []).length > 0 || Object.values(c.prod || {}).some(p => ['fechado','recusou'].includes(p.e)); }
 function respondeu(c){ const m = marca(c); return c.status === 'respondeu' || m === 'fechou' || m === 'recusou'; }
 function passaFiltro(c, fs){
   if(!fs) return true;
-  if(fs === 'ofertados') return !!c.ultimoContato;
+  if(fs === 'ofertados') return ofertado(c);
   if(fs === 'responderam') return respondeu(c);
   return marca(c) === fs;
 }
@@ -1406,7 +1408,7 @@ function noPeriodo(c, fs, per){
   if(per === undefined) per = filtroPeriodo;
   if(!per) return true;
   const lim = Date.now() - per * 864e5;
-  const ds = [c.ultimoContato, ...Object.values(c.prod || {}).filter(p => ['fechado','recusou'].includes(p.e)).map(p => p.em)].filter(Boolean).map(x => new Date(x).getTime());
+  const ds = [c.ultimoContato, ...(c.hist || []).map(h => h.em), ...Object.values(c.prod || {}).filter(p => ['fechado','recusou'].includes(p.e)).map(p => p.em)].filter(Boolean).map(x => new Date(x).getTime());
   if(fs === 'fechou' || fs === 'recusou'){ const e = fs === 'fechou' ? 'fechado' : 'recusou'; return Object.values(c.prod || {}).some(p => p.e === e && p.em && new Date(p.em).getTime() >= lim); }
   return ds.some(t => t >= lim);
 }
