@@ -1561,7 +1561,7 @@ function dadosPainel(){
   const noPer = d => d && new Date(d).getTime() >= ini;
   const prods = DB.config.grupos.map(g => { const doG = DB.clientes.filter(x => (x.grupos || []).includes(g)), pe = x => (x.prod || {})[g] || {};
     const f = doG.filter(x => pe(x).e === 'fechado' && noPer(pe(x).em)).length, r = doG.filter(x => pe(x).e === 'recusou' && noPer(pe(x).em)).length;
-    const of = doG.filter(x => noPer(x.ultimoContato)).length;
+    const of = doG.filter(x => passaFiltro(x, 'ofertados') && noPeriodo(x, 'ofertados', per)).length;
     const neg = DB.clientes.filter(x => (x.grupos || []).includes(g) && etapa(x, g) === 'negociando').length;
     return {g, of, f, r, neg, conv:of ? Math.round(1000 * f / of) / 10 : null}; }).filter(p => p.of || p.f || p.r || p.neg);
   const mot = {}; ev.filter(e => e.k === 'recusou').forEach(e => { const m = e.m || 'Não informado'; mot[m] = (mot[m] || 0) + 1; });
@@ -1596,8 +1596,8 @@ function renderPainel(){
   $('#pSemLbl').innerHTML = d.sem.map(w => `<span style="flex:1;text-align:center">${w.ini.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'})} · ${w.fechados}</span>`).join('');
   mostrar('#pKpis', !verGrafico); mostrar('#pChart', verGrafico); $('#btnGrafico').textContent = verGrafico ? '🔢 Ver números' : '📊 Ver gráfico';
   document.querySelectorAll('#pSeg button').forEach(b => b.classList.toggle('on', +b.dataset.p === periodoPainel));
-  $('#pProd').innerHTML = d.prods.length ? d.prods.map(p => `<div class="prodl clic" data-g="${esc(p.g)}"><span>${esc(p.g)}</span><span style="color:${p.f ? '#0f5a3c' : 'var(--mut)'}">${p.f} fechado(s)${p.conv === null ? '' : ' · ' + String(p.conv).replace('.', ',') + '%'}${p.r ? ` · ${p.r} recusa(s)` : ''}</span></div>`).join('') : '<p class="note">Sem movimentação de produtos ainda.</p>';
-  $('#pProd').querySelectorAll('[data-g]').forEach(el => el.onclick = () => abrirFiltrado('', el.dataset.g, 0));
+  $('#pProd').innerHTML = d.prods.length ? d.prods.map(p => `<div class="prodl clic" data-g="${esc(p.g)}"><span>${esc(p.g)}</span><span style="color:${p.f ? '#0f5a3c' : 'var(--mut)'};text-align:right">${p.of ? `<b>${p.f} de ${p.of}</b> fecharam (${String(p.conv).replace('.', ',')}%)` : `${p.f} fechado(s)`}${p.r ? ` · ${p.r} recusa(s)` : ''}</span></div>`).join('') : '<p class="note">Sem movimentação de produtos ainda.</p>';
+  $('#pProd').querySelectorAll('[data-g]').forEach(el => el.onclick = () => abrirFiltrado('ofertados', el.dataset.g, periodoPainel));
 }
 document.querySelectorAll('#pSeg button').forEach(b => b.onclick = () => { periodoPainel = +b.dataset.p; renderPainel(); });
 $('#btnGrafico').onclick = () => { verGrafico = !verGrafico; renderPainel(); };
