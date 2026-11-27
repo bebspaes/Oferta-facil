@@ -75,6 +75,7 @@ textarea{min-height:110px;resize:vertical}
 .resRow{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line)}.resRow:first-child{border-top:0}.resRow b{flex:1;min-width:0}
 .rb{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;font-weight:700;font-size:14px;color:var(--mut)}.rb.ok.on{background:#e7f5ee;border-color:#3aa57a;color:#0f5a3c}.rb.no.on{background:#fdecea;border-color:#e08a7a;color:#8c2a17}
 .linkBtn{display:block;margin:14px auto 0;background:none;border:0;color:var(--mut);font-size:13.5px;text-decoration:underline}
+.fChip{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin:0 0 6px;border:0;border-radius:12px;background:var(--acc);color:var(--pri);padding:9px 12px;font-size:14px;text-align:left}.fChip .x{font-weight:800;white-space:nowrap}
 .pinMsg{min-height:20px;margin:14px 0 0;color:#FCA5A5;font-size:14px;font-weight:600}
 .pinEsq{margin-top:22px;background:none;border:0;color:#94A3B8;font-size:13.5px;text-decoration:underline}
 .fileHid{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
@@ -302,6 +303,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
     <div class="card plain">
       <button class="btn yel" id="btnRodada" style="margin:0 0 10px">▶️ Iniciar rodada de envios</button>
       <div id="buscaBar">
+      <div id="filtroAtivo" class="hidden"></div>
       <div id="filtroBox" class="hidden">
         <div class="filtros">
           <select id="fltStatus"><option value="">Todas as situações</option><option value="pendente">Pendentes</option><option value="enviado">Enviados</option><option value="retornar">Para retornar</option><option value="fechou">Fecharam</option><option value="recusou">Recusaram</option></select>
@@ -314,7 +316,6 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th,.tb td{text-a
         <button class="btnIcon" id="btnFiltro" aria-label="Filtrar e ordenar">⚙️</button>
       </div>
       </div>
-      <p class="note hidden" id="filtroAtivo" style="margin:8px 0 0"></p>
       <div id="lista" style="margin-top:6px"></div>
       <div class="legenda"><span><span class="ic ok" style="display:inline-flex;width:16px;height:16px;vertical-align:-3px">✓</span> Fechou</span><span><span class="ic no" style="display:inline-flex;width:16px;height:16px;vertical-align:-3px;color:#8c2a17">✕</span> Recusou</span><span><b style="color:#334155">22/11</b> Enviado</span><span><span class="lpend" style="display:inline-block;width:8px;height:8px"></span> Pendente</span></div>
     </div>
@@ -786,7 +787,7 @@ let navAplicando = false;
 function pushNav(st, trocar){
   if(navAplicando) return;
   const cur = history.state || {};
-  if(cur.t === st.t && (cur.det || null) === (st.det || null)) return;
+  if(cur.t === st.t && (cur.det || null) === (st.det || null) && !!cur.flt === !!st.flt) return;
   (trocar ? history.replaceState : history.pushState).call(history, st, '');
 }
 addEventListener('popstate', e => {
@@ -794,7 +795,7 @@ addEventListener('popstate', e => {
   navAplicando = true;
   const st = e.state || {t:'novo'};
   if(st.det && DB.clientes.some(c => c.id === st.det)){ aba('clientes'); abrirDet(st.det); }
-  else { aba(st.t || 'novo'); if((st.t || 'novo') === 'clientes') fecharDet(); }
+  else { aba(st.t || 'novo'); if((st.t || 'novo') === 'clientes'){ if(!st.flt){ $('#fltStatus').value = ''; $('#fltGrupo').value = ''; } fecharDet(); } }
   navAplicando = false;
 });
 const ABAS = ['novo','clientes','painel','modelos','config'];
@@ -1314,9 +1315,9 @@ function renderLista(){
   const arr = DB.clientes.filter(c => (!q || c.nome.toLowerCase().includes(q) || (qd && ((c.telefone || '').replace(/\D/g, '').endsWith(qd) || (c.telefone || '').replace(/\D/g, '').includes(qd) || (c.mci || '').includes(qd))))
     && (!fs || marca(c) === fs) && (!fg || (c.grupos || []).includes(fg)));
   const ativos = [fs && NOME_FILTRO[fs], fg].filter(Boolean);
-  $('#filtroAtivo').innerHTML = ativos.length ? `Filtro: <b>${esc(ativos.join(' · '))}</b> · <a href="#" id="limparFiltro">limpar</a>` : '';
+  $('#filtroAtivo').innerHTML = ativos.length ? `<button id="limparFiltro" class="fChip"><span>🔎 Filtro: <b>${esc(ativos.join(' · '))}</b></span><span class="x">✕ limpar</span></button>` : '';
   mostrar('#filtroAtivo', ativos.length > 0);
-  if(ativos.length) $('#limparFiltro').onclick = e => { e.preventDefault(); $('#fltStatus').value = ''; $('#fltGrupo').value = ''; renderLista(); };
+  if(ativos.length){ $('#limparFiltro').onclick = () => { if(history.state && history.state.flt) history.back(); else limparFiltros(); }; if(!(history.state && (history.state.flt || history.state.det)) && $('#t-clientes') && !$('#t-clientes').classList.contains('hidden')) pushNav({t:'clientes', flt:1}); }
   const nf = fila().length;
   $('#btnRodada').textContent = nf ? `▶️ Iniciar rodada de envios (${nf} na fila)` : '✅ Nenhum cliente na fila de envio';
   $('#btnRodada').disabled = !nf;
@@ -1383,6 +1384,7 @@ function irProximo(){
   toast(l && l.itens.length ? `✅ Rodada concluída: ${l.itens.length} cliente(s). Toque em “Enviar lista por e-mail”.` : '✅ Rodada concluída!', 6000); return false;
 }
 $('#optOrdem').onchange = async () => { DB.config.ordem = $('#optOrdem').value; await salvarDB(); renderLista(); };
+function limparFiltros(){ $('#fltStatus').value = ''; $('#fltGrupo').value = ''; renderLista(); }
 $('#busca').oninput = renderLista; $('#fltStatus').onchange = renderLista; $('#fltGrupo').onchange = renderLista;
 
 let atual = null;
