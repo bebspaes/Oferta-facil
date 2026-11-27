@@ -798,7 +798,8 @@ addEventListener('popstate', e => {
   navAplicando = true;
   const st = e.state || {t:'novo'};
   if(st.det && DB.clientes.some(c => c.id === st.det)){ aba('clientes'); abrirDet(st.det); }
-  else { aba(st.t || 'novo'); if((st.t || 'novo') === 'clientes'){ if(!st.flt){ $('#fltStatus').value = ''; $('#fltGrupo').value = ''; filtroPeriodo = 0; } fecharDet(); } }
+  else { if((st.t || 'novo') !== 'clientes'){ $('#fltStatus').value = ''; $('#fltGrupo').value = ''; filtroPeriodo = 0; }
+    aba(st.t || 'novo'); if((st.t || 'novo') === 'clientes'){ if(!st.flt){ $('#fltStatus').value = ''; $('#fltGrupo').value = ''; filtroPeriodo = 0; } fecharDet(); } }
   navAplicando = false;
 });
 const ABAS = ['novo','clientes','painel','modelos','config'];
@@ -1320,7 +1321,7 @@ function renderLista(){
   const ativos = [fs && NOME_FILTRO[fs], fg, filtroPeriodo && `últimos ${filtroPeriodo} dias`].filter(Boolean);
   $('#filtroAtivo').innerHTML = ativos.length ? `<button id="limparFiltro" class="fChip"><span>🔎 Filtro: <b>${esc(ativos.join(' · '))}</b></span><span class="x">✕ limpar</span></button>` : '';
   mostrar('#filtroAtivo', ativos.length > 0);
-  if(ativos.length){ $('#limparFiltro').onclick = () => { if(history.state && history.state.flt) history.back(); else limparFiltros(); }; if(!(history.state && (history.state.flt || history.state.det)) && $('#t-clientes') && !$('#t-clientes').classList.contains('hidden')) pushNav({t:'clientes', flt:1}); }
+  if(ativos.length){ $('#limparFiltro').onclick = () => { const st = history.state || {}; if(st.flt && !st.deDados) history.back(); else { limparFiltros(); if(st.flt) history.replaceState({t:'clientes'}, ''); } }; if(!abrindoFiltro && !(history.state && (history.state.flt || history.state.det)) && $('#t-clientes') && !$('#t-clientes').classList.contains('hidden')) pushNav({t:'clientes', flt:1}); }
   const nf = fila().length;
   $('#btnRodada').textContent = nf ? `▶️ Iniciar rodada de envios (${nf} na fila)` : '✅ Nenhum cliente na fila de envio';
   $('#btnRodada').disabled = !nf;
@@ -1345,7 +1346,11 @@ function renderLista(){
   });
 }
 $('#btnFiltro').onclick = () => $('#filtroBox').classList.toggle('hidden');
-function abrirFiltrado(f, g, per){ $('#fltStatus').value = f || ''; $('#fltGrupo').value = ''; filtroPeriodo = per || 0; $('#busca').value = ''; aba('clientes'); if(g){ renderLista(); $('#fltGrupo').value = g; } fecharDet(); }
+function abrirFiltrado(f, g, per){
+  $('#fltStatus').value = f || ''; $('#fltGrupo').value = ''; filtroPeriodo = per || 0; $('#busca').value = '';
+  abrindoFiltro = true; aba('clientes'); abrindoFiltro = false; history.replaceState({t:'clientes', flt:1, deDados:1}, '');   // voltar leva direto para Dados
+  if(g){ renderLista(); $('#fltGrupo').value = g; } fecharDet();
+}
 function fmtTel(t){ const d = String(t || '').replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, ''); return d.length === 11 ? `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}` : d.length === 10 ? `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}` : (t || '-'); }
 function aguardando(){ return DB.clientes.filter(c => ['contatado','sem_resposta'].includes(c.status) || (c.status === 'respondeu' && (c.grupos || []).some(g => ['aberto','negociando'].includes(etapa(c, g))))).sort((a, b) => new Date(b.ultimoContato || 0) - new Date(a.ultimoContato || 0)); }
 function renderLeva(){
@@ -1388,7 +1393,7 @@ function irProximo(){
 }
 $('#optOrdem').onchange = async () => { DB.config.ordem = $('#optOrdem').value; await salvarDB(); renderLista(); };
 function limparFiltros(){ $('#fltStatus').value = ''; $('#fltGrupo').value = ''; filtroPeriodo = 0; renderLista(); }
-let filtroPeriodo = 0;
+let filtroPeriodo = 0, abrindoFiltro = false;
 function respondeu(c){ const m = marca(c); return c.status === 'respondeu' || m === 'fechou' || m === 'recusou'; }
 function passaFiltro(c, fs){
   if(!fs) return true;
@@ -1397,9 +1402,10 @@ function passaFiltro(c, fs){
   return marca(c) === fs;
 }
 /* data que conta para o período: resultado (fechou/recusou) ou o último envio */
-function noPeriodo(c, fs){
-  if(!filtroPeriodo) return true;
-  const lim = Date.now() - filtroPeriodo * 864e5;
+function noPeriodo(c, fs, per){
+  if(per === undefined) per = filtroPeriodo;
+  if(!per) return true;
+  const lim = Date.now() - per * 864e5;
   const ds = [c.ultimoContato, ...Object.values(c.prod || {}).filter(p => ['fechado','recusou'].includes(p.e)).map(p => p.em)].filter(Boolean).map(x => new Date(x).getTime());
   if(fs === 'fechou' || fs === 'recusou'){ const e = fs === 'fechou' ? 'fechado' : 'recusou'; return Object.values(c.prod || {}).some(p => p.e === e && p.em && new Date(p.em).getTime() >= lim); }
   return ds.some(t => t >= lim);
@@ -1548,17 +1554,22 @@ function dadosPainel(){
   const ev = DB.eventos.filter(e => new Date(e.t).getTime() >= ini);
   const c = k => ev.filter(e => e.k === k).length;
   const prim = ev.filter(e => e.k === 'envio' && !e.f).length;
-  const k = {envios:c('envio'), primeiros:prim, lembretes:ev.filter(e => e.k === 'envio' && e.f).length, respostas:c('resposta'), fechados:c('fechado'), recusas:c('recusou')};
-  k.taxaResp = prim ? Math.round(100 * k.respostas / prim) : 0;
-  const prods = DB.config.grupos.map(g => { const f = ev.filter(e => e.k === 'fechado' && e.p === g).length, r = ev.filter(e => e.k === 'recusou' && e.p === g).length;
-    const of = ev.filter(e => e.k === 'envio' && !e.f && (e.ps || []).includes(g)).length;
+  /* contagens tiradas dos próprios clientes, com o mesmo critério da lista filtrada: o número do gráfico sempre bate com a lista */
+  const conta = f => DB.clientes.filter(x => passaFiltro(x, f) && noPeriodo(x, f, per)).length;
+  const k = {envios:c('envio'), primeiros:conta('ofertados'), lembretes:ev.filter(e => e.k === 'envio' && e.f).length, respostas:conta('responderam'), fechados:conta('fechou'), recusas:conta('recusou')};
+  k.taxaResp = k.primeiros ? Math.round(100 * k.respostas / k.primeiros) : 0;
+  const noPer = d => d && new Date(d).getTime() >= ini;
+  const prods = DB.config.grupos.map(g => { const doG = DB.clientes.filter(x => (x.grupos || []).includes(g)), pe = x => (x.prod || {})[g] || {};
+    const f = doG.filter(x => pe(x).e === 'fechado' && noPer(pe(x).em)).length, r = doG.filter(x => pe(x).e === 'recusou' && noPer(pe(x).em)).length;
+    const of = doG.filter(x => noPer(x.ultimoContato)).length;
     const neg = DB.clientes.filter(x => (x.grupos || []).includes(g) && etapa(x, g) === 'negociando').length;
     return {g, of, f, r, neg, conv:of ? Math.round(1000 * f / of) / 10 : null}; }).filter(p => p.of || p.f || p.r || p.neg);
   const mot = {}; ev.filter(e => e.k === 'recusou').forEach(e => { const m = e.m || 'Não informado'; mot[m] = (mot[m] || 0) + 1; });
   const sem = []; const s0 = semanaIni(new Date());
   for(let i = 3; i >= 0; i--){ const a = new Date(s0); a.setDate(a.getDate() - 7 * i); const b = new Date(a); b.setDate(b.getDate() + 7);
     const w = DB.eventos.filter(e => { const t = new Date(e.t); return t >= a && t < b; });
-    sem.push({ini:a, envios:w.filter(e => e.k === 'envio').length, respostas:w.filter(e => e.k === 'resposta').length, fechados:w.filter(e => e.k === 'fechado').length}); }
+    const naSem = x => Object.values(x.prod || {}).some(p => p.e === 'fechado' && p.em && new Date(p.em) >= a && new Date(p.em) < b);
+    sem.push({ini:a, envios:w.filter(e => e.k === 'envio').length, respostas:w.filter(e => e.k === 'resposta').length, fechados:DB.clientes.filter(naSem).length}); }
   const sit = x => DB.clientes.filter(c => situacao(c) === x).length;
   const agora = {retornar:sit('retornar'), pendente:sit('pendente'), aguardando:sit('contatado'), negociando:DB.clientes.filter(c => (c.grupos || []).some(g => etapa(c, g) === 'negociando')).length};
   return {per, k, prods, mot, sem, agora};
